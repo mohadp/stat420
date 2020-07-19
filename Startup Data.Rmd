@@ -1,0 +1,261 @@
+---
+title: "Startup Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Load data
+
+The startup data consists of multiple files
+
+Bellow is the loading of the data.
+
+```{r message=FALSE}
+
+library(readr)
+
+#People
+people = read_csv("./people.csv")
+(peep_n = colnames(people))
+peep_n[2] = "person_id"
+colnames(people) = peep_n
+attr(people, "spec") = NULL
+str(people)
+
+```
+
+```{r message=FALSE}
+#Company
+companies = read_csv("./objects.csv")
+#(comp_n = colnames(companies))
+attr(companies, "spec") = NULL
+attr(companies, "problems") = NULL
+colnames(companies)[1] = "company_id"
+str(companies)
+```
+
+```{r message=FALSE}
+
+degrees = read_csv("./degrees.csv")
+colnames(degrees)
+colnames(degrees)[2] = "person_id"
+colnames(degrees)
+attr(degrees, "spec") = NULL
+str(degrees)
+
+```
+
+
+```{r message=FALSE}
+comp_peep = read_csv("./relationships.csv")
+colnames(comp_peep)[3] = "person_id"
+colnames(comp_peep)[4] = "company_id"
+colnames(comp_peep)
+attr(comp_peep, "spec") = NULL
+str(comp_peep)
+```
+
+
+```{r message=FALSE}
+#install.packages("reshape")
+library(reshape)
+library(data.table)
+
+invest_rounds = read_csv("./funding_rounds.csv")
+attr(invest_rounds, "spec") = NULL
+colnames(invest_rounds)[3]="company_id"
+str(invest_rounds)
+
+```
+
+
+```{r message=FALSE}
+aquisitions = read_csv("./acquisitions.csv")
+colnames(aquisitions)[4] = "company_id"
+colnames(aquisitions)[6] = "aquisition_price_amount"
+
+attr(aquisitions, "spec") = NULL
+str(aquisitions)
+
+#unique(aquisitions$price_currency_code)
+#aggregate(aquisitions[aquisitions$price_currency_code == "USD",c("price_currency_code", "company_id")], by = list(aquisitions$price_currency_code), FUN = counts)#aquisitions = 
+
+```
+
+# Data Preparation
+
+## Company Founders
+
+
+This joins the people, degrees and their relationship to the companies. Also,this section "normalizes" the data, particularly the discreet data, so it can be used for regression.
+
+```{r}
+full_peep = merge(people, degrees, by="person_id")
+str(full_peep)
+```
+
+```{r }
+#join people with comp_peeps
+founders = merge(full_peep, comp_peep, by="person_id")
+str(founders)
+#View(founders)
+```
+
+```{r}
+#Identify founders
+
+#titles = unique(founders$title)
+#View(titles)
+#subjects = unique(founders$subject)
+#institutions = unique(founders$institution)
+#c = unique(founders$company_id)
+#deg = unique(founders$degree_type)
+
+#length(titles)
+#length(subjects)
+#length(institutions)
+#length(c)
+#length(deg)
+
+#length(titles[grep("founder", ignore.case = TRUE, x = titles)])
+#length(titles[grep("ceo", ignore.case = TRUE, x = titles)])
+
+#get rows with founder, ceos, chairmans only
+leads = c(grep("founder", ignore.case = TRUE, x = founders$title), grep("ceo", ignore.case = TRUE, x = founders$title), grep("chairman", ignore.case = TRUE, x = founders$title))
+founders[grep("founder", ignore.case = TRUE, x = founders$title), "title"] = "Founder"
+founder_leads = founders[leads, ]
+#nrow(founder_leads)
+
+
+
+#get rows with board
+#advisors = c(grep("board", ignore.case = TRUE, x = founders$title), grep("advisor", ignore.case = TRUE, x = founders$title))
+#founder_advisors = founders[advisors, ]
+#nrow(founder_advisors)
+
+#paste("Companies with founders: ", length(unique(founder_leads$company_id)))
+
+#founder_lead_advisor = founder_leads[founder_leads$title %in% founder_advisors$title, ]
+#paste("Companies with founders and advisors: ", length(unique(founder_lead_advisor$company_id)))
+
+
+
+#Functions to coubt rows.=
+count_disticts = function(x){
+  length(unique(x))
+}
+
+counts = function(x){
+  length(x)
+}
+```
+
+
+"Normalize" the title information for the founders' degree type so that it can be used as a potential regression predictor.
+
+```{r}
+founder_leads_clean = founder_leads
+founder_leads_clean[grep("MS ", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MS"
+founder_leads_clean[grep("Master in Business|Master of Business|M\\.B\\.A\\.|MBA|Executive", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MBA"
+founder_leads_clean[grep("Ph|doc|pos.*grad", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Ph.D."
+founder_leads_clean[grep("Bachelor of Science|BSc|B\\.S|B\\.E|BE|BS|Ing|Eng|Bsc|SCB", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "BS"
+founder_leads_clean[grep("Bachelor|BA|B\\.A", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "BA"
+founder_leads_clean[grep("B[A-Z][A-Z]+|B\\.|BC", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
+founder_leads_clean[grep("MS|M\\.S", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MS"
+founder_leads_clean[grep("Master|Graduate|Fellow", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
+founder_leads_clean[grep("M[A-Z]+|M.", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
+founder_leads_clean[grep("No.*degre|high.*school|secondary educa|no.*complete|course|incomplete|none|did not|prepa|[0-9].*[0-9]+ Grade", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "No Degree"
+founder_leads_clean[grep("Law|JD|J\\.D\\.", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Law"
+founder_leads_clean[grep("Business", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MBA"
+founder_leads_clean[grep("Undergr|Diplom|degree|college|under grad|lic|dipl", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
+
+founder_leads_clean[!(founder_leads_clean$degree_type %in% c("MS", "MBA", "Ph.D.", "BS", "BA", "Bachelors", "MS", "Masters", "No Degree", "Law", "MBA")), c("degree_type")] = "Degree"
+
+#View(unique(founder_leads_clean$degree_type))
+analysis = aggregate(founder_leads_clean[,c("degree_type", "person_id", "company_id")], by = list(founder_leads_clean$degree_type), FUN = counts)
+
+
+#analysis[order(-analysis$person_id), ]
+#analysis[order(analysis$person_id)]
+founder_leads_clean = na.omit(founder_leads_clean[,c("degree_type", "subject", "institution", "company_id", "title")])
+founder_leads_clean = founder_leads_clean[order(founder_leads_clean$company_id),]
+#View(founder_leads_clean)
+
+```
+
+Reshape the people subdataset into a wider table that has founder information per company, each in a row of data.
+
+```{r}
+
+founders_bg = cbind(leader1_degree_type = rep(0, nrow(founder_leads_clean)), leader1_subject = rep(0, nrow(founder_leads_clean)), leader1_institution = rep(0, nrow(founder_leads_clean)), leader2_degree_type = rep(0, nrow(founder_leads_clean)), leader2_subject = rep(0, nrow(founder_leads_clean)), leader2_institution = rep(0, nrow(founder_leads_clean)), founders_ceos_chairmans = rep(0, nrow(founder_leads_clean)))
+
+nleads = 2
+prev_company = "c"
+company_index = 0
+l = 0
+for(i in  1:nrow(founder_leads_clean)){
+  company = founder_leads_clean$company_id[i]
+  if(prev_company == company){
+    l = l + 1
+  }else{
+    prev_company = company
+    company_index = i
+    l = 0
+  }
+  if(l < nleads){
+    founders_bg[company_index,l*3+1] = founder_leads_clean$degree_type[i]
+    founders_bg[company_index,l*3+2] = founder_leads_clean$subject[i]
+    founders_bg[company_index,l*3+3] = founder_leads_clean$institution[i]
+    if(l == 0) founders_bg[company_index,7] = length(founder_leads_clean$company_id[founder_leads_clean$company_id == company & founder_leads_clean$title == "Founder"])
+  }
+}
+
+#View(founders_bg)
+founders_clean = cbind(founder_leads_clean, founders_bg)
+founders_clean = founders_clean[founders_clean$leader1_degree_type != "0",c("company_id", "degree_type", "subject", "institution", "title")]
+founders_clean = na.omit(founders_clean)
+#View(founders_clean)
+```
+
+
+## Investment & Aquisition Data 
+
+```{r}
+
+invest_rounds = invest_rounds[,c("company_id", "funding_round_code", "raised_amount_usd", "pre_money_valuation_usd", "post_money_valuation_usd", "participants")]
+#View(invest_rounds)
+str(invest_rounds)
+
+rounds_table = as.data.table(invest_rounds)
+rounds_table = melt(data = rounds_table, id.vars=c("company_id", "funding_round_code"), measure.vars = c("raised_amount_usd", "pre_money_valuation_usd", "post_money_valuation_usd", "participants"), variable_name = "value")
+invest_rounds = na.omit(as.data.frame(dcast(data = rounds_table, formula = company_id ~ funding_round_code + variable, fun.aggregate = sum)))
+#View(rounds_table)
+#str(invest_rounds)
+
+```
+
+```{r}
+aquisitions = aquisitions[aquisitions$price_currency_code == "USD",c("company_id", "aquisition_price_amount")]
+nrow(aquisitions)
+```
+
+
+# Final Dataset For Analysis
+
+```{r}
+company_data = merge(companies, aquisitions, by = "company_id")
+nrow(company_data)
+company_data = merge(company_data, founders_clean, by = "company_id")
+nrow(company_data)
+company_data = merge(company_data, invest_rounds, by = "company_id")
+nrow(company_data)
+
+str(company_data)
+View(company_data)
+```
+
+
