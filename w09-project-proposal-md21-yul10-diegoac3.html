@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content="Mohamed Diakite Pineda, Yu Liu, Diego Carreno, STAT 420, Summer 2020" />
@@ -281,7 +281,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -343,6 +342,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -354,18 +354,6 @@ summary {
   display: none;
 }
 </style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
 
 <!-- code folding -->
 
@@ -395,7 +383,7 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#student-names">Student names</a></li>
-<li><a href="#project-title-action-required">Project Title [Action Required]</a></li>
+<li><a href="#project-title-start-up-acquisition-price">Project Title: Start-up acquisition price</a></li>
 <li><a href="#description-of-the-data-file">Description of the data file</a></li>
 <li><a href="#background-information-of-the-data-set">Background information of the data set</a></li>
 <li><a href="#purpose-statement">Purpose statement</a></li>
@@ -418,14 +406,13 @@ $(document).ready(function () {
 <li>Diego Carreno, <em>diegoac3@</em></li>
 </ul>
 </div>
-<div id="project-title-action-required" class="section level2">
-<h2>Project Title [Action Required]</h2>
-<p>Option 1: The study of the acquisition prices of global companies</p>
-<p>Option 2: what makes a company values great during the acquisition?</p>
+<div id="project-title-start-up-acquisition-price" class="section level2">
+<h2>Project Title: Start-up acquisition price</h2>
+<p>We intent to find out what makes a start-up attractive for acquisition, and what drives its acquisition price up or down.</p>
 </div>
 <div id="description-of-the-data-file" class="section level2">
 <h2>Description of the data file</h2>
-<p>In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company’s acquisition price using regression.</p>
+<p>In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company’s acquisition price using regression. The data set has 2473 rows of data.</p>
 <p>We consider the following variable as the response variable:</p>
 <table style="width:100%;">
 <colgroup>
@@ -597,7 +584,10 @@ $(document).ready(function () {
 <h2>Background information of the data set</h2>
 <p>The database comes from <a href="https://www.kaggle.com/justinas/startup-investments?select=funding_rounds.csv%29">a Kaggle public dataset about startup investments</a> published by Justinas Cirtautas at the end of 2019. The dataset covers more 450 thousand company information from all over the world till 2013. Among those, about 10 thousand companies acomplished their acquisition successfully, while 80% of them got 0 dollars in their acquisition.</p>
 <p>The entire dataset provides 11 cvs file with 154 columns, which covers six aspects of the startup ecosystem including organizations, individuals, company news, funding rounds, acquisitions, and IPOs. We populated all the 11 csv files. More detials can be found in the appendix at the end of this proposal. Considering the missing data rate, we determine to focus on only two files: acquisition.csv and objects.csv.</p>
-<p>acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date. objects.csv provides the basic company profiles, which can be used as the predictor of our study.</p>
+<ul>
+<li>acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.</li>
+<li>objects.csv provides the basic company profiles, which can be used as the predictor of our study.</li>
+</ul>
 </div>
 <div id="purpose-statement" class="section level2">
 <h2>Purpose statement</h2>
@@ -608,11 +598,87 @@ $(document).ready(function () {
 <div id="loading-the-data-into-r" class="section level2">
 <h2>Loading the data into <code>R</code></h2>
 <p>We merged two csv file to get our final database <code>startups.csv</code>. For the details in data cleaning, please refer to the Appendix at the end of the proposal.</p>
-<p>Below is the snapshot to show we load our data into <code>R</code> successfully.</p>
-<div class="figure">
-<img src="data:image/png;base64,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" alt="Figure: The snapshot of loading the data into R" />
-<p class="caption">Figure: The snapshot of loading the data into <code>R</code></p>
-</div>
+<p>Below is the snapshot to show we load our data into <code>R</code> successfully. We are including a subset of the columns for simplicity, because some columns have very long text entries.</p>
+<pre class="r"><code>sample_data = read.csv(&quot;startups.csv&quot;)
+
+knitr::kable(head(sample_data[, c(
+  &quot;aquisition_price_amount&quot;,
+  &quot;city&quot;,
+  &quot;funding_total_usd&quot;,
+  &quot;category_code&quot;,
+  &quot;funding_rounds&quot;,
+  &quot;milestones&quot;,
+  &quot;relationships&quot;
+)]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">aquisition_price_amount</th>
+<th align="left">city</th>
+<th align="right">funding_total_usd</th>
+<th align="left">category_code</th>
+<th align="right">funding_rounds</th>
+<th align="right">milestones</th>
+<th align="right">relationships</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">20000000</td>
+<td align="left">Culver City</td>
+<td align="right">0</td>
+<td align="left">games_video</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="right">47500000</td>
+<td align="left">Mountain View</td>
+<td align="right">5000000</td>
+<td align="left">web</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="right">15000000</td>
+<td align="left">San Francisco</td>
+<td align="right">3000000</td>
+<td align="left">games_video</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="right">262500000</td>
+<td align="left">Shavano Park</td>
+<td align="right">274999</td>
+<td align="left">hardware</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">36500000</td>
+<td align="left">Nashville</td>
+<td align="right">15286415</td>
+<td align="left">photo_video</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">100000000</td>
+<td align="left">San Mateo</td>
+<td align="right">28000000</td>
+<td align="left">hardware</td>
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">7</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="appendix-data-pre-cleaning" class="section level2">
 <h2>Appendix: Data Pre-cleaning</h2>
@@ -630,8 +696,8 @@ people = read_csv(&quot;./people.csv&quot;)
 colnames(people)[2] = &quot;person_id&quot;
 attr(people, &quot;spec&quot;) = NULL
 colnames(people)</code></pre>
-<pre><code>## [1] &quot;id&quot;               &quot;person_id&quot;        &quot;first_name&quot;      
-## [4] &quot;last_name&quot;        &quot;birthplace&quot;       &quot;affiliation_name&quot;</code></pre>
+<pre><code>## [1] &quot;id&quot;               &quot;person_id&quot;        &quot;first_name&quot;       &quot;last_name&quot;       
+## [5] &quot;birthplace&quot;       &quot;affiliation_name&quot;</code></pre>
 <ul>
 <li><strong>People Education Data Loading:</strong></li>
 </ul>
@@ -639,8 +705,8 @@ colnames(people)</code></pre>
 colnames(degrees)[2] = &quot;person_id&quot;
 attr(degrees, &quot;spec&quot;) = NULL
 colnames(degrees)</code></pre>
-<pre><code>## [1] &quot;id&quot;           &quot;person_id&quot;    &quot;degree_type&quot;  &quot;subject&quot;     
-## [5] &quot;institution&quot;  &quot;graduated_at&quot; &quot;created_at&quot;   &quot;updated_at&quot;</code></pre>
+<pre><code>## [1] &quot;id&quot;           &quot;person_id&quot;    &quot;degree_type&quot;  &quot;subject&quot;      &quot;institution&quot; 
+## [6] &quot;graduated_at&quot; &quot;created_at&quot;   &quot;updated_at&quot;</code></pre>
 <ul>
 <li><strong>Companies Data Loading:</strong></li>
 </ul>
@@ -671,10 +737,9 @@ colnames(companies)</code></pre>
 colnames(comp_peep)[3] = &quot;person_id&quot;
 colnames(comp_peep)[4] = &quot;company_id&quot;
 colnames(comp_peep)</code></pre>
-<pre><code>##  [1] &quot;id&quot;              &quot;relationship_id&quot; &quot;person_id&quot;      
-##  [4] &quot;company_id&quot;      &quot;start_at&quot;        &quot;end_at&quot;         
-##  [7] &quot;is_past&quot;         &quot;sequence&quot;        &quot;title&quot;          
-## [10] &quot;created_at&quot;      &quot;updated_at&quot;</code></pre>
+<pre><code>##  [1] &quot;id&quot;              &quot;relationship_id&quot; &quot;person_id&quot;       &quot;company_id&quot;     
+##  [5] &quot;start_at&quot;        &quot;end_at&quot;          &quot;is_past&quot;         &quot;sequence&quot;       
+##  [9] &quot;title&quot;           &quot;created_at&quot;      &quot;updated_at&quot;</code></pre>
 <pre class="r"><code>attr(comp_peep, &quot;spec&quot;) = NULL
 #str(comp_peep)</code></pre>
 <ul>
@@ -707,10 +772,7 @@ colnames(invest_rounds)</code></pre>
 colnames(aquisitions)[4] = &quot;company_id&quot;
 colnames(aquisitions)[6] = &quot;aquisition_price_amount&quot;
 
-attr(aquisitions, &quot;spec&quot;) = NULL
-#str(aquisitions)
-#unique(aquisitions$price_currency_code)
-#aggregate(aquisitions[aquisitions$price_currency_code == &quot;USD&quot;,c(&quot;price_currency_code&quot;, &quot;company_id&quot;)], by = list(aquisitions$price_currency_code), FUN = counts)#aquisitions = </code></pre>
+attr(aquisitions, &quot;spec&quot;) = NULL</code></pre>
 </div>
 <div id="data-preparation" class="section level3">
 <h3>Data Preparation</h3>
@@ -729,7 +791,6 @@ founders = merge(full_peep, comp_peep, by=&quot;person_id&quot;)
 leads = c(grep(&quot;founder&quot;, ignore.case = TRUE, x = founders$title), grep(&quot;ceo&quot;, ignore.case = TRUE, x = founders$title), grep(&quot;chairman&quot;, ignore.case = TRUE, x = founders$title))
 founders[grep(&quot;founder&quot;, ignore.case = TRUE, x = founders$title), &quot;title&quot;] = &quot;Founder&quot;
 founder_leads = founders[leads, ]
-#nrow(founder_leads)
 
 #Auxiliary functions to count rows for analysis of data
 count_disticts = function(x){
@@ -741,31 +802,67 @@ counts = function(x){
 <p>“Normalize” the title information for the founders’ degree type so that it can be used as a potential regression predictor.</p>
 <pre class="r"><code>founder_leads_clean = founder_leads
 founder_leads_clean[grep(&quot;MS &quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;MS&quot;
-founder_leads_clean[grep(&quot;Master in Business|Master of Business|M\\.B\\.A\\.|MBA|Executive&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;MBA&quot;
-founder_leads_clean[grep(&quot;Ph|doc|pos.*grad&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Ph.D.&quot;
-founder_leads_clean[grep(&quot;Bachelor of Science|BSc|B\\.S|B\\.E|BE|BS|Ing|Eng|Bsc|SCB&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;BS&quot;
-founder_leads_clean[grep(&quot;Bachelor|BA|B\\.A&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;BA&quot;
-founder_leads_clean[grep(&quot;B[A-Z][A-Z]+|B\\.|BC&quot;, ignore.case = FALSE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Bachelors&quot;
+founder_leads_clean[grep(
+  &quot;Master in Business|Master of Business|M\\.B\\.A\\.|MBA|Executive&quot;,
+  ignore.case = TRUE,
+  x = founder_leads_clean$degree_type
+), c(&quot;degree_type&quot;)] = &quot;MBA&quot;
+founder_leads_clean[grep(&quot;Ph|doc|pos.*grad&quot;,
+                         ignore.case = TRUE,
+                         x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Ph.D.&quot;
+founder_leads_clean[grep(
+  &quot;Bachelor of Science|BSc|B\\.S|B\\.E|BE|BS|Ing|Eng|Bsc|SCB&quot;,
+  ignore.case = TRUE,
+  x = founder_leads_clean$degree_type
+), c(&quot;degree_type&quot;)] = &quot;BS&quot;
+founder_leads_clean[grep(&quot;Bachelor|BA|B\\.A&quot;,
+                         ignore.case = TRUE,
+                         x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;BA&quot;
+founder_leads_clean[grep(&quot;B[A-Z][A-Z]+|B\\.|BC&quot;,
+                         ignore.case = FALSE,
+                         x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Bachelors&quot;
 founder_leads_clean[grep(&quot;MS|M\\.S&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;MS&quot;
-founder_leads_clean[grep(&quot;Master|Graduate|Fellow&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Masters&quot;
-founder_leads_clean[grep(&quot;M[A-Z]+|M.&quot;, ignore.case = FALSE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Masters&quot;
-founder_leads_clean[grep(&quot;No.*degre|high.*school|secondary educa|no.*complete|course|incomplete|none|did not|prepa|[0-9].*[0-9]+ Grade&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;No Degree&quot;
-founder_leads_clean[grep(&quot;Law|JD|J\\.D\\.&quot;, ignore.case = FALSE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Law&quot;
+founder_leads_clean[grep(&quot;Master|Graduate|Fellow&quot;,
+                         ignore.case = TRUE,
+                         x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Masters&quot;
+founder_leads_clean[grep(&quot;M[A-Z]+|M.&quot;,
+                         ignore.case = FALSE,
+                         x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Masters&quot;
+founder_leads_clean[grep(
+  &quot;No.*degre|high.*school|secondary educa|no.*complete|course|incomplete|none|did not|prepa|[0-9].*[0-9]+ Grade&quot;,
+  ignore.case = TRUE,
+  x = founder_leads_clean$degree_type
+), c(&quot;degree_type&quot;)] = &quot;No Degree&quot;
+founder_leads_clean[grep(&quot;Law|JD|J\\.D\\.&quot;,
+                         ignore.case = FALSE,
+                         x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Law&quot;
 founder_leads_clean[grep(&quot;Business&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;MBA&quot;
-founder_leads_clean[grep(&quot;Undergr|Diplom|degree|college|under grad|lic|dipl&quot;, ignore.case = TRUE, x = founder_leads_clean$degree_type), c(&quot;degree_type&quot;)] = &quot;Bachelors&quot;
-founder_leads_clean[!(founder_leads_clean$degree_type %in% c(&quot;MS&quot;, &quot;MBA&quot;, &quot;Ph.D.&quot;, &quot;BS&quot;, &quot;BA&quot;, &quot;Bachelors&quot;, &quot;MS&quot;, &quot;Masters&quot;, &quot;No Degree&quot;, &quot;Law&quot;, &quot;MBA&quot;)), c(&quot;degree_type&quot;)] = &quot;Degree&quot;
+founder_leads_clean[grep(
+  &quot;Undergr|Diplom|degree|college|under grad|lic|dipl&quot;,
+  ignore.case = TRUE,
+  x = founder_leads_clean$degree_type
+), c(&quot;degree_type&quot;)] = &quot;Bachelors&quot;
+founder_leads_clean[!(
+  founder_leads_clean$degree_type %in% c(
+    &quot;MS&quot;,
+    &quot;MBA&quot;,
+    &quot;Ph.D.&quot;,
+    &quot;BS&quot;,
+    &quot;BA&quot;,
+    &quot;Bachelors&quot;,
+    &quot;MS&quot;,
+    &quot;Masters&quot;,
+    &quot;No Degree&quot;,
+    &quot;Law&quot;,
+    &quot;MBA&quot;
+  )
+), c(&quot;degree_type&quot;)] = &quot;Degree&quot;
 
-#View(unique(founder_leads_clean$degree_type))
-#analysis = aggregate(founder_leads_clean[,c(&quot;degree_type&quot;, &quot;person_id&quot;, &quot;company_id&quot;)], by = list(founder_leads_clean$degree_type), FUN = counts)
 
 
 ## Remove nulls and anly selects columns relevant for analysis.
-
-#analysis[order(-analysis$person_id), ]
-#analysis[order(analysis$person_id)]
-founder_leads_clean = na.omit(founder_leads_clean[,c(&quot;degree_type&quot;, &quot;subject&quot;, &quot;institution&quot;, &quot;company_id&quot;, &quot;title&quot;)])
-founder_leads_clean = founder_leads_clean[order(founder_leads_clean$company_id),]
-#View(founder_leads_clean)</code></pre>
+founder_leads_clean = na.omit(founder_leads_clean[, c(&quot;degree_type&quot;, &quot;subject&quot;, &quot;institution&quot;, &quot;company_id&quot;, &quot;title&quot;)])
+founder_leads_clean = founder_leads_clean[order(founder_leads_clean$company_id), ]</code></pre>
 <p>The code below reshapes the people subdataset into a wider table that has founder information per company, each in a single row of data. In other workds, the code below transposes the founder information (education background) to the columns.</p>
 <pre class="r"><code>founders_bg = cbind(
   leader1_degree_type = rep(0, nrow(founder_leads_clean)), leader1_subject = rep(0, nrow(founder_leads_clean)), leader1_institution = rep(0, nrow(founder_leads_clean)), 
@@ -793,30 +890,41 @@ for(i in  1:nrow(founder_leads_clean)){
   }
 }</code></pre>
 <p>We also remove some obvious rows with no data.</p>
-<pre class="r"><code>#View(founders_bg)
-founders_clean = cbind(founder_leads_clean, as.data.frame(founders_bg))
+<pre class="r"><code>founders_clean = cbind(founder_leads_clean, as.data.frame(founders_bg))
 founders_clean = founders_clean[founders_clean$leader1_degree_type != &quot;0&quot;,-5]
-founders_clean = na.omit(founders_clean)
-#View(founders_clean)</code></pre>
+founders_clean = na.omit(founders_clean)</code></pre>
 </div>
 <div id="investment-aquisition-data" class="section level4">
 <h4>Investment &amp; Aquisition Data</h4>
 <p>Investment data is stored in “long” shape, with every company having multiple rounds of investment (Series A-F, debt, angel, seed, etc.), each stored in a single row. Below is the process of reshaping the inventment rounds to a wide shape, in which every row represents all the investment rounds for a single company.</p>
-<pre class="r"><code>invest_rounds = invest_rounds[,c(&quot;company_id&quot;, &quot;funding_round_code&quot;, &quot;raised_amount_usd&quot;, &quot;pre_money_valuation_usd&quot;, &quot;post_money_valuation_usd&quot;, &quot;participants&quot;)]
-#View(invest_rounds)
-str(invest_rounds)</code></pre>
-<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    52928 obs. of  6 variables:
-##  $ company_id              : chr  &quot;c:4&quot; &quot;c:5&quot; &quot;c:5&quot; &quot;c:5&quot; ...
-##  $ funding_round_code      : chr  &quot;b&quot; &quot;angel&quot; &quot;a&quot; &quot;b&quot; ...
-##  $ raised_amount_usd       : num  8500000 500000 12700000 27500000 10500000 1500000 10000000 1500000 6300000 12000 ...
-##  $ pre_money_valuation_usd : num  0.00 0.00 1.15e+08 5.25e+08 0.00 8.50e+06 1.00e+08 0.00 0.00 0.00 ...
-##  $ post_money_valuation_usd: num  0.0 0.0 0.0 0.0 0.0 1.0e+07 1.1e+08 0.0 0.0 0.0 ...
-##  $ participants            : num  2 2 3 4 2 1 1 4 2 1 ...</code></pre>
-<pre class="r"><code>rounds_table = as.data.table(invest_rounds)
-rounds_table = melt(data = rounds_table, id.vars=c(&quot;company_id&quot;, &quot;funding_round_code&quot;), measure.vars = c(&quot;raised_amount_usd&quot;, &quot;pre_money_valuation_usd&quot;, &quot;post_money_valuation_usd&quot;, &quot;participants&quot;), variable_name = &quot;value&quot;)
-invest_rounds = na.omit(as.data.frame(dcast(data = rounds_table, formula = company_id ~ funding_round_code + variable, fun.aggregate = sum)))
-#View(rounds_table)
-#str(invest_rounds)</code></pre>
+<pre class="r"><code>invest_rounds = invest_rounds[, c(
+  &quot;company_id&quot;,
+  &quot;funding_round_code&quot;,
+  &quot;raised_amount_usd&quot;,
+  &quot;pre_money_valuation_usd&quot;,
+  &quot;post_money_valuation_usd&quot;,
+  &quot;participants&quot;
+)]
+
+rounds_table = as.data.table(invest_rounds)
+rounds_table = melt(
+  data = rounds_table,
+  id.vars = c(&quot;company_id&quot;, &quot;funding_round_code&quot;),
+  measure.vars = c(
+    &quot;raised_amount_usd&quot;,
+    &quot;pre_money_valuation_usd&quot;,
+    &quot;post_money_valuation_usd&quot;,
+    &quot;participants&quot;
+  ),
+  variable_name = &quot;value&quot;
+)
+invest_rounds = na.omit(as.data.frame(
+  dcast(
+    data = rounds_table,
+    formula = company_id ~ funding_round_code + variable,
+    fun.aggregate = sum
+  )
+))</code></pre>
 <p>Filter out companies with aquisition amount not in USD (all other variable/predictors are in USD)</p>
 </div>
 </div>
@@ -832,7 +940,6 @@ nrow(company_inv)</code></pre>
 <pre class="r"><code>company_aq_lds = merge(company_data, founders_clean, by = &quot;company_id&quot;)
 nrow(company_aq_lds)</code></pre>
 <pre><code>## [1] 2006</code></pre>
-<pre class="r"><code>#str(company_aq)</code></pre>
 </div>
 <div id="preminiary-analysis" class="section level3">
 <h3>Preminiary Analysis</h3>
@@ -950,6 +1057,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
