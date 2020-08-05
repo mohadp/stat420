@@ -23,11 +23,10 @@ knitr::opts_chunk$set(echo = TRUE)
 - Yu Liu, *yul10@*
 - Diego Carreno, *diegoac3@*
 
-## Project Title: Start-up acquisition price
+
+## Introduction
 
 We intent to find out what makes a start-up attractive for acquisition, and what drives its acquisition price up or down.
-
-## Description of the data file
 
 In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company's acquisition price using regression. The data set has 2473 rows of data.
 
@@ -96,12 +95,34 @@ str(sample_data)
 ```
 
 
+## Methods
+
+
+### Yu
+
+### Diego
+
+### Moha
+
+## Results
+
+### Diego
+
+
+### Below
+
+
+## Discussion
+
+
+
+
+
+
+
 ## Appendix: Data Pre-cleaning
 
----
-title: "Startup Data"
-output: html_document, startups.csv
----
+
 
 ### Data load 
 
@@ -178,8 +199,6 @@ aquisitions = aquisitions[aquisitions$price_currency_code == "USD",c("company_id
 
 
 
-
-
 ### Data Preparation
 
 After loading the individual tables, we need to join all into a single dataset that can be used for analysis. 
@@ -227,7 +246,6 @@ founders = na.omit(founders[,-c(2,3,4)])
 ```
 
 
-
 ### Final Dataset For Analysis
 
 After extracting the individual data aspects (people, company, investments) of the companies, these aspects are joined into a single dataset. The dataset that will be used for this project will depend on the resulting row numbers after different combination of joins.
@@ -235,11 +253,9 @@ After extracting the individual data aspects (people, company, investments) of t
 ```{r}
 company_aq = merge(companies, aquisitions, by = "company_id")
 nrow(company_aq)
-#company_inv = merge(company_aq, invest_rounds, by = "company_id")
-#nrow(company_inv)
 company_aq_lds = merge(x = company_aq, y = founders, by = "company_id", all.x = TRUE)
 nrow(company_aq_lds)
-#View(company_aq_lds)
+
 ```
 
 ### Preminiary Analysis
