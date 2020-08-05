@@ -23,13 +23,15 @@ knitr::opts_chunk$set(echo = TRUE)
 - Yu Liu, *yul10@*
 - Diego Carreno, *diegoac3@*
 
-## Project Title: Start-up acquisition price
+## Project Title [Action Required]
 
-We intent to find out what makes a start-up attractive for acquisition, and what drives its acquisition price up or down.
+Option 1: The study of the acquisition prices of global companies
+
+Option 2: what makes a company values great during the acquisition?
 
 ## Description of the data file
 
-In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company's acquisition price using regression. The data set has 2473 rows of data.
+In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company's acquisition price using regression.
 
 We consider the following variable as the response variable:
 
@@ -63,8 +65,8 @@ The database comes from [a Kaggle public dataset about startup investments](http
 
 The entire dataset provides 11 cvs file with 154 columns, which covers six aspects of the startup ecosystem including organizations, individuals, company news, funding rounds, acquisitions, and IPOs. We populated all the 11 csv files. More detials can be found in the appendix at the end of this proposal. Considering the missing data rate, we determine to focus on only two files: acquisition.csv and objects.csv.
 
-- acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.
-- objects.csv provides the basic company profiles, which can be used as the predictor of our study.
+acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.
+objects.csv provides the basic company profiles, which can be used as the predictor of our study.
 
 
 ## Purpose statement
@@ -77,21 +79,9 @@ Meanwhile, we also want to know some interesting questions, like, whether the co
 ## Loading the data into `R`
 We merged two csv file to get our final database `startups.csv`. For the details in data cleaning, please refer to the Appendix at the end of the proposal.
 
-Below is the snapshot to show we load our data into `R` successfully. We are including a subset of the columns for simplicity, because some columns have very long text entries.
+Below is the snapshot to show we load our data into `R` successfully.
 
-```{r}
-sample_data = read.csv("startups.csv")
-
-knitr::kable(head(sample_data[, c(
-  "aquisition_price_amount",
-  "city",
-  "funding_total_usd",
-  "category_code",
-  "funding_rounds",
-  "milestones",
-  "relationships"
-)]))
-```
+![Figure: The snapshot of loading the data into `R`](proposal1.PNG)
 
 
 ## Appendix: Data Pre-cleaning
@@ -183,6 +173,9 @@ colnames(aquisitions)[4] = "company_id"
 colnames(aquisitions)[6] = "aquisition_price_amount"
 
 attr(aquisitions, "spec") = NULL
+#str(aquisitions)
+#unique(aquisitions$price_currency_code)
+#aggregate(aquisitions[aquisitions$price_currency_code == "USD",c("price_currency_code", "company_id")], by = list(aquisitions$price_currency_code), FUN = counts)#aquisitions = 
 
 ```
 
@@ -207,6 +200,7 @@ founders = merge(full_peep, comp_peep, by="person_id")
 leads = c(grep("founder", ignore.case = TRUE, x = founders$title), grep("ceo", ignore.case = TRUE, x = founders$title), grep("chairman", ignore.case = TRUE, x = founders$title))
 founders[grep("founder", ignore.case = TRUE, x = founders$title), "title"] = "Founder"
 founder_leads = founders[leads, ]
+#nrow(founder_leads)
 
 #Auxiliary functions to count rows for analysis of data
 count_disticts = function(x){
@@ -223,68 +217,31 @@ counts = function(x){
 ```{r}
 founder_leads_clean = founder_leads
 founder_leads_clean[grep("MS ", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MS"
-founder_leads_clean[grep(
-  "Master in Business|Master of Business|M\\.B\\.A\\.|MBA|Executive",
-  ignore.case = TRUE,
-  x = founder_leads_clean$degree_type
-), c("degree_type")] = "MBA"
-founder_leads_clean[grep("Ph|doc|pos.*grad",
-                         ignore.case = TRUE,
-                         x = founder_leads_clean$degree_type), c("degree_type")] = "Ph.D."
-founder_leads_clean[grep(
-  "Bachelor of Science|BSc|B\\.S|B\\.E|BE|BS|Ing|Eng|Bsc|SCB",
-  ignore.case = TRUE,
-  x = founder_leads_clean$degree_type
-), c("degree_type")] = "BS"
-founder_leads_clean[grep("Bachelor|BA|B\\.A",
-                         ignore.case = TRUE,
-                         x = founder_leads_clean$degree_type), c("degree_type")] = "BA"
-founder_leads_clean[grep("B[A-Z][A-Z]+|B\\.|BC",
-                         ignore.case = FALSE,
-                         x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
+founder_leads_clean[grep("Master in Business|Master of Business|M\\.B\\.A\\.|MBA|Executive", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MBA"
+founder_leads_clean[grep("Ph|doc|pos.*grad", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Ph.D."
+founder_leads_clean[grep("Bachelor of Science|BSc|B\\.S|B\\.E|BE|BS|Ing|Eng|Bsc|SCB", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "BS"
+founder_leads_clean[grep("Bachelor|BA|B\\.A", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "BA"
+founder_leads_clean[grep("B[A-Z][A-Z]+|B\\.|BC", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
 founder_leads_clean[grep("MS|M\\.S", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MS"
-founder_leads_clean[grep("Master|Graduate|Fellow",
-                         ignore.case = TRUE,
-                         x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
-founder_leads_clean[grep("M[A-Z]+|M.",
-                         ignore.case = FALSE,
-                         x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
-founder_leads_clean[grep(
-  "No.*degre|high.*school|secondary educa|no.*complete|course|incomplete|none|did not|prepa|[0-9].*[0-9]+ Grade",
-  ignore.case = TRUE,
-  x = founder_leads_clean$degree_type
-), c("degree_type")] = "No Degree"
-founder_leads_clean[grep("Law|JD|J\\.D\\.",
-                         ignore.case = FALSE,
-                         x = founder_leads_clean$degree_type), c("degree_type")] = "Law"
+founder_leads_clean[grep("Master|Graduate|Fellow", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
+founder_leads_clean[grep("M[A-Z]+|M.", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
+founder_leads_clean[grep("No.*degre|high.*school|secondary educa|no.*complete|course|incomplete|none|did not|prepa|[0-9].*[0-9]+ Grade", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "No Degree"
+founder_leads_clean[grep("Law|JD|J\\.D\\.", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Law"
 founder_leads_clean[grep("Business", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MBA"
-founder_leads_clean[grep(
-  "Undergr|Diplom|degree|college|under grad|lic|dipl",
-  ignore.case = TRUE,
-  x = founder_leads_clean$degree_type
-), c("degree_type")] = "Bachelors"
-founder_leads_clean[!(
-  founder_leads_clean$degree_type %in% c(
-    "MS",
-    "MBA",
-    "Ph.D.",
-    "BS",
-    "BA",
-    "Bachelors",
-    "MS",
-    "Masters",
-    "No Degree",
-    "Law",
-    "MBA"
-  )
-), c("degree_type")] = "Degree"
+founder_leads_clean[grep("Undergr|Diplom|degree|college|under grad|lic|dipl", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
+founder_leads_clean[!(founder_leads_clean$degree_type %in% c("MS", "MBA", "Ph.D.", "BS", "BA", "Bachelors", "MS", "Masters", "No Degree", "Law", "MBA")), c("degree_type")] = "Degree"
 
+#View(unique(founder_leads_clean$degree_type))
+#analysis = aggregate(founder_leads_clean[,c("degree_type", "person_id", "company_id")], by = list(founder_leads_clean$degree_type), FUN = counts)
 
 
 ## Remove nulls and anly selects columns relevant for analysis.
-founder_leads_clean = na.omit(founder_leads_clean[, c("degree_type", "subject", "institution", "company_id", "title")])
-founder_leads_clean = founder_leads_clean[order(founder_leads_clean$company_id), ]
 
+#analysis[order(-analysis$person_id), ]
+#analysis[order(analysis$person_id)]
+founder_leads_clean = na.omit(founder_leads_clean[,c("degree_type", "subject", "institution", "company_id", "title")])
+founder_leads_clean = founder_leads_clean[order(founder_leads_clean$company_id),]
+#View(founder_leads_clean)
 
 ```
 
@@ -323,9 +280,12 @@ for(i in  1:nrow(founder_leads_clean)){
 We also remove some obvious rows with no data. 
 
 ```{r}
+
+#View(founders_bg)
 founders_clean = cbind(founder_leads_clean, as.data.frame(founders_bg))
 founders_clean = founders_clean[founders_clean$leader1_degree_type != "0",-5]
 founders_clean = na.omit(founders_clean)
+#View(founders_clean)
 
 ```
 
@@ -337,34 +297,16 @@ Investment data is stored in "long" shape, with every company having multiple ro
 
 ```{r}
 
-invest_rounds = invest_rounds[, c(
-  "company_id",
-  "funding_round_code",
-  "raised_amount_usd",
-  "pre_money_valuation_usd",
-  "post_money_valuation_usd",
-  "participants"
-)]
+invest_rounds = invest_rounds[,c("company_id", "funding_round_code", "raised_amount_usd", "pre_money_valuation_usd", "post_money_valuation_usd", "participants")]
+#View(invest_rounds)
+str(invest_rounds)
+
 
 rounds_table = as.data.table(invest_rounds)
-rounds_table = melt(
-  data = rounds_table,
-  id.vars = c("company_id", "funding_round_code"),
-  measure.vars = c(
-    "raised_amount_usd",
-    "pre_money_valuation_usd",
-    "post_money_valuation_usd",
-    "participants"
-  ),
-  variable_name = "value"
-)
-invest_rounds = na.omit(as.data.frame(
-  dcast(
-    data = rounds_table,
-    formula = company_id ~ funding_round_code + variable,
-    fun.aggregate = sum
-  )
-))
+rounds_table = melt(data = rounds_table, id.vars=c("company_id", "funding_round_code"), measure.vars = c("raised_amount_usd", "pre_money_valuation_usd", "post_money_valuation_usd", "participants"), variable_name = "value")
+invest_rounds = na.omit(as.data.frame(dcast(data = rounds_table, formula = company_id ~ funding_round_code + variable, fun.aggregate = sum)))
+#View(rounds_table)
+#str(invest_rounds)
 
 ```
 
@@ -380,12 +322,13 @@ aquisitions = aquisitions[aquisitions$price_currency_code == "USD",c("company_id
 After extracting the individual data aspects (people, company, investments) of the companies, these aspects are joined into a single dataset. The dataset that will be used for this project will depend on the resulting row numbers after different combination of joins.
 
 ```{r}
-company_aq = company_data = merge(companies, aquisitions, by = "company_id")
+company_aq = merge(companies, aquisitions, by = "company_id")
 nrow(company_aq)
-company_inv = merge(company_data, invest_rounds, by = "company_id")
-nrow(company_inv)
-company_aq_lds = merge(company_data, founders_clean, by = "company_id")
-nrow(company_aq_lds)
+#company_inv = merge(company_aq, invest_rounds, by = "company_id")
+#nrow(company_inv)
+#company_aq_lds = merge(company_aq, founders_clean, by = "company_id")
+#nrow(company_aq_lds)
+#str(company_aq)
 ```
 
 ### Preminiary Analysis
@@ -404,15 +347,7 @@ A sample output of the data is below:
 
 ```{r echo=FALSE}
 #Sample out
-knitr::kable(head(startups[, c(
-  "aquisition_price_amount",
-  "city",
-  "funding_total_usd",
-  "category_code",
-  "funding_rounds",
-  "milestones",
-  "relationships"
-)]))
+knitr::kable(head(startups[,c("aquisition_price_amount","city","funding_total_usd","category_code","funding_rounds","milestones","relationships")]))
 ```
 
 Moreover, a very simple model illustrates feasibility for linear regression analysis:
@@ -432,5 +367,3 @@ In addition, we can see how the linear regression assumptions of normality and c
 par(mfrow = c(1,2))
 plot(company_model, which = 1:2)
 ```
-
-

@@ -23,15 +23,13 @@ knitr::opts_chunk$set(echo = TRUE)
 - Yu Liu, *yul10@*
 - Diego Carreno, *diegoac3@*
 
-## Project Title [Action Required]
+## Project Title: Start-up acquisition price
 
-Option 1: The study of the acquisition prices of global companies
-
-Option 2: what makes a company values great during the acquisition?
+We intent to find out what makes a start-up attractive for acquisition, and what drives its acquisition price up or down.
 
 ## Description of the data file
 
-In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company's acquisition price using regression.
+In this study, we plan to analyze the acquisition data of more than 2000 companies from all over the world, which are founded from year 1900 to year 2014. Particulary, we have interests in exploring what factors impact the acquisition price of a company, and trying to predict the company's acquisition price using regression. The data set has 2473 rows of data.
 
 We consider the following variable as the response variable:
 
@@ -65,8 +63,8 @@ The database comes from [a Kaggle public dataset about startup investments](http
 
 The entire dataset provides 11 cvs file with 154 columns, which covers six aspects of the startup ecosystem including organizations, individuals, company news, funding rounds, acquisitions, and IPOs. We populated all the 11 csv files. More detials can be found in the appendix at the end of this proposal. Considering the missing data rate, we determine to focus on only two files: acquisition.csv and objects.csv.
 
-acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.
-objects.csv provides the basic company profiles, which can be used as the predictor of our study.
+- acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.
+- objects.csv provides the basic company profiles, which can be used as the predictor of our study.
 
 
 ## Purpose statement
@@ -79,9 +77,23 @@ Meanwhile, we also want to know some interesting questions, like, whether the co
 ## Loading the data into `R`
 We merged two csv file to get our final database `startups.csv`. For the details in data cleaning, please refer to the Appendix at the end of the proposal.
 
-Below is the snapshot to show we load our data into `R` successfully.
+Below is the snapshot to show we load our data into `R` successfully. We are including a subset of the columns for simplicity, because some columns have very long text entries.
 
-![Figure: The snapshot of loading the data into `R`](proposal1.PNG)
+```{r}
+sample_data = read.csv("startups.csv")
+
+knitr::kable(head(sample_data[, c(
+  "aquisition_price_amount",
+  "city",
+  "funding_total_usd",
+  "category_code",
+  "funding_rounds",
+  "milestones",
+  "relationships"
+)]))
+
+str(sample_data)
+```
 
 
 ## Appendix: Data Pre-cleaning
@@ -149,20 +161,6 @@ attr(comp_peep, "spec") = NULL
 ```
 
 
-- **Company Funding Data Loading:**
-
-```{r message=FALSE}
-#install.packages("reshape")
-library(reshape)
-library(data.table)
-
-invest_rounds = read_csv("./funding_rounds.csv")
-attr(invest_rounds, "spec") = NULL
-colnames(invest_rounds)[3]="company_id"
-colnames(invest_rounds)
-
-```
-
 
 - **Company Aquisition Data Loading:**
 
@@ -171,13 +169,15 @@ colnames(invest_rounds)
 aquisitions = read_csv("./acquisitions.csv")
 colnames(aquisitions)[4] = "company_id"
 colnames(aquisitions)[6] = "aquisition_price_amount"
-
 attr(aquisitions, "spec") = NULL
-#str(aquisitions)
-#unique(aquisitions$price_currency_code)
-#aggregate(aquisitions[aquisitions$price_currency_code == "USD",c("price_currency_code", "company_id")], by = list(aquisitions$price_currency_code), FUN = counts)#aquisitions = 
+colnames(aquisitions)
 
+#Filter out companies with aquisition amount not in USD (all other variable/predictors are in USD)
+aquisitions = aquisitions[aquisitions$price_currency_code == "USD",c("company_id", "aquisition_price_amount")]
 ```
+
+
+
 
 
 ### Data Preparation
@@ -186,22 +186,9 @@ After loading the individual tables, we need to join all into a single dataset t
 
 #### Company Founders
 
-The people, degrees and their relationship to the companies can all be joined into a sigle people dimension table. As part of the process, we will "normalize" the data, particularly the discreet data for people so it can be used for regression.
+The people, degrees and their relationship to the companies can all be joined into a sigle people dimension table. Additionally, we can extract potential relevant predictors for regression. For every person, generally an executive, we identify in each company people that attended to any of the top 25 or top 50 universities in the world ("top 50" excludes the top 25 universities). Also, we count the number of people in each company as well as the count of people by company that attended the top 25 and top 50 universities. Finally, to normalize these numbers, we also additional columns that represent percentage of people in each company that attended the top 25 and top 50 universities.
 
 ```{r}
-#Join people with their degrees information and with which company these people belong to.
-full_peep = merge(people, degrees, by="person_id")
-founders = merge(full_peep, comp_peep, by="person_id")
-
-
-#Identify founders and CEOs only
-
-#get rows with founder, ceos, chairmans only
-leads = c(grep("founder", ignore.case = TRUE, x = founders$title), grep("ceo", ignore.case = TRUE, x = founders$title), grep("chairman", ignore.case = TRUE, x = founders$title))
-founders[grep("founder", ignore.case = TRUE, x = founders$title), "title"] = "Founder"
-founder_leads = founders[leads, ]
-#nrow(founder_leads)
-
 #Auxiliary functions to count rows for analysis of data
 count_disticts = function(x){
   length(unique(x))
@@ -209,112 +196,36 @@ count_disticts = function(x){
 counts = function(x){
   length(x)
 }
+
+#Join people with their degrees information and with which company these people belong to.
+full_peep = merge(people, degrees, by="person_id")
+founders = merge(full_peep, comp_peep, by="person_id")
+
+top1 = grep(".*University of Oxford.*|.*xford.*|.*California Institute of Technology.*|.*altech|.*University of Cambridge.*|.*ambridge.*|.*Stanford University.*|.*tanford.*|.*Massachusetts Institute of Technology.*|.*MIT.*|.*Princeton University.*|.*inceton.*|.*Harvard University.*| .*arvard#|.*Yale University.*|.*Yale.*|.*University of Chicago.*|.*Imperial College London.*|.*University of Pennsylvania.*|.*Johns Hopkins University.*|.*University of California Berkeley.*|.*Berkley.*|.*ETH Zurich.*|.*UCL.*|.*Columbia University.*|.*Columbia.*|.*University of California Los Angeles.*|.*University of Toronto.*|.*Cornell University.*|.*Cornell.*|.*Duke University.*|.*University of Michigan-Ann Arbor.*|.*Northwestern University.*|.*Tsinghua University.*|.*Peking University.*|.*National University of Singapore.*", ignore.case = TRUE, x = founders$institution)
+
+top2 = grep(".*University of Washington.*|.*Carnegie Mellon University.*|.*Carnegie.*|.*London School of Economics and Political Science.*|.*LSE.*|.*New York University.*|.*University of Edinburgh.*|.*University of California San Diego.*|.*LMU Munich LMU.*|.*University of Melbourne.*|.*University of British Columbia.*|.*University of Hong Kong.*|.*King’s College London Kings College London.*|.*The University of Tokyo.*|.*École Polytechnique Fédérale de Lausanne.*|.*Lausanne.*|.*Georgia Institute of Technology.*|.*University of Texas at Austin.*|.*Karolinska Institute.*|.*McGill University.*|.*Technical University of Munich.*|.*Heidelberg University.*|.*KU Leuven.*|.*Paris Sciences et Lettres – PSL Research University Paris.*|.*PSL.*|.*The Hong Kong University of Science and Technology.*|.*University of Illinois at Urbana-Champaign.*|.*University of Illinois.*|.*Urbana-Champaign.*|.*Urbana.*|.*Champaign.*|.*Nanyang Technological University .*|.*Australian National University.*", ignore.case = TRUE, x = founders$institution)
+
+top25 = rep(0, nrow(founders))
+top50 = rep(0, nrow(founders))
+top25[top1] = 1
+top50[top2] = 1
+founders["top25"] = top25
+founders["top50"] = top50
 ```
-
-
-"Normalize" the title information for the founders' degree type so that it can be used as a potential regression predictor.
 
 ```{r}
-founder_leads_clean = founder_leads
-founder_leads_clean[grep("MS ", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MS"
-founder_leads_clean[grep("Master in Business|Master of Business|M\\.B\\.A\\.|MBA|Executive", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MBA"
-founder_leads_clean[grep("Ph|doc|pos.*grad", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Ph.D."
-founder_leads_clean[grep("Bachelor of Science|BSc|B\\.S|B\\.E|BE|BS|Ing|Eng|Bsc|SCB", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "BS"
-founder_leads_clean[grep("Bachelor|BA|B\\.A", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "BA"
-founder_leads_clean[grep("B[A-Z][A-Z]+|B\\.|BC", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
-founder_leads_clean[grep("MS|M\\.S", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MS"
-founder_leads_clean[grep("Master|Graduate|Fellow", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
-founder_leads_clean[grep("M[A-Z]+|M.", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Masters"
-founder_leads_clean[grep("No.*degre|high.*school|secondary educa|no.*complete|course|incomplete|none|did not|prepa|[0-9].*[0-9]+ Grade", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "No Degree"
-founder_leads_clean[grep("Law|JD|J\\.D\\.", ignore.case = FALSE, x = founder_leads_clean$degree_type), c("degree_type")] = "Law"
-founder_leads_clean[grep("Business", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "MBA"
-founder_leads_clean[grep("Undergr|Diplom|degree|college|under grad|lic|dipl", ignore.case = TRUE, x = founder_leads_clean$degree_type), c("degree_type")] = "Bachelors"
-founder_leads_clean[!(founder_leads_clean$degree_type %in% c("MS", "MBA", "Ph.D.", "BS", "BA", "Bachelors", "MS", "Masters", "No Degree", "Law", "MBA")), c("degree_type")] = "Degree"
-
-#View(unique(founder_leads_clean$degree_type))
-#analysis = aggregate(founder_leads_clean[,c("degree_type", "person_id", "company_id")], by = list(founder_leads_clean$degree_type), FUN = counts)
-
-
-## Remove nulls and anly selects columns relevant for analysis.
-
-#analysis[order(-analysis$person_id), ]
-#analysis[order(analysis$person_id)]
-founder_leads_clean = na.omit(founder_leads_clean[,c("degree_type", "subject", "institution", "company_id", "title")])
-founder_leads_clean = founder_leads_clean[order(founder_leads_clean$company_id),]
-#View(founder_leads_clean)
+founders = aggregate(x = founders[,c("top25", "top50")], by = list(company_id = founders$company_id, person_id = founders$person_id), FUN = max)
+peeps = aggregate(x = founders[,c("company_id", "person_id")], by = list(company_id = founders$company_id), FUN = counts)
+peeps = peeps[,c(1,2)]
+colnames(peeps)[2] = "people"
+founders = aggregate(x = founders[,c("top25", "top50")], by = list(company_id = founders$company_id), FUN = sum)
+founders = merge(founders, peeps[,c(1,2)], by="company_id")
+founders$top25pct = round(100*founders$top25/founders$people)
+founders$top50pct = round(100*founders$top50/founders$people)
+founders = na.omit(founders[,-c(2,3,4)])
 
 ```
 
-The code below reshapes the people subdataset into a wider table that has founder information per company, each in a single row of data. In other workds, the code below transposes the founder information (education background) to the columns.
-
-```{r}
-
-founders_bg = cbind(
-  leader1_degree_type = rep(0, nrow(founder_leads_clean)), leader1_subject = rep(0, nrow(founder_leads_clean)), leader1_institution = rep(0, nrow(founder_leads_clean)), 
-  leader2_degree_type = rep(0, nrow(founder_leads_clean)), leader2_subject = rep(0, nrow(founder_leads_clean)), leader2_institution = rep(0, nrow(founder_leads_clean)), 
-  founders_ceos_chairmans = rep(0, nrow(founder_leads_clean)))
-
-nleads = 2
-prev_company = "c"
-company_index = 0
-l = 0
-for(i in  1:nrow(founder_leads_clean)){
-  company = founder_leads_clean$company_id[i]
-  if(prev_company == company){
-    l = l + 1
-  }else{
-    prev_company = company
-    company_index = i
-    l = 0
-  }
-  if(l < nleads){
-    founders_bg[company_index,l*3+1] = founder_leads_clean$degree_type[i]
-    founders_bg[company_index,l*3+2] = founder_leads_clean$subject[i]
-    founders_bg[company_index,l*3+3] = founder_leads_clean$institution[i]
-    #if(l == 0) founders_bg[company_index,7] = length(founder_leads_clean$company_id[founder_leads_clean$company_id == company & founder_leads_clean$title == "Founder"])
-  }
-}
-
-```
-
-We also remove some obvious rows with no data. 
-
-```{r}
-
-#View(founders_bg)
-founders_clean = cbind(founder_leads_clean, as.data.frame(founders_bg))
-founders_clean = founders_clean[founders_clean$leader1_degree_type != "0",-5]
-founders_clean = na.omit(founders_clean)
-#View(founders_clean)
-
-```
-
-
-#### Investment & Aquisition Data 
-
-Investment data is stored in "long" shape, with every company having multiple rounds of investment (Series A-F, debt, angel, seed, etc.), each stored in a single row. Below is the process of reshaping the inventment rounds to a wide shape, in which every row represents all the investment rounds for a single company.
-
-
-```{r}
-
-invest_rounds = invest_rounds[,c("company_id", "funding_round_code", "raised_amount_usd", "pre_money_valuation_usd", "post_money_valuation_usd", "participants")]
-#View(invest_rounds)
-str(invest_rounds)
-
-
-rounds_table = as.data.table(invest_rounds)
-rounds_table = melt(data = rounds_table, id.vars=c("company_id", "funding_round_code"), measure.vars = c("raised_amount_usd", "pre_money_valuation_usd", "post_money_valuation_usd", "participants"), variable_name = "value")
-invest_rounds = na.omit(as.data.frame(dcast(data = rounds_table, formula = company_id ~ funding_round_code + variable, fun.aggregate = sum)))
-#View(rounds_table)
-#str(invest_rounds)
-
-```
-
-Filter out companies with aquisition amount not in USD (all other variable/predictors are in USD)
-```{r, include=FALSE}
-aquisitions = aquisitions[aquisitions$price_currency_code == "USD",c("company_id", "aquisition_price_amount")]
-
-```
 
 
 ### Final Dataset For Analysis
@@ -322,13 +233,13 @@ aquisitions = aquisitions[aquisitions$price_currency_code == "USD",c("company_id
 After extracting the individual data aspects (people, company, investments) of the companies, these aspects are joined into a single dataset. The dataset that will be used for this project will depend on the resulting row numbers after different combination of joins.
 
 ```{r}
-company_aq = company_data = merge(companies, aquisitions, by = "company_id")
+company_aq = merge(companies, aquisitions, by = "company_id")
 nrow(company_aq)
-company_inv = merge(company_data, invest_rounds, by = "company_id")
-nrow(company_inv)
-company_aq_lds = merge(company_data, founders_clean, by = "company_id")
+#company_inv = merge(company_aq, invest_rounds, by = "company_id")
+#nrow(company_inv)
+company_aq_lds = merge(x = company_aq, y = founders, by = "company_id", all.x = TRUE)
 nrow(company_aq_lds)
-#str(company_aq)
+#View(company_aq_lds)
 ```
 
 ### Preminiary Analysis
@@ -337,9 +248,55 @@ To ensure that the dataset is viable for linear regression analysis, we create a
 
 ```{r}
 # Data set to be analized, filtering out aquisition values without aquisition price
-startups = company_aq[company_aq$aquisition_price_amount>0, ]
-#write_csv(x = startups, path = "./startups.csv")
+startups = company_aq_lds[company_aq_lds$aquisition_price_amount>0, ]
+nrow(startups)
+startups = startups[,-c(2, 3, 4, 5, 7, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 23, 25, 26, 27, 30, 31, 34, 35, 38, 39, 40)]
+
+#Nulls by column
+show_nas = function(somedf){
+  cols_nas = data.frame(column = colnames(somedf), numNAs = rep(0, ncol(somedf)))
+  for(i in 1:ncol(somedf)){
+    cols_nas[i, "numNAs"] = length(somedf[is.na(somedf[,i]),i])
+  }
+  cols_nas$pctNAs = round(100*cols_nas$numNAs / nrow(somedf), digits = 1)
+  cols_nas
+}
+show_nas(startups)
+
 ```
+
+We clean `NA` values below:
+```{r}
+
+#clean NAs; introduce "Unknown" for categorical variables where ther are N/As
+startups[is.na(startups[,"category_code"]),"category_code"] = "unknown"
+startups[is.na(startups[,"country_code"]),"country_code"] = "unknown"
+startups[is.na(startups[,"city"]),"city"] = "unknown"
+
+#For numeric variablestop25pct, top50pct; will convert all of these into a categorical variable that says if people in company attended universities in top 25 universities in worl, then 1. Similarly, if company people (executives), attended universites in the top 26 to 50 universites `istop26_50`, 1; else, 0.
+startups[is.na(startups[,"top25pct"]),"top25pct"] = 0
+startups[is.na(startups[,"top50pct"]),"top50pct"] = 0
+startups$istop25 = ifelse(startups$top25pct > 0, 1, 0)
+startups$istop26_50 = ifelse(startups$top50pct > 0, 1, 0)
+
+show_nas(startups)
+```
+
+With clean data, we can now perform the data split for training and data
+
+```{r}
+#Generate the full data
+write_csv(x = startups, path = "./startups.csv")
+
+train_index = sample(1:nrow(startups), size = floor(0.8 * nrow(startups)))
+startups_tr = startups[train_index,]
+startups_te = startups[-train_index,]
+
+#Save the train and test datasest
+write_csv(x = startups_tr, path = "./startups_tr.csv")
+write_csv(x = startups_te, path = "./startups_te.csv")
+```
+
 
 The dataset to be used, `startups` has `r nrow(startups)` rows of data.
 
@@ -347,14 +304,23 @@ A sample output of the data is below:
 
 ```{r echo=FALSE}
 #Sample out
-knitr::kable(head(startups[,c("aquisition_price_amount","city","funding_total_usd","category_code","funding_rounds","milestones","relationships")]))
+knitr::kable(head(startups[, c(
+  "aquisition_price_amount",
+  "city",
+  "funding_total_usd",
+  "category_code",
+  "funding_rounds",
+  "milestones",
+  "relationships"
+)]))
 ```
 
 Moreover, a very simple model illustrates feasibility for linear regression analysis:
 
 ```{r}
 #Linear Model
-company_model = lm(log(aquisition_price_amount) ~ city+ log(funding_total_usd+1) + category_code + funding_rounds + milestones + relationships, data=startups)
+company_model = lm(log(aquisition_price_amount) ~ log(funding_total_usd+1) + category_code + funding_rounds + milestones + relationships + istop25 + istop26_50, data=startups)
+summary(company_model)
 ```
 
 - $R^2= `r summary(company_model)$r.squared`$
@@ -367,5 +333,8 @@ In addition, we can see how the linear regression assumptions of normality and c
 par(mfrow = c(1,2))
 plot(company_model, which = 1:2)
 ```
+
+
+
 
 
