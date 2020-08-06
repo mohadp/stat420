@@ -108,11 +108,11 @@ str(sample_data)
 
 ### Data Adjustments (Moha)
 
-Based on the single predictor analysis above, it is now possible to further simplify the dataset that will be used for to determine whether the `aquisition_price` of startups can be correlated with startup characteristics and their performance. 
+Based on the single predictor analysis above, it is now possible to further simplify the dataset that will be used to determine whether the `aquisition_price` of startups can be correlated with startup characteristics and their performance. 
 
 Some data adjustments include:
 
-- Collapsing of the number of levels for factor variables that a high number level: `category_code`, `country_code`, `city`, `state_code`.
+- Collapsing of the number of levels for factor variables a high number levels: `category_code`, `country_code`, `city`, `state_code`. This will ommit potential dummy variables when dealing with factor variables with levels that provide little significance. This also adds benefit of improving model simplicity by reducing number of levels.
 - Removal of columns that are necessare or useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`.
 - Division of the full data into 2 datasets, one for training (`startups_tr`), with  80% of the observation; the rest will be included in a test dataset  (`startups_te`), useful for model cross-validation. The split is done randomly.
 
