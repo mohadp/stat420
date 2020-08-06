@@ -1,496 +1,496 @@
-company_id,normalized_name,category_code,status,logo_width,logo_height,country_code,city,investment_rounds,invested_companies,funding_rounds,funding_total_usd,milestones,relationships,aquisition_price_amount,top25pct,top50pct,istop25,istop26_50
-c:10,flektor,games_video,acquired,186,85,USA,Culver City,0,0,0,0,0,6,20000000,0,0,0,0
-c:1001,friendfeed,web,acquired,200,56,USA,Mountain View,0,0,1,5000000,3,14,47500000,64,18,1,1
-c:102572,sensing system,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,8500000,0,0,0,0
-c:10479,vantagenet,web,acquired,153,62,unknown,unknown,0,0,0,0,0,2,550000,0,0,0,0
-c:1059,dotspotter,web,acquired,200,45,USA,unknown,0,0,0,0,3,1,20000000,0,0,0,0
-c:10656,highschoolalumni,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1000000,0,0,0,0
-c:1070,eloqua,enterprise,acquired,247,91,USA,Vienna,0,0,2,35800000,4,26,871000000,35,15,1,1
-c:11216,securent,software,acquired,164,56,USA,Mountain View,0,0,0,0,1,2,100000000,0,0,0,0
-c:11694,four11,web,acquired,208,65,unknown,unknown,0,0,0,0,1,3,92000000,100,0,1,0
-c:11725,log me on,unknown,acquired,124,52,unknown,unknown,0,0,0,0,0,1,10000000,100,0,1,0
-c:1194,pickspal,games_video,acquired,200,53,USA,Mountain View,0,0,4,15000000,2,2,9500000,0,0,0,0
-c:11947,baazee,unknown,acquired,250,64,unknown,unknown,0,0,0,0,1,2,50000000,0,0,0,0
-c:11948,eachnet,web,acquired,133,67,unknown,unknown,0,0,0,0,0,0,150000000,0,0,0,0
-c:12178,exacttarget,software,acquired,150,80,USA,Indianapolis,0,0,7,238209999,3,29,2500000000,12,4,1,1
-c:1224,peer39,advertising,acquired,167,58,USA,New York,0,0,7,29915001,5,18,15500000,60,0,1,0
-c:1234,vitrue,enterprise,acquired,142,92,USA,Atlanta,0,0,4,33000000,5,26,300000000,29,7,1,1
-c:126,sidestep,web,acquired,168,59,USA,Santa Clara,0,0,4,32000000,4,12,180000000,70,0,1,0
-c:12625,mezimedia,web,acquired,121,77,USA,Monrovia,0,0,0,0,0,0,352000000,0,0,0,0
-c:12662,mediaselling,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1430000,0,0,0,0
-c:12734,qwitter,web,acquired,327,91,unknown,unknown,0,0,0,0,2,0,11111,0,0,0,0
-c:1285,compete,consulting,acquired,600,200,USA,Boston,0,0,4,33000000,5,35,150000000,38,0,1,0
-c:1288,chintano,advertising,acquired,330,111,USA,Seattle,0,0,0,0,0,9,30000000,20,40,1,1
-c:13012,moviefone,games_video,acquired,270,270,USA,Chicago,0,0,0,0,2,2,525000000,100,0,1,0
-c:13108,inmarsat,unknown,acquired,160,83,unknown,unknown,0,0,0,0,0,2,25000000,100,0,1,0
-c:13168,trovix,search,acquired,152,56,USA,Mountain View,0,0,2,18250000,1,3,72500000,100,0,1,0
-c:132,last fm,music,acquired,66,42,GBR,London,0,0,1,5000000,5,21,280000000,58,0,1,0
-c:1337,visual sciences,web,acquired,185,62,USA,San Diego,0,0,0,0,0,6,394000000,20,0,1,0
-c:13518,quickarrow,software,acquired,175,58,USA,Austin,0,0,0,0,1,1,19400000,0,100,0,1
-c:1361,realage,web,acquired,129,56,USA,San Diego,0,0,0,0,1,8,100000000,20,0,1,0
-c:13781,softimage,software,acquired,104,25,CAN,Montreal,0,0,0,0,1,4,35000000,0,0,0,0
-c:138072,ekr therapeutics,biotech,acquired,204,84,USA,Bedminster,0,0,0,0,0,3,150000000,0,0,0,0
-c:13864,digitalthink,unknown,acquired,0,0,USA,San Francisco,0,0,0,0,1,10,120000000,30,0,1,0
-c:139031,ixos software ag,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,1,206000000,100,0,1,0
-c:139237,trustgo,security,acquired,180,180,USA,Santa Clara,0,0,2,1500000,1,2,36000000,0,0,0,0
-c:140137,decompras,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,70000,0,0,0,0
-c:140823,stellartv,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5200000,0,0,0,0
-c:141501,rempex pharmaceuticals,biotech,acquired,276,61,USA,San Diego,0,0,1,67500000,1,11,464000000,30,0,1,0
-c:141917,point,ecommerce,acquired,120,49,SWE,Stockholm,0,0,0,0,0,0,820000000,0,0,0,0
-c:142004,snip it,web,acquired,218,225,USA,San Francisco,0,0,0,0,2,3,10000000,50,0,1,0
-c:14300,zilog,unknown,acquired,293,53,unknown,unknown,0,0,0,0,1,8,62400000,0,43,0,1
-c:1450,phanfare,web,acquired,183,67,USA,Princeton,0,0,3,5000000,4,4,2000000,100,0,1,0
-c:146449,bold software,software,acquired,171,37,USA,Wichita,0,0,0,0,0,0,16500000,0,0,0,0
-c:1465,sendori,advertising,acquired,331,75,unknown,unknown,0,0,1,800000,3,9,25000000,50,17,1,1
-c:14861,vocollect,hardware,acquired,420,78,USA,Pittsburgh,0,0,0,0,1,13,190000000,0,0,0,0
-c:15088,sterling commerce,software,acquired,185,159,USA,Dublin,0,0,0,0,1,9,3900000000,11,11,1,1
-c:1541,dapper,advertising,acquired,200,53,USA,San Francisco,0,0,1,3000000,4,19,55000000,53,0,1,0
-c:15436,nstein technologies,software,acquired,124,64,CAN,Montreal,0,0,0,0,3,9,34000000,0,0,0,0
-c:15451,radiance,network_hosting,acquired,0,0,unknown,unknown,0,0,1,26000000,1,5,5000000,50,0,1,0
-c:1552,56,games_video,acquired,2492,1863,CHN,Guangzhou,0,0,2,30000000,4,2,80000000,0,0,0,0
-c:15871,montavista software,software,acquired,168,56,USA,Santa Clara,0,0,1,21000000,1,4,50000000,25,0,1,0
-c:159667,nano publishing,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,1,350000,0,0,0,0
-c:161152,vital support systems,enterprise,acquired,229,100,USA,Urbandale,0,0,0,0,0,0,45000000,0,0,0,0
-c:16271,mu dynamics,network_hosting,acquired,297,96,USA,Sunnyvale,0,0,3,24000000,1,5,40000000,80,0,1,0
-c:16616,network physics,software,acquired,0,0,USA,Mountain View,0,0,1,8630000,1,3,10000000,33,33,1,1
-c:16726,capitalstream,enterprise,acquired,214,52,unknown,unknown,0,0,0,0,1,3,40000000,33,0,1,0
-c:1674,infinity box,web,acquired,600,600,USA,Tampa,0,0,2,118000,3,10,35000000,0,0,0,0
-c:169318,orthohelix surgical designs,hardware,acquired,196,40,USA,Medina,0,0,0,0,0,1,135000000,0,0,0,0
-c:1705,tripadvisor,web,acquired,700,412,USA,Newton,1,1,1,0,3,38,210000000,50,0,1,0
-c:171191,tiny lino,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,4900,0,0,0,0
-c:17205,com2us,mobile,acquired,115,19,USA,Menlo Park,1,1,1,8000000,2,4,65000000,50,0,1,0
-c:1722,jellyfish,web,acquired,200,55,USA,Middleton,0,0,1,5000000,0,2,50000000,0,0,0,0
-c:172326,exacq technologies,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,150000000,0,0,0,0
-c:17282,symwave,semiconductor,acquired,260,68,USA,Laguna Niguel,0,0,3,26200000,1,4,8300000,0,0,0,0
-c:17332,linux networx,software,acquired,308,28,USA,Bluffdale,0,0,2,47000000,1,3,90000000,0,0,0,0
-c:17334,designart networks,semiconductor,acquired,219,77,ISR,Raanana,0,0,2,2000000,1,2,144000000,50,0,1,0
-c:173926,vanity fair,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,350000000,0,0,0,0
-c:17459,netstreams,games_video,acquired,259,122,USA,Austin,0,0,2,18200000,1,3,4000000,0,33,0,1
-c:17619,synapticmash,software,acquired,171,33,USA,Seattle,0,0,1,5000000,2,1,10000000,100,100,1,1
-c:177608,stus i softwares,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5000000,0,0,0,0
-c:17847,safeboot,software,acquired,112,26,USA,Santa Clara,0,0,0,0,0,0,350000000,0,0,0,0
-c:178830,virtual solutions,software,acquired,200,56,USA,Cambridge,0,0,1,0,1,2,7600000,50,0,1,0
-c:1789,nuconomy,advertising,acquired,160,41,USA,San Francisco,0,0,2,3300000,3,4,3000000,0,0,0,0
-c:179507,scaleio,software,acquired,263,84,USA,Palo Alto,0,0,1,12000000,2,1,200000000,0,0,0,0
-c:179713,coram specialty infusion,unknown,acquired,241,84,USA,Denver,0,0,0,0,1,4,2100000000,50,25,1,1
-c:179828,skycig cigarette,hardware,acquired,256,256,unknown,unknown,0,0,0,0,0,0,49,0,0,0,0
-c:18,lala,games_video,acquired,160,81,USA,Palo Alto,0,0,4,44150000,6,5,80000000,50,0,1,0
-c:18121,2wire,web,acquired,168,54,USA,San Jose,0,0,0,0,1,20,475000000,28,6,1,1
-c:18134,sonicwall,security,acquired,149,45,USA,San Jose,0,0,0,0,3,18,717000000,29,14,1,1
-c:18315,babble,news,acquired,77,74,USA,New York,0,0,3,6250000,2,6,40000000,50,50,1,1
-c:18689,orsus solutions usa,software,acquired,222,57,USA,Irvine,0,0,1,3000000,1,1,22000000,0,0,0,0
-c:19,helio,mobile,acquired,245,100,USA,Los Angeles,0,0,0,0,0,13,39000000,20,0,1,0
-c:190514,ceemly,mobile,acquired,512,512,ITA,Castelfranco Veneto,0,0,0,0,0,3,5000,0,0,0,0
-c:190613,bazaar daily uk,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,1,1000,0,0,0,0
-c:190614,gladeon entertainment,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,1,250000,0,0,0,0
-c:191014,frag,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,100000,0,0,0,0
-c:192,kaboodle,ecommerce,acquired,171,171,USA,Sunnyvale,0,0,3,5000000,0,6,18000000,0,0,0,0
-c:19531,kenexa,software,acquired,2106,528,USA,Wayne,0,0,0,0,2,6,1300000000,0,0,0,0
-c:195881,the about group,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,300000000,0,0,0,0
-c:198266,kanchiads,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,10000,0,0,0,0
-c:19947,circulite,medical,acquired,175,48,USA,Teaneck,0,0,2,62500000,0,2,30000000,50,0,1,0
-c:19971,liveoffice,network_hosting,acquired,272,72,USA,Torrance,0,0,0,0,2,14,115000000,60,20,1,1
-c:200534,santarus,biotech,acquired,209,44,USA,San Diego,0,0,0,0,0,8,2600000000,60,0,1,0
-c:201,technologyguide,web,acquired,0,0,USA,Cincinnati,0,0,0,0,0,2,15000000,0,0,0,0
-c:201894,centerbeam,unknown,acquired,175,86,USA,Sunnyvale,0,0,1,1000000,1,7,22000000,17,0,1,0
-c:204137,scriptdorks,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,75000,0,0,0,0
-c:20451,tatto media,advertising,acquired,250,76,USA,Boston,0,0,0,0,2,6,60000000,0,0,0,0
-c:207923,hotmail,unknown,acquired,87,65,unknown,unknown,0,0,0,0,1,6,400000000,83,0,1,0
-c:208167,pioneer surgical technology,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,6,130000000,17,0,1,0
-c:20847,nimsoft,software,acquired,230,89,USA,Redwood City,0,0,2,22300000,3,11,350000000,40,0,1,0
-c:210478,andersonbrecon,biotech,acquired,400,99,USA,ROCKFORD,0,0,1,75000000,0,0,308000000,0,0,0,0
-c:210869,medical metrx solutions,biotech,acquired,172,61,unknown,unknown,0,0,1,0,0,0,20000000,0,0,0,0
-c:210911,ez prints,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,1,30000000,0,0,0,0
-c:21226,red mccombs media,advertising,acquired,100,31,USA,Austin,0,0,0,0,0,0,7900000,0,0,0,0
-c:21285,amd handheld graphics,semiconductor,acquired,136,46,USA,Sunnyvale,0,0,0,0,0,1,65000000,0,0,0,0
-c:215,recipezaar,web,acquired,147,100,USA,Vashon,0,0,0,0,0,2,25000000,0,0,0,0
-c:21535,globalscholar,other,acquired,155,55,USA,Bellevue,0,0,1,27000000,0,4,140000000,33,0,1,0
-c:216976,advanced liquid logic,hardware,acquired,250,55,USA,Morrisville,0,0,3,3000001,1,1,96000000,0,0,0,0
-c:21838,nanny providers canada,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,0,500000,0,0,0,0
-c:21940,bipar sciences,biotech,acquired,140,62,USA,Brisbane,0,0,4,73000000,0,8,500000000,50,25,1,1
-c:21982,affair match,web,acquired,593,140,unknown,unknown,0,0,0,0,0,0,1000000,0,0,0,0
-c:21986,enpocket,mobile,acquired,145,76,unknown,unknown,0,0,1,2000000,1,10,100000000,33,0,1,0
-c:220985,arinc,other,acquired,302,81,USA,Annapolis,0,0,0,0,1,1,1390000000,0,0,0,0
-c:221032,zoltek,nanotech,acquired,558,81,USA,St. Louis,0,0,0,0,1,1,584000000,0,0,0,0
-c:221117,comztek,other,acquired,131,39,ZAF,Midrand,0,0,0,0,0,1,8800000,0,0,0,0
-c:2221,qype,web,acquired,763,290,DEU,Hamburg,0,0,4,23084124,4,10,50000000,33,0,1,0
-c:222658,enigma,software,acquired,177,50,ISR,Herzliya,0,0,0,0,2,6,10000000,33,0,1,0
-c:2250,picscout,web,acquired,1661,294,ISR,Hertzelia,0,0,0,0,3,7,20000000,50,0,1,0
-c:22505,creditcards,web,acquired,100,50,USA,New York,0,0,1,58800000,2,9,145000000,0,0,0,0
-c:226030,justchalo,mobile,acquired,150,154,USA,Saratoga,0,0,0,0,0,2,11000000,0,0,0,0
-c:22764,focusframe,consulting,acquired,294,121,USA,San Jose,0,0,0,0,1,2,34300000,0,0,0,0
-c:228,cyworld,web,acquired,294,81,KOR,Seoul,0,0,0,0,4,1,7140000,0,0,0,0
-c:228105,repconstrickland,other,acquired,217,104,USA,Corpus Christi,0,0,0,0,0,0,455000000,0,0,0,0
-c:22989,eglue business technologies,software,acquired,307,92,USA,Hoboken,0,0,3,27000000,0,0,35000000,0,0,0,0
-c:230886,o2 ireland,unknown,acquired,118,100,IRL,Dublin,0,0,1,3859800,1,4,1100000000,0,0,0,0
-c:23098,miyowa,mobile,acquired,210,83,USA,San Francisco,0,0,2,11725600,2,3,59000000,0,0,0,0
-c:23241,sigma designs,semiconductor,acquired,209,111,unknown,unknown,0,0,0,0,1,7,160000000,25,0,1,0
-c:2332,paramount pictures,games_video,acquired,700,382,USA,New York,0,0,0,0,0,18,10000000000,41,12,1,1
-c:233535,asdamerica,unknown,acquired,345,67,USA,Carbondale,0,0,0,0,0,0,542000000,0,0,0,0
-c:23521,musiwave,mobile,acquired,0,0,unknown,unknown,0,0,1,0,1,5,121000000,25,0,1,0
-c:235405,agero,ecommerce,acquired,291,118,USA,Medford,0,0,0,0,1,8,530000000,0,0,0,0
-c:2372,danger,mobile,acquired,150,25,USA,Palo Alto,0,0,4,118300000,2,18,500000000,30,0,1,0
-c:237908,91 wireless,unknown,acquired,279,139,CHN,unknown,0,0,0,0,1,0,1900000000,0,0,0,0
-c:238110,storeage,other,acquired,96,42,unknown,unknown,0,0,1,4000000,0,0,50000000,0,0,0,0
-c:238643,talon therapeutics,biotech,acquired,289,107,USA,South San Francisco,0,0,1,10315800,1,2,11300000,50,0,1,0
-c:239331,livio radio,hardware,acquired,215,56,USA,Ferndale,0,0,3,4296519,1,3,9000000,0,0,0,0
-c:239875,host europe group,other,acquired,142,96,GBR,Uxbridge,0,0,0,0,0,0,666000000,0,0,0,0
-c:242,ohloh,web,acquired,63,35,USA,Bellevue,0,0,1,0,3,2,3000000,0,0,0,0
-c:242649,4hak developers,software,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1858,0,0,0,0
-c:244770,premier nutrition,other,acquired,573,132,USA,Carlsbad,0,0,0,0,0,0,180000000,0,0,0,0
-c:244981,adam internet,software,acquired,266,47,AUS,South Australia,0,0,0,0,0,0,60000000,0,0,0,0
-c:24565,cellatope,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5000000,0,0,0,0
-c:2467,eds,enterprise,acquired,239,84,USA,Plano,1,1,0,0,1,58,2600000000000,11,2,1,1
-c:247484,paramount solar,cleantech,acquired,255,118,USA,Roseville,0,0,0,0,0,5,120000000,0,0,0,0
-c:24762,vatera hu,unknown,acquired,116,63,unknown,unknown,0,0,0,0,0,0,9000000,0,0,0,0
-c:24863,axsys,biotech,acquired,108,61,USA,Chadds Ford,0,0,0,0,0,3,643000000,0,0,0,0
-c:2505,fast search transfer,search,acquired,153,68,USA,San Mateo,0,0,0,0,1,19,1200000000,14,0,1,0
-c:25123,proprius,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,1,75000000,100,0,1,0
-c:25249,primaeva medical,biotech,acquired,159,89,USA,Pleasanton,0,0,3,14250000,0,0,30000000,0,0,0,0
-c:25438,monogram biosciences,biotech,acquired,284,88,USA,South San Francisco,0,0,0,0,1,4,107000000,0,25,0,1
-c:25666,netxen,semiconductor,acquired,137,78,unknown,unknown,0,0,0,0,1,3,21000000,67,0,1,0
-c:257651,vacation rentals in gulf shore alabama,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,19000,0,0,0,0
-c:257665,vacation rentals hot springs arkansas,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,19600,0,0,0,0
-c:25772,wavesat,semiconductor,acquired,245,67,CAN,"Montreal, Quebec",0,0,2,14810000,1,8,10000000,50,50,1,1
-c:25778,magen biosciences,biotech,acquired,780,120,USA,Waltham,0,0,0,0,0,3,14500000,0,0,0,0
-c:257920,vacation rentals breckenridge colorado,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,12654,0,0,0,0
-c:257949,vacation rentals rehoboth delaware,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,23432,0,0,0,0
-c:257963,rmvh vacation rentals miami florida,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,12900,0,0,0,0
-c:257969,vrbo vacation rental homes,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,25000,0,0,0,0
-c:257971,juicy couture,fashion,acquired,273,55,unknown,unknown,0,0,0,0,1,0,195000000,0,0,0,0
-c:257983,vacation rentals blue ridge mountains georgia,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5000,0,0,0,0
-c:257988,vacation rentals mccall idaho,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,2500,0,0,0,0
-c:257995,vacation rentals portland maine,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5000,0,0,0,0
-c:258012,vacation rentals hampton new york,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,23000,0,0,0,0
-c:258014,vacation rentals asheville north carolina,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,2798,0,0,0,0
-c:258025,vacation rentals pocono lake pennsylvania,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,10000,0,0,0,0
-c:258043,vacation rentals kingston resort myrtle beach,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1659,0,0,0,0
-c:258047,kingston plantation myrtle beach,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,25000,0,0,0,0
-c:258048,vacation rentals kingston plantation,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1200,0,0,0,0
-c:258052,vacation rentals kingston plantation travel packages,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1200,0,0,0,0
-c:258055,kingston plantation vacation rentals,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,1200,0,0,0,0
-c:258061,vacation rentals austin texas,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,10000,0,0,0,0
-c:258067,vacation rentals virginia beach,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,21456,0,0,0,0
-c:25811,eldorado,mobile,acquired,0,0,unknown,unknown,0,0,0,0,1,0,22900000,0,0,0,0
-c:25815,stiefel,biotech,acquired,162,83,USA,Research Triangle Park,0,0,0,0,1,5,3600000000,0,0,0,0
-c:259417,boca pharmacal,biotech,acquired,204,93,USA,Coral Springs,0,0,0,0,0,0,225000000,0,0,0,0
-c:260007,mtem limited,unknown,acquired,0,0,GBR,Edinburgh,0,0,1,13234657,1,1,275000000,0,0,0,0
-c:26030,channel blade technologies,web,acquired,347,79,unknown,unknown,0,0,0,0,0,0,6270000,0,0,0,0
-c:261443,rochester medical,biotech,acquired,230,86,USA,Stewartville,0,0,0,0,0,0,262000000,0,0,0,0
-c:26267,connect3 systems,advertising,acquired,143,40,USA,Cerritos,0,0,0,0,0,0,13450000,0,0,0,0
-c:26273,infrasolve,software,acquired,100,31,GBR,"Staines, Middlesex",0,0,0,0,0,0,9020000,0,0,0,0
-c:26277,atexis,semiconductor,acquired,182,49,FRA,Fontenay TrÃ©signy,0,0,0,0,0,0,8650000,0,0,0,0
-c:263137,mars innov technologies,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,63950000,0,0,0,0
-c:26330,brightmail,web,acquired,203,56,unknown,unknown,0,0,0,0,1,7,370000000,40,0,1,0
-c:263552,glowork,enterprise,acquired,174,37,SAU,Riyadh,0,0,0,0,0,2,16000000,0,0,0,0
-c:26361,tidal software,network_hosting,acquired,126,52,USA,Palo Alto,0,0,0,0,1,9,105000000,12,0,1,0
-c:264039,molecular profiles,biotech,acquired,281,107,GBR,Nottingham,0,0,0,0,0,0,25000000,0,0,0,0
-c:26469,netmanage,software,acquired,0,0,USA,Cupertino,0,0,1,2700000,1,11,73300000,27,0,1,0
-c:264793,boise,manufacturing,acquired,158,52,USA,Boise,0,0,0,0,0,4,1280000000,0,0,0,0
-c:26501,oberon associates,unknown,acquired,299,116,USA,Manassas,0,0,0,0,0,0,170000000,0,0,0,0
-c:26548,sophos,software,acquired,110,37,GBR,Abingdon,0,0,0,0,2,18,830000000,40,7,1,1
-c:26617,moldflow,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,3,280650000,33,0,1,0
-c:26623,netcracker technology,unknown,acquired,199,51,USA,Waltham,0,0,0,0,2,3,300000000,33,0,1,0
-c:26628,m a com,semiconductor,acquired,105,47,USA,Lowell,0,0,1,0,1,8,425000000,57,14,1,1
-c:26639,metrologic instruments,hardware,acquired,216,52,USA,Blackwood,0,0,0,0,0,2,720000000,100,50,1,1
-c:266738,official payments,software,acquired,247,58,USA,Norcross,0,0,0,0,0,0,109000000,0,0,0,0
-c:26685,sandforce,enterprise,acquired,255,86,USA,Milpitas,0,0,4,46000000,2,17,400000000,50,0,1,0
-c:26704,me2 security,software,acquired,0,0,USA,unknown,0,0,0,0,0,0,1600000,0,0,0,0
-c:26712,enable semiconductors,semiconductor,acquired,0,0,unknown,unknown,0,0,0,0,0,1,3500000,100,0,1,0
-c:267155,vintek,software,acquired,222,72,USA,Philadelphia,0,0,0,0,0,0,53000000,0,0,0,0
-c:26717,veeco instruments,hardware,acquired,110,39,USA,Plainview,0,0,1,4800000,2,3,30000000,33,0,1,0
-c:26719,crucial security,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,2,33000000,0,0,0,0
-c:26729,calistoga pharmaceuticals,biotech,acquired,217,124,USA,Seattle,0,0,3,91000000,1,4,375000000,50,0,1,0
-c:26732,berkã¤na wireless,mobile,acquired,71,51,USA,Campbell,0,0,3,0,0,7,56000000,50,0,1,0
-c:26774,presidium learning,software,acquired,176,72,USA,Reston,0,0,2,9500000,0,1,53000000,0,0,0,0
-c:26851,travel channel,other,acquired,204,92,USA,Chevy Chase,1,1,0,0,0,4,50000000,33,0,1,0
-c:268691,otto männer,manufacturing,acquired,179,69,DEU,Bahlingen,0,0,0,0,0,0,373,0,0,0,0
-c:26895,dial assurance,network_hosting,acquired,200,44,USA,Stamford,0,0,0,0,0,0,23000,0,0,0,0
-c:26896,jiangsu shunda semiconductor development,unknown,acquired,0,0,CHN,Yangzhou,0,0,1,82000000,0,0,101900000,0,0,0,0
-c:26908,astech intermedia,public_relations,acquired,450,87,USA,Denver,0,0,0,0,0,0,3110000,0,0,0,0
-c:26910,center line data,software,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5470000,0,0,0,0
-c:26922,reapplications,software,acquired,357,68,USA,San Diego,0,0,0,0,0,0,9400000,0,0,0,0
-c:26956,muniservices,software,acquired,450,76,USA,Fresno,0,0,0,0,0,0,29350000,0,0,0,0
-c:2699,clusty,web,acquired,122,66,USA,Pittsburgh,0,0,0,0,0,0,5600000,0,0,0,0
-c:27,plaxo,web,acquired,713,224,USA,Sunnyvale,0,0,4,28300000,4,27,150000000,47,0,1,0
-c:270108,vion food group,hospitality,acquired,376,81,NLD,EINDHOVEN,0,0,0,0,0,2,2170000000,0,0,0,0
-c:271034,arrow midstream,real_estate,acquired,529,129,USA,Tulsa,0,0,0,0,0,3,750000000,0,0,0,0
-c:27136,klers,software,acquired,275,60,ITA,Roma,0,0,0,0,0,0,29900000,0,0,0,0
-c:27149,g b solutions,consulting,acquired,135,99,USA,Reston,0,0,0,0,0,0,23700000,0,0,0,0
-c:27153,universal microwave,mobile,acquired,600,251,USA,Brooksville,0,0,0,0,0,0,23200000,0,0,0,0
-c:27163,luminus devices,other,acquired,349,55,USA,Billerica,0,0,4,135826373,2,3,22000000,0,0,0,0
-c:271692,managed hosting division of 8x8d b a central host,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,3000000,0,0,0,0
-c:272365,biotech international,biotech,acquired,992,747,FRA,Salon de Provence,0,0,0,0,0,0,80000000,0,0,0,0
-c:27245,contemporary computer services,software,acquired,108,90,USA,Bohemia,0,0,0,0,0,0,15040000,0,0,0,0
-c:27273,integrated quality,software,acquired,69,64,USA,Lewis Center,0,0,0,0,0,0,5900000,0,0,0,0
-c:273464,ife services,news,acquired,228,143,GBR,"Knutsford,Cheshire",0,0,0,0,0,3,36000000,0,0,0,0
-c:27349,mixer labs,search,acquired,123,44,USA,San Mateo,0,0,2,0,2,3,5200000,67,0,1,0
-c:274045,liberty bancshares,finance,acquired,0,0,USA,Springfield,0,0,0,0,0,4,280000000,0,0,0,0
-c:2751,napster,web,acquired,100,96,USA,Los Angeles,0,0,0,0,3,26,121000000,11,11,1,1
-c:27779,iwatt,cleantech,acquired,120,36,USA,Los Gatos,0,0,2,19400000,3,2,345000000,0,0,0,0
-c:27987,kitn media,web,acquired,352,92,unknown,unknown,0,0,0,0,1,1,50000000,0,0,0,0
-c:280568,coastal energy,cleantech,acquired,218,119,CYM,George Town,0,0,0,0,0,3,2210000000,0,0,0,0
-c:280608,singapore mercantile exchange smx,finance,acquired,154,97,SGP,Singapore,0,0,0,0,0,3,150000000,0,0,0,0
-c:280765,correvio,biotech,acquired,280,42,CHE,1201 Geneva,0,0,0,0,0,2,12000000,0,0,0,0
-c:281390,i motion,games_video,acquired,225,72,DEU,Koblenz District Court,0,0,0,0,0,0,21000000,0,0,0,0
-c:28333,neolane,software,acquired,187,61,FRA,Arcueil,0,0,2,33580000,1,3,600000000,0,0,0,0
-c:28386,crossflo systems,software,acquired,0,0,USA,San Diego,0,0,0,0,0,2,21650000,0,0,0,0
-c:28489,cp secure,public_relations,acquired,0,0,USA,Cupertino,0,0,0,0,0,3,17500000,0,0,0,0
-c:28491,amv holding,software,acquired,0,0,GBR,Marlow,0,0,0,0,0,2,20290000,0,0,0,0
-c:28502,liberty surf group,software,acquired,200,60,FRA,Paris,0,0,0,0,0,1,266000000,0,0,0,0
-c:28560,clearlobby,public_relations,acquired,0,0,USA,unknown,0,0,0,0,0,1,250000,0,0,0,0
-c:28564,nci mobility,software,acquired,0,0,USA,Chicago,0,0,0,0,0,2,773000,0,0,0,0
-c:28618,financial computer support,software,acquired,0,0,USA,Oakland,0,0,0,0,0,1,4930000,0,0,0,0
-c:28623,indigio group,software,acquired,0,0,USA,Denver,0,0,0,0,1,1,6090000,0,0,0,0
-c:28670,school information systems,software,acquired,102,106,USA,St. Louis,0,0,0,0,0,0,11030000,0,0,0,0
-c:28712,gsi commerce,enterprise,acquired,300,95,USA,King of Prussia,0,0,0,0,3,20,2400000000,61,6,1,1
-c:28860,periculum services group,software,acquired,561,101,USA,Portland,0,0,0,0,0,0,1400000,0,0,0,0
-c:28904,threesf,software,acquired,0,0,USA,San Francisco,0,0,0,0,0,0,15000000,0,0,0,0
-c:29336,synapsis technology,consulting,acquired,141,53,USA,Spring House,0,0,0,0,0,1,10000000,100,0,1,0
-c:29361,ubiquisys,mobile,acquired,220,89,GBR,Swindon,0,0,6,81000000,2,8,310000000,43,0,1,0
-c:29431,cyence international,software,acquired,0,0,USA,BIRMINGHAM,0,0,0,0,0,0,31080000,0,0,0,0
-c:29450,algor,software,acquired,170,41,USA,Pittsburgh,0,0,0,0,0,0,34000000,0,0,0,0
-c:2961,pooxi,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,1,5000000,100,0,1,0
-c:29786,vapps,unknown,acquired,0,0,USA,Hoboken,0,0,1,2500000,0,1,26600000,0,0,0,0
-c:30283,automotive,software,acquired,0,0,unknown,unknown,0,0,0,0,0,1,42000000,0,0,0,0
-c:30434,wonderware mobile solutions,software,acquired,205,58,USA,Houston,0,0,0,0,0,2,52000000,0,0,0,0
-c:30924,datasynapse,software,acquired,137,41,USA,New York,0,0,0,0,1,19,28000000,33,0,1,0
-c:30985,megasoft consultants,consulting,acquired,224,200,USA,Herndon,0,0,0,0,0,0,15000000,0,0,0,0
-c:31059,acambis,biotech,acquired,276,54,GBR,Cambridge,0,0,0,0,0,5,564960000,0,0,0,0
-c:31066,computer pro,public_relations,acquired,306,113,USA,Duluth,0,0,0,0,0,0,7000000,0,0,0,0
-c:31115,lipidviro tech,biotech,acquired,576,265,USA,Salt Lake City,0,0,0,0,0,0,1320000,0,0,0,0
-c:31176,encysive pharmaceuticals,biotech,acquired,284,177,USA,Houston,0,0,2,88950000,1,3,195000000,0,0,0,0
-c:31179,eusa pharma,biotech,acquired,263,58,GBR,Oxford,0,0,4,54200000,0,5,650000000,0,0,0,0
-c:31265,vidus ocular,biotech,acquired,0,0,USA,unknown,0,0,0,0,1,3,1890000,0,0,0,0
-c:31351,biomol international,biotech,acquired,240,99,USA,unknown,0,0,0,0,0,1,23140000,0,0,0,0
-c:31559,reliant technologies,biotech,acquired,164,40,USA,Mountain View,0,0,1,15000000,1,9,66200000,12,12,1,1
-c:31710,viropharma,biotech,acquired,900,396,USA,Exton,0,0,0,0,0,7,4200000000,50,0,1,0
-c:31715,liposonix,biotech,acquired,221,69,USA,Bothell,0,0,0,0,1,5,300000000,0,0,0,0
-c:31871,chengdu rongsheng pharmaceutical,biotech,acquired,0,0,CHN,Chengdu,0,0,0,0,0,1,84000000,0,0,0,0
-c:31888,digital fuel,software,acquired,221,56,USA,San Mateo,0,0,1,5000000,1,6,85000000,0,33,0,1
-c:32008,valipharma,biotech,acquired,350,110,GBR,London,0,0,0,0,0,2,725000,0,0,0,0
-c:3213,playfish,games_video,acquired,149,45,GBR,London,0,0,3,21000000,2,15,400000000,30,30,1,1
-c:32167,adiana,biotech,acquired,214,87,USA,Redwood City,0,0,1,23000000,0,3,215000000,67,0,1,0
-c:32183,perot systems,enterprise,acquired,212,51,USA,Plano,0,0,0,0,3,16,3900000000,33,0,1,0
-c:3232,280 north,public_relations,acquired,860,667,unknown,unknown,0,0,2,250000,2,6,20000000,40,0,1,0
-c:32390,paladin labs,biotech,acquired,166,33,CAN,"St. Laurent, QC",0,0,0,0,0,2,1600000000,0,0,0,0
-c:32485,nestor traffic systems,other,acquired,320,95,USA,Providence,0,0,0,0,0,0,7080000,0,0,0,0
-c:3252,dayport,advertising,acquired,0,0,USA,Carlsbad,0,0,0,0,0,0,45000000,0,0,0,0
-c:32525,advancednetworx,consulting,acquired,320,51,USA,Morrisville,0,0,0,0,0,0,400000,0,0,0,0
-c:32536,alpha innotech,biotech,acquired,163,65,USA,San Leandro,0,0,0,0,0,1,19710000,0,0,0,0
-c:32628,environmental support solutions,software,acquired,165,47,USA,unknown,0,0,1,8000000,0,0,59000000,0,0,0,0
-c:32634,fortent,software,acquired,270,52,USA,New York,0,0,0,0,0,1,73500000,100,0,1,0
-c:32948,tecnofarma,biotech,acquired,146,61,unknown,unknown,0,0,0,0,0,0,33000000,0,0,0,0
-c:33081,motorola wireless,unknown,acquired,105,108,unknown,unknown,0,0,0,0,1,5,1200000000,0,20,0,1
-c:336,associated content,web,acquired,215,72,USA,Denver,0,0,3,21400000,3,12,90000000,50,0,1,0
-c:33640,topio,software,acquired,0,0,unknown,unknown,0,0,2,16000000,1,6,160000000,0,17,0,1
-c:33874,onyx pharmaceuticals,biotech,acquired,205,82,USA,South San Francisco,0,0,0,0,1,19,10500000000,37,0,1,0
-c:33886,jupiter shop channel,games_video,acquired,102,61,JPN,Tokyo,0,0,0,0,0,0,497000000,0,0,0,0
-c:33949,desk,enterprise,acquired,262,93,USA,San Francisco,0,0,2,5700000,3,12,50000000,43,14,1,1
-c:33986,seamicro,network_hosting,acquired,306,64,USA,Sunnyvale,0,0,2,35000000,1,3,334000000,67,33,1,1
-c:34000,breakingviews,public_relations,acquired,250,60,GBR,London,0,0,0,0,0,0,18000000,0,0,0,0
-c:34097,newsy,news,acquired,5256,1419,USA,Columbia,0,0,2,3500000,3,5,35000000,0,100,0,1
-c:3431,register,unknown,acquired,359,67,unknown,unknown,0,0,0,0,1,18,135000000,13,20,1,1
-c:3462,contentnext media,web,acquired,175,64,USA,New York,0,0,0,0,2,10,12500000,17,0,1,0
-c:3502,magento,ecommerce,acquired,250,92,USA,Los Angeles,0,0,1,22500000,2,10,180000000,25,25,1,1
-c:3535,homestead technologies,web,acquired,175,45,USA,Menlo Park,0,0,0,0,3,9,170000000,25,12,1,1
-c:35381,allaire,unknown,acquired,0,0,USA,Newton,0,0,0,0,1,9,360000000,22,0,1,0
-c:354,snapfish,network_hosting,acquired,240,60,USA,San Francisco,0,0,2,43500000,4,20,300000000,33,0,1,0
-c:35403,brontes technologies,hardware,acquired,0,0,unknown,unknown,0,0,0,0,1,3,95000000,67,33,1,1
-c:35424,readwriteweb,unknown,acquired,368,82,unknown,unknown,0,0,0,0,2,12,5000000,0,29,0,1
-c:35824,biovitrum,biotech,acquired,141,36,SWE,Stockholm,0,0,0,0,0,1,493000000,0,0,0,0
-c:36074,bioxell,biotech,acquired,181,60,ITA,Segrate (MI),0,0,0,0,1,6,41000000,0,0,0,0
-c:3610,clearwell systems,software,acquired,612,180,USA,Mountain View,0,0,2,29000000,3,6,410000000,75,50,1,1
-c:36429,iowa telecommunications services,public_relations,acquired,99,53,USA,Newton,0,0,0,0,0,4,1100000000,0,0,0,0
-c:36589,handylab,biotech,acquired,0,0,USA,Ann Arbor,0,0,0,0,0,1,275000000,100,0,1,0
-c:366,userplane,enterprise,acquired,200,49,USA,Santa Monica,0,0,0,0,5,13,40000000,0,14,0,1
-c:36703,ascent healthcare solutions,biotech,acquired,420,210,USA,Phoenix,0,0,0,0,0,2,525000000,0,0,0,0
-c:3686,game trust,software,acquired,382,152,USA,New York,0,0,2,9000000,1,3,20000000,33,33,1,1
-c:37096,tech for less,hardware,acquired,173,35,USA,Colorado Springs,0,0,0,0,0,0,30000000,0,0,0,0
-c:37110,nubb,games_video,acquired,152,42,unknown,unknown,0,0,0,0,0,0,27600000,0,0,0,0
-c:37174,xenos,enterprise,acquired,175,59,CAN,"Richmond Hill, Ontario",1,1,0,0,0,0,35500000,0,0,0,0
-c:37587,solar silicon resource group,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,307000000,0,0,0,0
-c:37671,relume technologies,manufacturing,acquired,189,94,USA,Oxford,0,0,2,7000000,0,1,15000000,0,0,0,0
-c:37686,global lighting technologies,hardware,acquired,239,58,TWN,Chung-Li,0,0,0,0,1,2,26000000,0,0,0,0
-c:3770,xoopit,web,acquired,171,41,USA,San Francisco,0,0,2,6500000,3,4,20000000,0,0,0,0
-c:37706,virtual press office,advertising,acquired,187,54,USA,Montclair,0,0,0,0,0,0,10000000,0,0,0,0
-c:37775,shanghai dacheng network technology,games_video,acquired,0,0,unknown,unknown,0,0,0,0,0,0,80000000,0,0,0,0
-c:37783,melodeo,games_video,acquired,103,43,USA,Seattle,0,0,1,7900000,2,3,30000000,67,0,1,0
-c:37956,aspect medical systems,software,acquired,160,96,unknown,unknown,0,0,0,0,1,9,58000000,11,0,1,0
-c:37986,acton pharmaceuticals,biotech,acquired,335,62,USA,Marlborough,0,0,4,36700005,1,4,135000000,0,0,0,0
-c:38039,xtellus,public_relations,acquired,244,70,USA,Morris Plains,0,0,1,8000000,0,4,33000000,50,0,1,0
-c:3825,palm,mobile,acquired,193,193,USA,Sunnyvale,0,0,1,100000000,4,47,1200000000,39,7,1,1
-c:38254,ibasis,mobile,acquired,122,60,USA,Burlington,0,0,0,0,1,5,93300000,50,0,1,0
-c:38638,novexel,biotech,acquired,217,104,FRA,Romainville,0,0,0,0,0,3,505000000,0,0,0,0
-c:38641,eaglepicher technologies,other,acquired,185,74,USA,Joplin,0,0,0,0,1,7,171900000,33,33,1,1
-c:39059,fidia advanced biopolymers,biotech,acquired,175,111,ITA,Abano Terme (PD),0,0,0,0,0,0,17100000,0,0,0,0
-c:39366,healthvision solutions,software,acquired,350,80,USA,Irving,0,0,0,0,0,5,160000000,0,0,0,0
-c:394,pickle,web,acquired,125,41,USA,Arlington,0,0,0,0,4,3,4100000,33,33,1,1
-c:39557,dotomi,advertising,acquired,400,184,USA,Chicago,0,0,0,0,3,8,295000000,75,25,1,1
-c:3962,guardianedge technologies,software,acquired,190,32,USA,San Mateo,0,0,3,19500000,1,10,70000000,100,0,1,0
-c:3963,foxytunes,games_video,acquired,172,70,unknown,unknown,0,0,1,0,2,5,40000000,0,0,0,0
-c:3977,odeo,web,acquired,137,52,USA,New York,0,0,1,0,2,15,1000000,33,11,1,1
-c:39791,hana card,hardware,acquired,0,0,KOR,unknown,0,0,0,0,0,0,343200000,0,0,0,0
-c:399,pringo,enterprise,acquired,200,101,USA,Los Angeles,0,0,0,0,3,5,10000000,0,0,0,0
-c:39960,telerate systems,other,acquired,0,0,ARE,Dubai,0,0,0,0,0,1,600000,0,0,0,0
-c:39987,california micro devices,unknown,acquired,427,60,unknown,unknown,0,0,0,0,1,4,108000000,33,0,1,0
-c:40066,medical billing specialist,unknown,acquired,253,65,unknown,unknown,0,0,0,0,0,0,4100000,0,0,0,0
-c:40203,adesta,unknown,acquired,247,83,unknown,unknown,0,0,0,0,0,0,66000000,0,0,0,0
-c:40213,broadview security,security,acquired,100,60,USA,Irving,0,0,0,0,0,0,2000000000,0,0,0,0
-c:40423,escreen,other,acquired,219,40,USA,Overland Park,0,0,0,0,0,1,270000000,0,0,0,0
-c:40703,wingspeed,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,250000,0,0,0,0
-c:4092,mediawhiz,advertising,acquired,365,270,USA,New York,0,0,0,0,2,5,10000000,33,0,1,0
-c:4143,pgp,software,acquired,121,57,USA,Menlo Park,0,0,3,51050012,2,12,300000000,50,0,1,0
-c:41876,intrinsity,semiconductor,acquired,167,56,USA,Austin,0,0,1,4000000,1,5,121000000,0,0,0,0
-c:42612,uhhmm,search,acquired,103,35,unknown,unknown,0,0,0,0,0,2,50000,0,0,0,0
-c:42945,satmex,public_relations,acquired,218,55,MEX,Mexico City,0,0,1,96250000,0,0,1140000000,0,0,0,0
-c:4312,kasenna,software,acquired,85,75,USA,Sunnyvale,0,0,1,11000000,0,6,79910000,0,0,0,0
-c:43670,syntaxin,biotech,acquired,182,78,GBR,Abingdon,0,0,3,71390000,1,1,206000000,0,0,0,0
-c:43688,riskmetrics,software,acquired,194,126,USA,New York,0,0,0,0,0,2,1550000000,0,0,0,0
-c:43832,loyalty lab,software,acquired,199,79,USA,San Francisco,0,0,3,11000000,1,4,23000000,50,0,1,0
-c:43983,freeforums,web,acquired,333,68,unknown,unknown,0,0,0,0,2,2,1000000,0,0,0,0
-c:44529,yankee candle company,manufacturing,acquired,354,82,USA,ROGERS,0,0,0,0,1,2,1750000000,0,0,0,0
-c:44693,tappin,enterprise,acquired,963,437,USA,Seattle,0,0,2,2293122,3,6,17000000,0,33,0,1
-c:44711,c c media,games_video,acquired,83,86,CHN,unknown,0,0,0,0,0,0,21000000,0,0,0,0
-c:44876,omthera pharmaceuticals,biotech,acquired,266,109,USA,Bedminster,0,0,3,58000000,0,6,443000000,100,0,1,0
-c:44893,fonestarz media,mobile,acquired,229,56,GBR,Cambridgeshire,0,0,1,6975497,1,1,4000000,0,0,0,0
-c:45126,insight communications,network_hosting,acquired,111,38,unknown,unknown,0,0,1,0,1,5,3000000000,60,20,1,1
-c:45604,livedoor,unknown,acquired,0,0,JPN,Tokyo,0,0,0,0,1,1,68000000,0,0,0,0
-c:45615,sintecmedia,software,acquired,0,0,USA,New York,0,0,2,10001589,1,14,103000000,0,0,0,0
-c:46011,molecular devices,biotech,acquired,229,77,USA,Sunnyvale,0,0,0,0,1,11,615000000,18,0,1,0
-c:46165,ekos,biotech,acquired,198,101,USA,Bothell,0,0,2,44000000,0,7,220000000,14,14,1,1
-c:4770,razorfish,consulting,acquired,1151,199,USA,Chicago,0,0,0,0,2,43,8200000,23,23,1,1
-c:47936,prairiefyre software,software,acquired,172,83,CAN,"Kanata, ON",0,0,0,0,1,2,20000000,0,0,0,0
-c:4804,sonic solutions,software,acquired,153,26,USA,Novato,0,0,0,0,2,5,720000000,0,0,0,0
-c:48266,benchmark broadcast systems,games_video,acquired,250,30,SGP,unknown,0,0,0,0,0,0,10000000,0,0,0,0
-c:4849,aprimo,web,acquired,277,71,USA,Indianapolis,0,0,1,14500000,2,8,525000000,0,0,0,0
-c:48508,actix,mobile,acquired,225,125,GBR,London,0,0,0,0,2,12,120000000,100,0,1,0
-c:4873,turbine,games_video,acquired,241,234,USA,Westwood,0,0,3,76600000,2,12,160000000,29,0,1,0
-c:49300,jitterjam,software,acquired,1700,700,USA,Bedford,0,0,0,0,2,3,6000000,0,0,0,0
-c:49332,cloupia,enterprise,acquired,432,170,USA,Santa Clara,0,0,1,3532577,1,1,125000000,0,0,0,0
-c:49442,wireimage,games_video,acquired,226,48,USA,New York,0,0,1,15000000,0,6,202000000,0,100,0,1
-c:49771,bresnan communications,network_hosting,acquired,141,31,USA,Bethpage,0,0,0,0,1,4,1360000000,0,0,0,0
-c:49782,genline,other,acquired,251,43,SWE,Johanneshov,0,0,0,0,0,0,6700000,0,0,0,0
-c:50206,snaptu,mobile,acquired,244,64,GBR,London,0,0,1,6000000,3,6,60000000,25,0,1,0
-c:5069,fugen solutions,web,acquired,160,110,USA,Sunnyvale,0,0,1,924752,0,3,7500000,0,0,0,0
-c:50727,singleplatform,web,acquired,207,34,USA,New York,0,0,3,4575000,3,10,100000000,40,20,1,1
-c:50820,testquest,software,acquired,158,46,USA,Minneapolis,0,0,1,7500000,0,1,2200000,0,0,0,0
-c:5094,vurv technology,software,acquired,125,62,USA,Jacksonville,0,0,1,5000000,0,4,128800000,0,0,0,0
-c:5097,taleo,software,acquired,97,32,USA,Dublin,0,0,0,0,2,34,1900000000,13,10,1,1
-c:50995,telsinc,unknown,acquired,159,94,BRA,SÃ£o Paulo - SP,0,0,0,0,0,0,38000000,0,0,0,0
-c:51125,hybricon,unknown,acquired,0,0,USA,Ayer,0,0,0,0,0,1,19000000,100,0,1,0
-c:51244,tableau,unknown,acquired,183,42,USA,Waukesha,0,0,0,0,1,0,12300000,0,0,0,0
-c:51271,netdragon websoft,unknown,acquired,189,64,CHN,Fuzhou,0,0,0,0,1,2,1850000000,0,0,0,0
-c:52139,interconnect devices,unknown,acquired,130,75,USA,Kansas City,0,0,0,0,0,0,185000000,0,0,0,0
-c:52232,scientific games racing,software,acquired,0,0,USA,Alpharetta,0,0,0,0,0,0,83000000,0,0,0,0
-c:52270,inform business impact,unknown,acquired,0,0,AUS,"Brisbane, QLD",0,0,0,0,0,0,40500000,0,0,0,0
-c:52349,inside network,web,acquired,261,34,unknown,unknown,0,0,0,0,2,2,14000000,100,0,1,0
-c:52368,vesystems,unknown,acquired,171,62,USA,Glendale,0,0,0,0,0,0,33000000,0,0,0,0
-c:52489,huizhou dongri digital,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,23000000,0,0,0,0
-c:52577,ge asset intelligence,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,17000000,0,0,0,0
-c:52982,sparco technologies,unknown,acquired,273,76,unknown,unknown,0,0,0,0,0,0,2400000,0,0,0,0
-c:53232,the tv,games_video,acquired,174,90,USA,Dulles,0,0,1,0,1,1,45000000,100,0,1,0
-c:53263,fflick,web,acquired,116,70,unknown,unknown,0,0,1,0,2,4,10000000,0,25,0,1
-c:53314,toptable,web,acquired,587,159,GBR,London,0,0,0,0,1,1,55000000,0,0,0,0
-c:53619,cardiocom,biotech,acquired,192,46,USA,Chanhassen,0,0,0,0,0,0,200000000,0,0,0,0
-c:53780,kiko,software,acquired,176,80,unknown,unknown,0,0,1,50000,1,4,258100,100,0,1,0
-c:53885,adgrok,advertising,acquired,400,128,USA,San Francisco,0,0,2,470000,3,3,10000000,0,0,0,0
-c:54030,penwest,biotech,acquired,172,70,unknown,unknown,0,0,0,0,0,1,168000000,0,0,0,0
-c:54506,3par,software,acquired,165,88,USA,Fremont,0,0,0,0,2,9,2350000000,25,0,1,0
-c:5456,shopandsave ca,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,5000,0,0,0,0
-c:5475,ars technica,web,acquired,277,84,USA,Chicago,0,0,0,0,2,11,25000000,50,0,1,0
-c:55141,spadac,software,acquired,191,68,USA,McLean,0,0,0,0,1,1,46000000,100,0,1,0
-c:55212,xircom,network_hosting,acquired,0,0,USA,Thousand Oaks,0,0,0,0,1,2,748000000,0,0,0,0
-c:56075,bolt peters,other,acquired,100,100,USA,San Francisco,0,0,0,0,2,1,50000000,0,0,0,0
-c:5638,about,web,acquired,182,54,USA,unknown,0,0,0,0,2,45,410000000,25,6,1,1
-c:56732,okairos,biotech,acquired,222,140,CHE,Basel,0,0,1,20500000,0,1,325000000,100,0,1,0
-c:569,shopzilla,web,acquired,768,142,USA,Los Angeles,0,0,0,0,5,41,560000000,26,11,1,1
-c:5695,massive,software,acquired,434,94,unknown,unknown,0,0,2,10000000,2,15,200000000,62,0,1,0
-c:571,shopping,web,acquired,374,69,USA,Brisbane,0,0,0,0,0,42,620000000,34,9,1,1
-c:57165,tensilica,software,acquired,120,73,USA,Santa Clara,0,0,0,0,2,5,380000000,50,50,1,1
-c:58141,analysts international,unknown,acquired,268,75,USA,Minneapolis,0,0,0,0,1,3,35000000,0,0,0,0
-c:58944,mopub,mobile,acquired,485,485,USA,San Francisco,0,0,4,18500000,3,11,350000000,80,0,1,0
-c:59176,kagoor networks,unknown,acquired,288,144,unknown,unknown,0,0,0,0,1,10,67500000,0,0,0,0
-c:594,modem media,web,acquired,0,0,USA,unknown,0,0,0,0,0,14,200000000,0,0,0,0
-c:59608,vessix vascular,medical,acquired,512,327,USA,Laguna Hills,0,0,2,27700000,0,2,300000000,0,0,0,0
-c:6021,qwil company,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,3800000,0,0,0,0
-c:60222,emachines,unknown,acquired,182,30,USA,Irvine,0,0,0,0,1,3,289500000,33,33,1,1
-c:605,espotting,advertising,acquired,0,0,USA,unknown,0,0,0,0,1,11,171600000,33,0,1,0
-c:606,miva,advertising,acquired,158,30,USA,New York,0,0,0,0,1,18,11600000,33,0,1,0
-c:61821,jump on it,ecommerce,acquired,349,84,AUS,unknown,0,0,1,5000000,0,0,40000000,0,0,0,0
-c:61915,zonein2,web,acquired,218,55,USA,Orange,0,0,0,0,0,2,8750000,0,0,0,0
-c:61933,hellosoft,network_hosting,acquired,221,82,USA,San JosÃ©,0,0,0,0,0,3,47000000,50,0,1,0
-c:62,skype,software,acquired,315,139,LUX,Luxembourg City,3,3,5,76805032,6,94,2600000000,40,4,1,1
-c:62012,recourse technologies,unknown,acquired,0,0,USA,Redwood City,0,0,0,0,1,3,135000000,50,0,1,0
-c:62432,ziplist,web,acquired,223,70,USA,Sterling,0,0,2,4500000,2,9,14000000,22,22,1,1
-c:62809,mercury interactive,unknown,acquired,160,40,USA,Mountain View,0,0,0,0,2,51,4500000000,20,9,1,1
-c:629,getty images,web,acquired,157,39,GBR,London,1,1,0,0,2,24,3300000000,6,35,1,1
-c:63153,eurand,biotech,acquired,278,111,NLD,Amsterdam,0,0,0,0,0,11,583000000,0,0,0,0
-c:63660,cambridge research instrumentation,biotech,acquired,58,37,USA,Woburn,0,0,0,0,1,4,20000000,50,0,1,0
-c:6428,insureme,web,acquired,226,61,USA,Englewood,0,0,0,0,1,0,85000000,0,0,0,0
-c:64371,stage smart,unknown,acquired,0,0,VGB,unknown,0,0,0,0,0,0,30000000,0,0,0,0
-c:64997,match point media,unknown,acquired,0,0,USA,New York,0,0,0,0,0,4,26000000,0,0,0,0
-c:66418,lineage power,cleantech,acquired,194,59,USA,Plano,0,0,0,0,1,2,520000000,100,100,1,1
-c:666,friends reunited,web,acquired,108,37,GBR,London,0,0,0,0,4,1,255700000,0,0,0,0
-c:66625,carepoint,biotech,acquired,0,0,USA,Cincinnati,0,0,1,27000000,0,1,223000000,0,0,0,0
-c:667,ign entertainment,games_video,acquired,144,114,USA,San Francisco,0,0,0,0,4,79,700000000,26,7,1,1
-c:6736,cupid,web,acquired,842,595,GBR,Edinburgh,1,1,0,0,2,7,6600000,0,0,0,0
-c:6742,ideal bite,web,acquired,300,120,USA,San Francisco,0,0,0,0,0,1,20000000,100,0,1,0
-c:6838,channel intelligence,web,acquired,256,85,USA,Celebration,0,0,1,3008970,4,5,125000000,0,0,0,0
-c:68760,cybertech international,unknown,acquired,319,60,NLD,Amsterdam,0,0,0,0,0,1,60000000,100,0,1,0
-c:69300,investment scorecard,unknown,acquired,200,200,USA,Nashville,0,0,0,0,1,4,50000000,0,0,0,0
-c:6948,ziplocal,search,acquired,144,144,CAN,Toronto,0,0,2,14003545,3,11,2450000,0,0,0,0
-c:70355,ereinsure,software,acquired,195,31,USA,Salt Lake City,0,0,0,0,0,0,37000000,0,0,0,0
-c:70369,cascade microtech,hardware,acquired,295,69,USA,Beaverton,0,0,0,0,1,2,27700000,0,0,0,0
-c:71615,fasulcore ltda,software,acquired,0,0,unknown,unknown,0,0,0,0,0,0,16000000,0,0,0,0
-c:71616,antamob,unknown,acquired,0,0,unknown,unknown,0,0,0,0,0,0,9900000,0,0,0,0
-c:71993,fast engines,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,1,30000000,100,0,1,0
-c:72,grandcentral,mobile,acquired,200,49,USA,Fremont,0,0,1,4000000,4,9,60000000,43,14,1,1
-c:72071,molex,unknown,acquired,159,51,USA,Lisle,0,0,0,0,0,1,7200000000,0,0,0,0
-c:72280,converteam,cleantech,acquired,298,66,FRA,Massy,0,0,0,0,0,0,3200000000,0,0,0,0
-c:72356,chemgenex pharmaceuticals,biotech,acquired,174,151,AUS,Geelong Vic,0,0,0,0,1,4,225000000,0,67,0,1
-c:725,imeem,music,acquired,310,127,USA,San Francisco,0,0,5,24750000,3,13,1000000,25,12,1,1
-c:73269,astex,biotech,acquired,200,69,GBR,Cambridge,0,0,0,0,1,4,55000000,33,0,1,0
-c:73510,streeteasy,real_estate,acquired,510,170,USA,New York,0,0,0,0,1,17,50000000,33,0,1,0
-c:73883,forumer,web,acquired,312,72,unknown,unknown,0,0,0,0,0,0,400000,0,0,0,0
-c:741,socialmedia,advertising,acquired,846,218,USA,San Francisco,0,0,3,10000000,3,23,3000000,44,6,1,1
-c:7449,iona technologies,enterprise,acquired,80,60,IRL,Dublin,0,0,0,0,1,10,162000000,22,0,1,0
-c:74928,crowdcompass,mobile,acquired,440,150,USA,Portland,0,0,1,1300000,2,5,10000000,0,0,0,0
-c:76089,brightwell technology,unknown,acquired,364,104,CAN,"Ottawa, Ontario",0,0,0,0,0,0,9000000,0,0,0,0
-c:7613,peakstream,software,acquired,180,130,USA,Redwood City,0,0,2,22000000,0,2,20300000,50,0,1,0
-c:7640,mobile365 fka inphomatch,unknown,acquired,150,150,unknown,unknown,0,0,1,13500000,1,4,425000000,50,0,1,0
-c:76831,goinstant,enterprise,acquired,283,60,CAN,Halifax,0,0,1,1700000,3,20,70000000,14,14,1,1
-c:77,adap tv,advertising,acquired,976,261,USA,San Mateo,0,0,5,48500000,3,27,405000000,42,0,1,0
-c:78020,woolik technologies,search,acquired,840,252,unknown,unknown,0,0,0,0,1,2,2200000,0,0,0,0
-c:78377,neighborhood diabetes,biotech,acquired,150,103,USA,Woburn,0,0,0,0,0,2,63000000,0,0,0,0
-c:78379,high performance technologies hpti,other,acquired,0,0,USA,Reston,0,0,0,0,1,4,143000000,50,50,1,1
-c:78466,globalexpense,web,acquired,215,40,GBR,London,0,0,0,0,0,0,23000000,0,0,0,0
-c:79431,pulse,news,acquired,2620,1167,USA,San Francisco,0,0,2,9800000,2,23,90000000,40,0,1,0
-c:7946,reconnex,software,acquired,541,136,USA,Mountain View,0,0,1,16000000,1,14,46000000,33,0,1,0
-c:8,postini,web,acquired,183,75,USA,San Carlos,0,0,0,0,0,16,625000000,45,0,1,0
-c:8022,equallogic,enterprise,acquired,254,93,USA,Nashua,0,0,0,0,2,7,1400000000,33,0,1,0
-c:8023,lefthand networks,enterprise,acquired,160,60,USA,Boulder,0,0,1,25000000,3,19,360000000,25,6,1,1
-c:80399,servidyne,enterprise,acquired,314,103,USA,Atlanta,0,0,0,0,0,0,12900000,0,0,0,0
-c:8041,discovery mining,web,acquired,275,67,USA,San Francisco,0,0,0,0,1,2,36000000,50,0,1,0
-c:81111,sound solutions,hardware,acquired,0,0,unknown,unknown,0,0,0,0,0,0,855000000,0,0,0,0
-c:8112,brands4friends,ecommerce,acquired,375,48,USA,Palo Alto,1,1,1,0,1,5,200000000,0,0,0,0
-c:81330,sophion bioscience,biotech,acquired,191,100,DNK,Ballerup,0,0,0,0,0,0,27900000,0,0,0,0
-c:822,twango,web,acquired,97,45,USA,Redmond,0,0,0,0,0,6,96800000,0,0,0,0
-c:82453,edhance,unknown,acquired,270,71,USA,Cambridge,0,0,0,0,1,4,10000000,0,0,0,0
-c:8361,saber,unknown,acquired,0,0,unknown,unknown,0,0,0,0,1,2,460000000,0,0,0,0
-c:84,aggregate knowledge,advertising,acquired,377,238,USA,San Mateo,0,0,8,74311925,0,21,119000000,31,15,1,1
-c:850,jamdat mobile,web,acquired,146,73,USA,Los Angeles,0,0,3,0,1,8,673600000,40,40,1,1
-c:8523,hands on mobile,mobile,acquired,296,68,USA,San Francisco,0,0,1,30000000,3,13,30000000,25,25,1,1
-c:854,lightsurf,web,acquired,0,0,USA,unknown,0,0,0,0,0,3,270000000,33,0,1,0
-c:86083,bna,search,acquired,204,70,USA,Bethesda,0,0,0,0,1,1,990000000,0,0,0,0
-c:8946,broadbus technologies,hardware,acquired,149,87,USA,Libertyville,0,0,1,20000000,1,5,181000000,50,0,1,0
-c:8990,springsource,software,acquired,214,73,USA,San Mateo,0,0,2,25000000,2,18,362000000,29,14,1,1
-c:9150,spss,software,acquired,100,100,USA,Chicago,0,0,0,0,0,15,1200000000,38,0,1,0
-c:9228,half,ecommerce,acquired,132,56,unknown,unknown,0,0,0,0,2,9,350000000,67,0,1,0
-c:9513,instantservice,web,acquired,258,55,USA,Seattle,0,0,0,0,1,5,17000000,100,0,1,0
-c:9532,webex,web,acquired,134,47,USA,Santa Clara,0,0,0,0,0,14,2900000000,10,10,1,1
-c:971,playspan,games_video,acquired,1050,327,USA,Santa Clara,0,0,4,46300000,4,12,190000000,50,12,1,1
-c:9737,axismobile,mobile,acquired,315,84,ISR,Tel-Aviv,0,0,1,3000000,1,4,4900000,0,0,0,0
-c:9744,axis,mobile,acquired,119,72,IDN,"Jl. Mega Kuningan Barat Kav. E4.3 No. 2, Jakarta",0,0,0,0,2,10,865000000,0,0,0,0
-c:9949,pptv,games_video,acquired,154,44,CHN,Shanghai,0,0,4,286500000,2,3,400000000,0,0,0,0
-c:999,buddystumbler,web,acquired,360,216,USA,Hayward,0,0,0,0,1,1,113000,0,0,0,0
+company_id,normalized_name,category_code,status,logo_width,logo_height,country_code,state_code,city,investment_rounds,invested_companies,funding_rounds,funding_total_usd,milestones,relationships,aquisition_price_amount,top25pct,top50pct,istop25,istop26_50,name_length
+c:10,flektor,games_video,acquired,186,85,USA,CA,Culver City,0,0,0,0,0,6,20000000,0,0,0,0,7
+c:1001,friendfeed,web,acquired,200,56,USA,CA,Mountain View,0,0,1,5000000,3,14,47500000,64,18,1,1,10
+c:102572,sensing system,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,8500000,0,0,0,0,14
+c:10479,vantagenet,web,acquired,153,62,unknown,unknown,unknown,0,0,0,0,0,2,550000,0,0,0,0,10
+c:1059,dotspotter,web,acquired,200,45,USA,unknown,unknown,0,0,0,0,3,1,20000000,0,0,0,0,10
+c:10656,highschoolalumni,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1000000,0,0,0,0,16
+c:1070,eloqua,enterprise,acquired,247,91,USA,VA,Vienna,0,0,2,35800000,4,26,871000000,35,15,1,1,6
+c:11216,securent,software,acquired,164,56,USA,CA,Mountain View,0,0,0,0,1,2,100000000,0,0,0,0,8
+c:11694,four11,web,acquired,208,65,unknown,unknown,unknown,0,0,0,0,1,3,92000000,100,0,1,0,6
+c:11725,log me on,unknown,acquired,124,52,unknown,unknown,unknown,0,0,0,0,0,1,10000000,100,0,1,0,9
+c:1194,pickspal,games_video,acquired,200,53,USA,CA,Mountain View,0,0,4,15000000,2,2,9500000,0,0,0,0,8
+c:11947,baazee,unknown,acquired,250,64,unknown,unknown,unknown,0,0,0,0,1,2,50000000,0,0,0,0,6
+c:11948,eachnet,web,acquired,133,67,unknown,unknown,unknown,0,0,0,0,0,0,150000000,0,0,0,0,7
+c:12178,exacttarget,software,acquired,150,80,USA,IN,Indianapolis,0,0,7,238209999,3,29,2500000000,12,4,1,1,11
+c:1224,peer39,advertising,acquired,167,58,USA,NY,New York,0,0,7,29915001,5,18,15500000,60,0,1,0,6
+c:1234,vitrue,enterprise,acquired,142,92,USA,GA,Atlanta,0,0,4,33000000,5,26,300000000,29,7,1,1,6
+c:126,sidestep,web,acquired,168,59,USA,CA,Santa Clara,0,0,4,32000000,4,12,180000000,70,0,1,0,8
+c:12625,mezimedia,web,acquired,121,77,USA,CA,Monrovia,0,0,0,0,0,0,352000000,0,0,0,0,9
+c:12662,mediaselling,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1430000,0,0,0,0,12
+c:12734,qwitter,web,acquired,327,91,unknown,unknown,unknown,0,0,0,0,2,0,11111,0,0,0,0,7
+c:1285,compete,consulting,acquired,600,200,USA,MA,Boston,0,0,4,33000000,5,35,150000000,38,0,1,0,7
+c:1288,chintano,advertising,acquired,330,111,USA,WA,Seattle,0,0,0,0,0,9,30000000,20,40,1,1,8
+c:13012,moviefone,games_video,acquired,270,270,USA,IL,Chicago,0,0,0,0,2,2,525000000,100,0,1,0,9
+c:13108,inmarsat,unknown,acquired,160,83,unknown,unknown,unknown,0,0,0,0,0,2,25000000,100,0,1,0,8
+c:13168,trovix,search,acquired,152,56,USA,CA,Mountain View,0,0,2,18250000,1,3,72500000,100,0,1,0,6
+c:132,last fm,music,acquired,66,42,GBR,unknown,London,0,0,1,5000000,5,21,280000000,58,0,1,0,7
+c:1337,visual sciences,web,acquired,185,62,USA,CA,San Diego,0,0,0,0,0,6,394000000,20,0,1,0,15
+c:13518,quickarrow,software,acquired,175,58,USA,TX,Austin,0,0,0,0,1,1,19400000,0,100,0,1,10
+c:1361,realage,web,acquired,129,56,USA,CA,San Diego,0,0,0,0,1,8,100000000,20,0,1,0,7
+c:13781,softimage,software,acquired,104,25,CAN,unknown,Montreal,0,0,0,0,1,4,35000000,0,0,0,0,9
+c:138072,ekr therapeutics,biotech,acquired,204,84,USA,NJ,Bedminster,0,0,0,0,0,3,150000000,0,0,0,0,16
+c:13864,digitalthink,unknown,acquired,0,0,USA,CA,San Francisco,0,0,0,0,1,10,120000000,30,0,1,0,12
+c:139031,ixos software ag,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,206000000,100,0,1,0,16
+c:139237,trustgo,security,acquired,180,180,USA,CA,Santa Clara,0,0,2,1500000,1,2,36000000,0,0,0,0,7
+c:140137,decompras,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,70000,0,0,0,0,9
+c:140823,stellartv,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5200000,0,0,0,0,9
+c:141501,rempex pharmaceuticals,biotech,acquired,276,61,USA,CA,San Diego,0,0,1,67500000,1,11,464000000,30,0,1,0,22
+c:141917,point,ecommerce,acquired,120,49,SWE,unknown,Stockholm,0,0,0,0,0,0,820000000,0,0,0,0,5
+c:142004,snip it,web,acquired,218,225,USA,CA,San Francisco,0,0,0,0,2,3,10000000,50,0,1,0,7
+c:14300,zilog,unknown,acquired,293,53,unknown,unknown,unknown,0,0,0,0,1,8,62400000,0,43,0,1,5
+c:1450,phanfare,web,acquired,183,67,USA,NJ,Princeton,0,0,3,5000000,4,4,2000000,100,0,1,0,8
+c:146449,bold software,software,acquired,171,37,USA,KS,Wichita,0,0,0,0,0,0,16500000,0,0,0,0,13
+c:1465,sendori,advertising,acquired,331,75,unknown,unknown,unknown,0,0,1,800000,3,9,25000000,50,17,1,1,7
+c:14861,vocollect,hardware,acquired,420,78,USA,PA,Pittsburgh,0,0,0,0,1,13,190000000,0,0,0,0,9
+c:15088,sterling commerce,software,acquired,185,159,USA,OH,Dublin,0,0,0,0,1,9,3900000000,11,11,1,1,17
+c:1541,dapper,advertising,acquired,200,53,USA,CA,San Francisco,0,0,1,3000000,4,19,55000000,53,0,1,0,6
+c:15436,nstein technologies,software,acquired,124,64,CAN,unknown,Montreal,0,0,0,0,3,9,34000000,0,0,0,0,19
+c:15451,radiance,network_hosting,acquired,0,0,unknown,unknown,unknown,0,0,1,26000000,1,5,5000000,50,0,1,0,8
+c:1552,56,games_video,acquired,2492,1863,CHN,unknown,Guangzhou,0,0,2,30000000,4,2,80000000,0,0,0,0,2
+c:15871,montavista software,software,acquired,168,56,USA,CA,Santa Clara,0,0,1,21000000,1,4,50000000,25,0,1,0,19
+c:159667,nano publishing,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,350000,0,0,0,0,15
+c:161152,vital support systems,enterprise,acquired,229,100,USA,IA,Urbandale,0,0,0,0,0,0,45000000,0,0,0,0,21
+c:16271,mu dynamics,network_hosting,acquired,297,96,USA,CA,Sunnyvale,0,0,3,24000000,1,5,40000000,80,0,1,0,11
+c:16616,network physics,software,acquired,0,0,USA,CA,Mountain View,0,0,1,8630000,1,3,10000000,33,33,1,1,15
+c:16726,capitalstream,enterprise,acquired,214,52,unknown,unknown,unknown,0,0,0,0,1,3,40000000,33,0,1,0,13
+c:1674,infinity box,web,acquired,600,600,USA,FL,Tampa,0,0,2,118000,3,10,35000000,0,0,0,0,12
+c:169318,orthohelix surgical designs,hardware,acquired,196,40,USA,OH,Medina,0,0,0,0,0,1,135000000,0,0,0,0,27
+c:1705,tripadvisor,web,acquired,700,412,USA,MA,Newton,1,1,1,0,3,38,210000000,50,0,1,0,11
+c:171191,tiny lino,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,4900,0,0,0,0,9
+c:17205,com2us,mobile,acquired,115,19,USA,CA,Menlo Park,1,1,1,8000000,2,4,65000000,50,0,1,0,6
+c:1722,jellyfish,web,acquired,200,55,USA,WI,Middleton,0,0,1,5000000,0,2,50000000,0,0,0,0,9
+c:172326,exacq technologies,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,150000000,0,0,0,0,18
+c:17282,symwave,semiconductor,acquired,260,68,USA,CA,Laguna Niguel,0,0,3,26200000,1,4,8300000,0,0,0,0,7
+c:17332,linux networx,software,acquired,308,28,USA,UT,Bluffdale,0,0,2,47000000,1,3,90000000,0,0,0,0,13
+c:17334,designart networks,semiconductor,acquired,219,77,ISR,unknown,Raanana,0,0,2,2000000,1,2,144000000,50,0,1,0,18
+c:173926,vanity fair,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,350000000,0,0,0,0,11
+c:17459,netstreams,games_video,acquired,259,122,USA,TX,Austin,0,0,2,18200000,1,3,4000000,0,33,0,1,10
+c:17619,synapticmash,software,acquired,171,33,USA,WA,Seattle,0,0,1,5000000,2,1,10000000,100,100,1,1,12
+c:177608,stus i softwares,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5000000,0,0,0,0,16
+c:17847,safeboot,software,acquired,112,26,USA,CA,Santa Clara,0,0,0,0,0,0,350000000,0,0,0,0,8
+c:178830,virtual solutions,software,acquired,200,56,USA,MA,Cambridge,0,0,1,0,1,2,7600000,50,0,1,0,17
+c:1789,nuconomy,advertising,acquired,160,41,USA,CA,San Francisco,0,0,2,3300000,3,4,3000000,0,0,0,0,8
+c:179507,scaleio,software,acquired,263,84,USA,CA,Palo Alto,0,0,1,12000000,2,1,200000000,0,0,0,0,7
+c:179713,coram specialty infusion,unknown,acquired,241,84,USA,CO,Denver,0,0,0,0,1,4,2100000000,50,25,1,1,24
+c:179828,skycig cigarette,hardware,acquired,256,256,unknown,unknown,unknown,0,0,0,0,0,0,49,0,0,0,0,16
+c:18,lala,games_video,acquired,160,81,USA,CA,Palo Alto,0,0,4,44150000,6,5,80000000,50,0,1,0,4
+c:18121,2wire,web,acquired,168,54,USA,CA,San Jose,0,0,0,0,1,20,475000000,28,6,1,1,5
+c:18134,sonicwall,security,acquired,149,45,USA,CA,San Jose,0,0,0,0,3,18,717000000,29,14,1,1,9
+c:18315,babble,news,acquired,77,74,USA,NY,New York,0,0,3,6250000,2,6,40000000,50,50,1,1,6
+c:18689,orsus solutions usa,software,acquired,222,57,USA,CA,Irvine,0,0,1,3000000,1,1,22000000,0,0,0,0,19
+c:19,helio,mobile,acquired,245,100,USA,CA,Los Angeles,0,0,0,0,0,13,39000000,20,0,1,0,5
+c:190514,ceemly,mobile,acquired,512,512,ITA,unknown,Castelfranco Veneto,0,0,0,0,0,3,5000,0,0,0,0,6
+c:190613,bazaar daily uk,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,1,1000,0,0,0,0,15
+c:190614,gladeon entertainment,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,1,250000,0,0,0,0,21
+c:191014,frag,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,100000,0,0,0,0,4
+c:192,kaboodle,ecommerce,acquired,171,171,USA,CA,Sunnyvale,0,0,3,5000000,0,6,18000000,0,0,0,0,8
+c:19531,kenexa,software,acquired,2106,528,USA,PA,Wayne,0,0,0,0,2,6,1300000000,0,0,0,0,6
+c:195881,the about group,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,300000000,0,0,0,0,15
+c:198266,kanchiads,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,10000,0,0,0,0,9
+c:19947,circulite,medical,acquired,175,48,USA,NJ,Teaneck,0,0,2,62500000,0,2,30000000,50,0,1,0,9
+c:19971,liveoffice,network_hosting,acquired,272,72,USA,CA,Torrance,0,0,0,0,2,14,115000000,60,20,1,1,10
+c:200534,santarus,biotech,acquired,209,44,USA,CA,San Diego,0,0,0,0,0,8,2600000000,60,0,1,0,8
+c:201,technologyguide,web,acquired,0,0,USA,OH,Cincinnati,0,0,0,0,0,2,15000000,0,0,0,0,15
+c:201894,centerbeam,unknown,acquired,175,86,USA,CA,Sunnyvale,0,0,1,1000000,1,7,22000000,17,0,1,0,10
+c:204137,scriptdorks,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,75000,0,0,0,0,11
+c:20451,tatto media,advertising,acquired,250,76,USA,MA,Boston,0,0,0,0,2,6,60000000,0,0,0,0,11
+c:207923,hotmail,unknown,acquired,87,65,unknown,unknown,unknown,0,0,0,0,1,6,400000000,83,0,1,0,7
+c:208167,pioneer surgical technology,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,6,130000000,17,0,1,0,27
+c:20847,nimsoft,software,acquired,230,89,USA,CA,Redwood City,0,0,2,22300000,3,11,350000000,40,0,1,0,7
+c:210478,andersonbrecon,biotech,acquired,400,99,USA,IL,ROCKFORD,0,0,1,75000000,0,0,308000000,0,0,0,0,14
+c:210869,medical metrx solutions,biotech,acquired,172,61,unknown,unknown,unknown,0,0,1,0,0,0,20000000,0,0,0,0,23
+c:210911,ez prints,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,30000000,0,0,0,0,9
+c:21226,red mccombs media,advertising,acquired,100,31,USA,TX,Austin,0,0,0,0,0,0,7900000,0,0,0,0,17
+c:21285,amd handheld graphics,semiconductor,acquired,136,46,USA,CA,Sunnyvale,0,0,0,0,0,1,65000000,0,0,0,0,21
+c:215,recipezaar,web,acquired,147,100,USA,WA,Vashon,0,0,0,0,0,2,25000000,0,0,0,0,10
+c:21535,globalscholar,other,acquired,155,55,USA,WA,Bellevue,0,0,1,27000000,0,4,140000000,33,0,1,0,13
+c:216976,advanced liquid logic,hardware,acquired,250,55,USA,NC,Morrisville,0,0,3,3000001,1,1,96000000,0,0,0,0,21
+c:21838,nanny providers canada,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,0,500000,0,0,0,0,22
+c:21940,bipar sciences,biotech,acquired,140,62,USA,CA,Brisbane,0,0,4,73000000,0,8,500000000,50,25,1,1,14
+c:21982,affair match,web,acquired,593,140,unknown,unknown,unknown,0,0,0,0,0,0,1000000,0,0,0,0,12
+c:21986,enpocket,mobile,acquired,145,76,unknown,unknown,unknown,0,0,1,2000000,1,10,100000000,33,0,1,0,8
+c:220985,arinc,other,acquired,302,81,USA,MD,Annapolis,0,0,0,0,1,1,1390000000,0,0,0,0,5
+c:221032,zoltek,nanotech,acquired,558,81,USA,MO,St. Louis,0,0,0,0,1,1,584000000,0,0,0,0,6
+c:221117,comztek,other,acquired,131,39,ZAF,unknown,Midrand,0,0,0,0,0,1,8800000,0,0,0,0,7
+c:2221,qype,web,acquired,763,290,DEU,unknown,Hamburg,0,0,4,23084124,4,10,50000000,33,0,1,0,4
+c:222658,enigma,software,acquired,177,50,ISR,unknown,Herzliya,0,0,0,0,2,6,10000000,33,0,1,0,6
+c:2250,picscout,web,acquired,1661,294,ISR,unknown,Hertzelia,0,0,0,0,3,7,20000000,50,0,1,0,8
+c:22505,creditcards,web,acquired,100,50,USA,NY,New York,0,0,1,58800000,2,9,145000000,0,0,0,0,11
+c:226030,justchalo,mobile,acquired,150,154,USA,CA,Saratoga,0,0,0,0,0,2,11000000,0,0,0,0,9
+c:22764,focusframe,consulting,acquired,294,121,USA,CA,San Jose,0,0,0,0,1,2,34300000,0,0,0,0,10
+c:228,cyworld,web,acquired,294,81,KOR,unknown,Seoul,0,0,0,0,4,1,7140000,0,0,0,0,7
+c:228105,repconstrickland,other,acquired,217,104,USA,TX,Corpus Christi,0,0,0,0,0,0,455000000,0,0,0,0,16
+c:22989,eglue business technologies,software,acquired,307,92,USA,NJ,Hoboken,0,0,3,27000000,0,0,35000000,0,0,0,0,27
+c:230886,o2 ireland,unknown,acquired,118,100,IRL,unknown,Dublin,0,0,1,3859800,1,4,1100000000,0,0,0,0,10
+c:23098,miyowa,mobile,acquired,210,83,USA,CA,San Francisco,0,0,2,11725600,2,3,59000000,0,0,0,0,6
+c:23241,sigma designs,semiconductor,acquired,209,111,unknown,unknown,unknown,0,0,0,0,1,7,160000000,25,0,1,0,13
+c:2332,paramount pictures,games_video,acquired,700,382,USA,NY,New York,0,0,0,0,0,18,10000000000,41,12,1,1,18
+c:233535,asdamerica,unknown,acquired,345,67,USA,CO,Carbondale,0,0,0,0,0,0,542000000,0,0,0,0,10
+c:23521,musiwave,mobile,acquired,0,0,unknown,unknown,unknown,0,0,1,0,1,5,121000000,25,0,1,0,8
+c:235405,agero,ecommerce,acquired,291,118,USA,MA,Medford,0,0,0,0,1,8,530000000,0,0,0,0,5
+c:2372,danger,mobile,acquired,150,25,USA,CA,Palo Alto,0,0,4,118300000,2,18,500000000,30,0,1,0,6
+c:237908,91 wireless,unknown,acquired,279,139,CHN,unknown,unknown,0,0,0,0,1,0,1900000000,0,0,0,0,11
+c:238110,storeage,other,acquired,96,42,unknown,unknown,unknown,0,0,1,4000000,0,0,50000000,0,0,0,0,8
+c:238643,talon therapeutics,biotech,acquired,289,107,USA,CA,South San Francisco,0,0,1,10315800,1,2,11300000,50,0,1,0,18
+c:239331,livio radio,hardware,acquired,215,56,USA,MI,Ferndale,0,0,3,4296519,1,3,9000000,0,0,0,0,11
+c:239875,host europe group,other,acquired,142,96,GBR,unknown,Uxbridge,0,0,0,0,0,0,666000000,0,0,0,0,17
+c:242,ohloh,web,acquired,63,35,USA,WA,Bellevue,0,0,1,0,3,2,3000000,0,0,0,0,5
+c:242649,4hak developers,software,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1858,0,0,0,0,15
+c:244770,premier nutrition,other,acquired,573,132,USA,CA,Carlsbad,0,0,0,0,0,0,180000000,0,0,0,0,17
+c:244981,adam internet,software,acquired,266,47,AUS,unknown,South Australia,0,0,0,0,0,0,60000000,0,0,0,0,13
+c:24565,cellatope,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5000000,0,0,0,0,9
+c:2467,eds,enterprise,acquired,239,84,USA,TX,Plano,1,1,0,0,1,58,2600000000000,11,2,1,1,3
+c:247484,paramount solar,cleantech,acquired,255,118,USA,CA,Roseville,0,0,0,0,0,5,120000000,0,0,0,0,15
+c:24762,vatera hu,unknown,acquired,116,63,unknown,unknown,unknown,0,0,0,0,0,0,9000000,0,0,0,0,9
+c:24863,axsys,biotech,acquired,108,61,USA,PA,Chadds Ford,0,0,0,0,0,3,643000000,0,0,0,0,5
+c:2505,fast search transfer,search,acquired,153,68,USA,CA,San Mateo,0,0,0,0,1,19,1200000000,14,0,1,0,20
+c:25123,proprius,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,75000000,100,0,1,0,8
+c:25249,primaeva medical,biotech,acquired,159,89,USA,CA,Pleasanton,0,0,3,14250000,0,0,30000000,0,0,0,0,16
+c:25438,monogram biosciences,biotech,acquired,284,88,USA,CA,South San Francisco,0,0,0,0,1,4,107000000,0,25,0,1,20
+c:25666,netxen,semiconductor,acquired,137,78,unknown,unknown,unknown,0,0,0,0,1,3,21000000,67,0,1,0,6
+c:257651,vacation rentals in gulf shore alabama,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,19000,0,0,0,0,38
+c:257665,vacation rentals hot springs arkansas,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,19600,0,0,0,0,37
+c:25772,wavesat,semiconductor,acquired,245,67,CAN,unknown,"Montreal, Quebec",0,0,2,14810000,1,8,10000000,50,50,1,1,7
+c:25778,magen biosciences,biotech,acquired,780,120,USA,MA,Waltham,0,0,0,0,0,3,14500000,0,0,0,0,17
+c:257920,vacation rentals breckenridge colorado,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,12654,0,0,0,0,38
+c:257949,vacation rentals rehoboth delaware,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,23432,0,0,0,0,34
+c:257963,rmvh vacation rentals miami florida,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,12900,0,0,0,0,35
+c:257969,vrbo vacation rental homes,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,25000,0,0,0,0,26
+c:257971,juicy couture,fashion,acquired,273,55,unknown,unknown,unknown,0,0,0,0,1,0,195000000,0,0,0,0,13
+c:257983,vacation rentals blue ridge mountains georgia,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5000,0,0,0,0,45
+c:257988,vacation rentals mccall idaho,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,2500,0,0,0,0,29
+c:257995,vacation rentals portland maine,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5000,0,0,0,0,31
+c:258012,vacation rentals hampton new york,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,23000,0,0,0,0,33
+c:258014,vacation rentals asheville north carolina,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,2798,0,0,0,0,41
+c:258025,vacation rentals pocono lake pennsylvania,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,10000,0,0,0,0,41
+c:258043,vacation rentals kingston resort myrtle beach,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1659,0,0,0,0,45
+c:258047,kingston plantation myrtle beach,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,25000,0,0,0,0,32
+c:258048,vacation rentals kingston plantation,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1200,0,0,0,0,36
+c:258052,vacation rentals kingston plantation travel packages,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1200,0,0,0,0,52
+c:258055,kingston plantation vacation rentals,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,1200,0,0,0,0,36
+c:258061,vacation rentals austin texas,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,10000,0,0,0,0,29
+c:258067,vacation rentals virginia beach,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,21456,0,0,0,0,31
+c:25811,eldorado,mobile,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,0,22900000,0,0,0,0,8
+c:25815,stiefel,biotech,acquired,162,83,USA,NC,Research Triangle Park,0,0,0,0,1,5,3600000000,0,0,0,0,7
+c:259417,boca pharmacal,biotech,acquired,204,93,USA,FL,Coral Springs,0,0,0,0,0,0,225000000,0,0,0,0,14
+c:260007,mtem limited,unknown,acquired,0,0,GBR,unknown,Edinburgh,0,0,1,13234657,1,1,275000000,0,0,0,0,12
+c:26030,channel blade technologies,web,acquired,347,79,unknown,unknown,unknown,0,0,0,0,0,0,6270000,0,0,0,0,26
+c:261443,rochester medical,biotech,acquired,230,86,USA,MN,Stewartville,0,0,0,0,0,0,262000000,0,0,0,0,17
+c:26267,connect3 systems,advertising,acquired,143,40,USA,CA,Cerritos,0,0,0,0,0,0,13450000,0,0,0,0,16
+c:26273,infrasolve,software,acquired,100,31,GBR,unknown,"Staines, Middlesex",0,0,0,0,0,0,9020000,0,0,0,0,10
+c:26277,atexis,semiconductor,acquired,182,49,FRA,unknown,Fontenay TrÃ©signy,0,0,0,0,0,0,8650000,0,0,0,0,6
+c:263137,mars innov technologies,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,63950000,0,0,0,0,23
+c:26330,brightmail,web,acquired,203,56,unknown,unknown,unknown,0,0,0,0,1,7,370000000,40,0,1,0,10
+c:263552,glowork,enterprise,acquired,174,37,SAU,unknown,Riyadh,0,0,0,0,0,2,16000000,0,0,0,0,7
+c:26361,tidal software,network_hosting,acquired,126,52,USA,CA,Palo Alto,0,0,0,0,1,9,105000000,12,0,1,0,14
+c:264039,molecular profiles,biotech,acquired,281,107,GBR,unknown,Nottingham,0,0,0,0,0,0,25000000,0,0,0,0,18
+c:26469,netmanage,software,acquired,0,0,USA,CA,Cupertino,0,0,1,2700000,1,11,73300000,27,0,1,0,9
+c:264793,boise,manufacturing,acquired,158,52,USA,ID,Boise,0,0,0,0,0,4,1280000000,0,0,0,0,5
+c:26501,oberon associates,unknown,acquired,299,116,USA,VA,Manassas,0,0,0,0,0,0,170000000,0,0,0,0,17
+c:26548,sophos,software,acquired,110,37,GBR,unknown,Abingdon,0,0,0,0,2,18,830000000,40,7,1,1,6
+c:26617,moldflow,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,3,280650000,33,0,1,0,8
+c:26623,netcracker technology,unknown,acquired,199,51,USA,MA,Waltham,0,0,0,0,2,3,300000000,33,0,1,0,21
+c:26628,m a com,semiconductor,acquired,105,47,USA,MA,Lowell,0,0,1,0,1,8,425000000,57,14,1,1,7
+c:26639,metrologic instruments,hardware,acquired,216,52,USA,NJ,Blackwood,0,0,0,0,0,2,720000000,100,50,1,1,22
+c:266738,official payments,software,acquired,247,58,USA,GA,Norcross,0,0,0,0,0,0,109000000,0,0,0,0,17
+c:26685,sandforce,enterprise,acquired,255,86,USA,CA,Milpitas,0,0,4,46000000,2,17,400000000,50,0,1,0,9
+c:26704,me2 security,software,acquired,0,0,USA,PA,unknown,0,0,0,0,0,0,1600000,0,0,0,0,12
+c:26712,enable semiconductors,semiconductor,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,3500000,100,0,1,0,21
+c:267155,vintek,software,acquired,222,72,USA,PA,Philadelphia,0,0,0,0,0,0,53000000,0,0,0,0,6
+c:26717,veeco instruments,hardware,acquired,110,39,USA,NY,Plainview,0,0,1,4800000,2,3,30000000,33,0,1,0,17
+c:26719,crucial security,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,2,33000000,0,0,0,0,16
+c:26729,calistoga pharmaceuticals,biotech,acquired,217,124,USA,WA,Seattle,0,0,3,91000000,1,4,375000000,50,0,1,0,25
+c:26732,berkã¤na wireless,mobile,acquired,71,51,USA,CA,Campbell,0,0,3,0,0,7,56000000,50,0,1,0,17
+c:26774,presidium learning,software,acquired,176,72,USA,VA,Reston,0,0,2,9500000,0,1,53000000,0,0,0,0,18
+c:26851,travel channel,other,acquired,204,92,USA,MD,Chevy Chase,1,1,0,0,0,4,50000000,33,0,1,0,14
+c:268691,otto männer,manufacturing,acquired,179,69,DEU,unknown,Bahlingen,0,0,0,0,0,0,373,0,0,0,0,11
+c:26895,dial assurance,network_hosting,acquired,200,44,USA,CT,Stamford,0,0,0,0,0,0,23000,0,0,0,0,14
+c:26896,jiangsu shunda semiconductor development,unknown,acquired,0,0,CHN,unknown,Yangzhou,0,0,1,82000000,0,0,101900000,0,0,0,0,40
+c:26908,astech intermedia,public_relations,acquired,450,87,USA,CO,Denver,0,0,0,0,0,0,3110000,0,0,0,0,17
+c:26910,center line data,software,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5470000,0,0,0,0,16
+c:26922,reapplications,software,acquired,357,68,USA,CA,San Diego,0,0,0,0,0,0,9400000,0,0,0,0,14
+c:26956,muniservices,software,acquired,450,76,USA,CA,Fresno,0,0,0,0,0,0,29350000,0,0,0,0,12
+c:2699,clusty,web,acquired,122,66,USA,PA,Pittsburgh,0,0,0,0,0,0,5600000,0,0,0,0,6
+c:27,plaxo,web,acquired,713,224,USA,CA,Sunnyvale,0,0,4,28300000,4,27,150000000,47,0,1,0,5
+c:270108,vion food group,hospitality,acquired,376,81,NLD,unknown,EINDHOVEN,0,0,0,0,0,2,2170000000,0,0,0,0,15
+c:271034,arrow midstream,real_estate,acquired,529,129,USA,OK,Tulsa,0,0,0,0,0,3,750000000,0,0,0,0,15
+c:27136,klers,software,acquired,275,60,ITA,unknown,Roma,0,0,0,0,0,0,29900000,0,0,0,0,5
+c:27149,g b solutions,consulting,acquired,135,99,USA,VA,Reston,0,0,0,0,0,0,23700000,0,0,0,0,13
+c:27153,universal microwave,mobile,acquired,600,251,USA,FL,Brooksville,0,0,0,0,0,0,23200000,0,0,0,0,19
+c:27163,luminus devices,other,acquired,349,55,USA,MA,Billerica,0,0,4,135826373,2,3,22000000,0,0,0,0,15
+c:271692,managed hosting division of 8x8d b a central host,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,3000000,0,0,0,0,49
+c:272365,biotech international,biotech,acquired,992,747,FRA,unknown,Salon de Provence,0,0,0,0,0,0,80000000,0,0,0,0,21
+c:27245,contemporary computer services,software,acquired,108,90,USA,NY,Bohemia,0,0,0,0,0,0,15040000,0,0,0,0,30
+c:27273,integrated quality,software,acquired,69,64,USA,OH,Lewis Center,0,0,0,0,0,0,5900000,0,0,0,0,18
+c:273464,ife services,news,acquired,228,143,GBR,unknown,"Knutsford,Cheshire",0,0,0,0,0,3,36000000,0,0,0,0,12
+c:27349,mixer labs,search,acquired,123,44,USA,CA,San Mateo,0,0,2,0,2,3,5200000,67,0,1,0,10
+c:274045,liberty bancshares,finance,acquired,0,0,USA,MT,Springfield,0,0,0,0,0,4,280000000,0,0,0,0,18
+c:2751,napster,web,acquired,100,96,USA,CA,Los Angeles,0,0,0,0,3,26,121000000,11,11,1,1,7
+c:27779,iwatt,cleantech,acquired,120,36,USA,CA,Los Gatos,0,0,2,19400000,3,2,345000000,0,0,0,0,5
+c:27987,kitn media,web,acquired,352,92,unknown,unknown,unknown,0,0,0,0,1,1,50000000,0,0,0,0,10
+c:280568,coastal energy,cleantech,acquired,218,119,CYM,unknown,George Town,0,0,0,0,0,3,2210000000,0,0,0,0,14
+c:280608,singapore mercantile exchange smx,finance,acquired,154,97,SGP,unknown,Singapore,0,0,0,0,0,3,150000000,0,0,0,0,33
+c:280765,correvio,biotech,acquired,280,42,CHE,unknown,1201 Geneva,0,0,0,0,0,2,12000000,0,0,0,0,8
+c:281390,i motion,games_video,acquired,225,72,DEU,unknown,Koblenz District Court,0,0,0,0,0,0,21000000,0,0,0,0,8
+c:28333,neolane,software,acquired,187,61,FRA,unknown,Arcueil,0,0,2,33580000,1,3,600000000,0,0,0,0,7
+c:28386,crossflo systems,software,acquired,0,0,USA,CA,San Diego,0,0,0,0,0,2,21650000,0,0,0,0,16
+c:28489,cp secure,public_relations,acquired,0,0,USA,CA,Cupertino,0,0,0,0,0,3,17500000,0,0,0,0,9
+c:28491,amv holding,software,acquired,0,0,GBR,unknown,Marlow,0,0,0,0,0,2,20290000,0,0,0,0,11
+c:28502,liberty surf group,software,acquired,200,60,FRA,unknown,Paris,0,0,0,0,0,1,266000000,0,0,0,0,18
+c:28560,clearlobby,public_relations,acquired,0,0,USA,unknown,unknown,0,0,0,0,0,1,250000,0,0,0,0,10
+c:28564,nci mobility,software,acquired,0,0,USA,IL,Chicago,0,0,0,0,0,2,773000,0,0,0,0,12
+c:28618,financial computer support,software,acquired,0,0,USA,MD,Oakland,0,0,0,0,0,1,4930000,0,0,0,0,26
+c:28623,indigio group,software,acquired,0,0,USA,CO,Denver,0,0,0,0,1,1,6090000,0,0,0,0,13
+c:28670,school information systems,software,acquired,102,106,USA,MO,St. Louis,0,0,0,0,0,0,11030000,0,0,0,0,26
+c:28712,gsi commerce,enterprise,acquired,300,95,USA,PA,King of Prussia,0,0,0,0,3,20,2400000000,61,6,1,1,12
+c:28860,periculum services group,software,acquired,561,101,USA,MI,Portland,0,0,0,0,0,0,1400000,0,0,0,0,24
+c:28904,threesf,software,acquired,0,0,USA,CA,San Francisco,0,0,0,0,0,0,15000000,0,0,0,0,7
+c:29336,synapsis technology,consulting,acquired,141,53,USA,PA,Spring House,0,0,0,0,0,1,10000000,100,0,1,0,19
+c:29361,ubiquisys,mobile,acquired,220,89,GBR,unknown,Swindon,0,0,6,81000000,2,8,310000000,43,0,1,0,9
+c:29431,cyence international,software,acquired,0,0,USA,AL,BIRMINGHAM,0,0,0,0,0,0,31080000,0,0,0,0,20
+c:29450,algor,software,acquired,170,41,USA,PA,Pittsburgh,0,0,0,0,0,0,34000000,0,0,0,0,5
+c:2961,pooxi,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,5000000,100,0,1,0,5
+c:29786,vapps,unknown,acquired,0,0,USA,NJ,Hoboken,0,0,1,2500000,0,1,26600000,0,0,0,0,5
+c:30283,automotive,software,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,1,42000000,0,0,0,0,10
+c:30434,wonderware mobile solutions,software,acquired,205,58,USA,TX,Houston,0,0,0,0,0,2,52000000,0,0,0,0,27
+c:30924,datasynapse,software,acquired,137,41,USA,NY,New York,0,0,0,0,1,19,28000000,33,0,1,0,11
+c:30985,megasoft consultants,consulting,acquired,224,200,USA,VA,Herndon,0,0,0,0,0,0,15000000,0,0,0,0,20
+c:31059,acambis,biotech,acquired,276,54,GBR,unknown,Cambridge,0,0,0,0,0,5,564960000,0,0,0,0,7
+c:31066,computer pro,public_relations,acquired,306,113,USA,MN,Duluth,0,0,0,0,0,0,7000000,0,0,0,0,12
+c:31115,lipidviro tech,biotech,acquired,576,265,USA,UT,Salt Lake City,0,0,0,0,0,0,1320000,0,0,0,0,14
+c:31176,encysive pharmaceuticals,biotech,acquired,284,177,USA,TX,Houston,0,0,2,88950000,1,3,195000000,0,0,0,0,24
+c:31179,eusa pharma,biotech,acquired,263,58,GBR,unknown,Oxford,0,0,4,54200000,0,5,650000000,0,0,0,0,11
+c:31265,vidus ocular,biotech,acquired,0,0,USA,unknown,unknown,0,0,0,0,1,3,1890000,0,0,0,0,12
+c:31351,biomol international,biotech,acquired,240,99,USA,PA,unknown,0,0,0,0,0,1,23140000,0,0,0,0,20
+c:31559,reliant technologies,biotech,acquired,164,40,USA,CA,Mountain View,0,0,1,15000000,1,9,66200000,12,12,1,1,20
+c:31710,viropharma,biotech,acquired,900,396,USA,PA,Exton,0,0,0,0,0,7,4200000000,50,0,1,0,10
+c:31715,liposonix,biotech,acquired,221,69,USA,WA,Bothell,0,0,0,0,1,5,300000000,0,0,0,0,9
+c:31871,chengdu rongsheng pharmaceutical,biotech,acquired,0,0,CHN,unknown,Chengdu,0,0,0,0,0,1,84000000,0,0,0,0,32
+c:31888,digital fuel,software,acquired,221,56,USA,CA,San Mateo,0,0,1,5000000,1,6,85000000,0,33,0,1,12
+c:32008,valipharma,biotech,acquired,350,110,GBR,unknown,London,0,0,0,0,0,2,725000,0,0,0,0,10
+c:3213,playfish,games_video,acquired,149,45,GBR,unknown,London,0,0,3,21000000,2,15,400000000,30,30,1,1,8
+c:32167,adiana,biotech,acquired,214,87,USA,CA,Redwood City,0,0,1,23000000,0,3,215000000,67,0,1,0,6
+c:32183,perot systems,enterprise,acquired,212,51,USA,TX,Plano,0,0,0,0,3,16,3900000000,33,0,1,0,13
+c:3232,280 north,public_relations,acquired,860,667,unknown,unknown,unknown,0,0,2,250000,2,6,20000000,40,0,1,0,9
+c:32390,paladin labs,biotech,acquired,166,33,CAN,unknown,"St. Laurent, QC",0,0,0,0,0,2,1600000000,0,0,0,0,12
+c:32485,nestor traffic systems,other,acquired,320,95,USA,RI,Providence,0,0,0,0,0,0,7080000,0,0,0,0,22
+c:3252,dayport,advertising,acquired,0,0,USA,CA,Carlsbad,0,0,0,0,0,0,45000000,0,0,0,0,7
+c:32525,advancednetworx,consulting,acquired,320,51,USA,NC,Morrisville,0,0,0,0,0,0,400000,0,0,0,0,15
+c:32536,alpha innotech,biotech,acquired,163,65,USA,CA,San Leandro,0,0,0,0,0,1,19710000,0,0,0,0,14
+c:32628,environmental support solutions,software,acquired,165,47,USA,unknown,unknown,0,0,1,8000000,0,0,59000000,0,0,0,0,31
+c:32634,fortent,software,acquired,270,52,USA,NY,New York,0,0,0,0,0,1,73500000,100,0,1,0,7
+c:32948,tecnofarma,biotech,acquired,146,61,unknown,unknown,unknown,0,0,0,0,0,0,33000000,0,0,0,0,10
+c:33081,motorola wireless,unknown,acquired,105,108,unknown,unknown,unknown,0,0,0,0,1,5,1200000000,0,20,0,1,17
+c:336,associated content,web,acquired,215,72,USA,CO,Denver,0,0,3,21400000,3,12,90000000,50,0,1,0,18
+c:33640,topio,software,acquired,0,0,unknown,unknown,unknown,0,0,2,16000000,1,6,160000000,0,17,0,1,5
+c:33874,onyx pharmaceuticals,biotech,acquired,205,82,USA,CA,South San Francisco,0,0,0,0,1,19,10500000000,37,0,1,0,20
+c:33886,jupiter shop channel,games_video,acquired,102,61,JPN,unknown,Tokyo,0,0,0,0,0,0,497000000,0,0,0,0,20
+c:33949,desk,enterprise,acquired,262,93,USA,CA,San Francisco,0,0,2,5700000,3,12,50000000,43,14,1,1,4
+c:33986,seamicro,network_hosting,acquired,306,64,USA,CA,Sunnyvale,0,0,2,35000000,1,3,334000000,67,33,1,1,8
+c:34000,breakingviews,public_relations,acquired,250,60,GBR,unknown,London,0,0,0,0,0,0,18000000,0,0,0,0,13
+c:34097,newsy,news,acquired,5256,1419,USA,MO,Columbia,0,0,2,3500000,3,5,35000000,0,100,0,1,5
+c:3431,register,unknown,acquired,359,67,unknown,unknown,unknown,0,0,0,0,1,18,135000000,13,20,1,1,8
+c:3462,contentnext media,web,acquired,175,64,USA,NY,New York,0,0,0,0,2,10,12500000,17,0,1,0,17
+c:3502,magento,ecommerce,acquired,250,92,USA,CA,Los Angeles,0,0,1,22500000,2,10,180000000,25,25,1,1,7
+c:3535,homestead technologies,web,acquired,175,45,USA,CA,Menlo Park,0,0,0,0,3,9,170000000,25,12,1,1,22
+c:35381,allaire,unknown,acquired,0,0,USA,MA,Newton,0,0,0,0,1,9,360000000,22,0,1,0,7
+c:354,snapfish,network_hosting,acquired,240,60,USA,CA,San Francisco,0,0,2,43500000,4,20,300000000,33,0,1,0,8
+c:35403,brontes technologies,hardware,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,3,95000000,67,33,1,1,20
+c:35424,readwriteweb,unknown,acquired,368,82,unknown,unknown,unknown,0,0,0,0,2,12,5000000,0,29,0,1,12
+c:35824,biovitrum,biotech,acquired,141,36,SWE,unknown,Stockholm,0,0,0,0,0,1,493000000,0,0,0,0,9
+c:36074,bioxell,biotech,acquired,181,60,ITA,unknown,Segrate (MI),0,0,0,0,1,6,41000000,0,0,0,0,7
+c:3610,clearwell systems,software,acquired,612,180,USA,CA,Mountain View,0,0,2,29000000,3,6,410000000,75,50,1,1,17
+c:36429,iowa telecommunications services,public_relations,acquired,99,53,USA,IA,Newton,0,0,0,0,0,4,1100000000,0,0,0,0,32
+c:36589,handylab,biotech,acquired,0,0,USA,MI,Ann Arbor,0,0,0,0,0,1,275000000,100,0,1,0,8
+c:366,userplane,enterprise,acquired,200,49,USA,CA,Santa Monica,0,0,0,0,5,13,40000000,0,14,0,1,9
+c:36703,ascent healthcare solutions,biotech,acquired,420,210,USA,AZ,Phoenix,0,0,0,0,0,2,525000000,0,0,0,0,27
+c:3686,game trust,software,acquired,382,152,USA,NY,New York,0,0,2,9000000,1,3,20000000,33,33,1,1,10
+c:37096,tech for less,hardware,acquired,173,35,USA,CO,Colorado Springs,0,0,0,0,0,0,30000000,0,0,0,0,13
+c:37110,nubb,games_video,acquired,152,42,unknown,unknown,unknown,0,0,0,0,0,0,27600000,0,0,0,0,4
+c:37174,xenos,enterprise,acquired,175,59,CAN,unknown,"Richmond Hill, Ontario",1,1,0,0,0,0,35500000,0,0,0,0,5
+c:37587,solar silicon resource group,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,307000000,0,0,0,0,28
+c:37671,relume technologies,manufacturing,acquired,189,94,USA,MI,Oxford,0,0,2,7000000,0,1,15000000,0,0,0,0,19
+c:37686,global lighting technologies,hardware,acquired,239,58,TWN,unknown,Chung-Li,0,0,0,0,1,2,26000000,0,0,0,0,28
+c:3770,xoopit,web,acquired,171,41,USA,CA,San Francisco,0,0,2,6500000,3,4,20000000,0,0,0,0,6
+c:37706,virtual press office,advertising,acquired,187,54,USA,NJ,Montclair,0,0,0,0,0,0,10000000,0,0,0,0,20
+c:37775,shanghai dacheng network technology,games_video,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,80000000,0,0,0,0,35
+c:37783,melodeo,games_video,acquired,103,43,USA,WA,Seattle,0,0,1,7900000,2,3,30000000,67,0,1,0,7
+c:37956,aspect medical systems,software,acquired,160,96,unknown,unknown,unknown,0,0,0,0,1,9,58000000,11,0,1,0,22
+c:37986,acton pharmaceuticals,biotech,acquired,335,62,USA,MA,Marlborough,0,0,4,36700005,1,4,135000000,0,0,0,0,21
+c:38039,xtellus,public_relations,acquired,244,70,USA,NJ,Morris Plains,0,0,1,8000000,0,4,33000000,50,0,1,0,7
+c:3825,palm,mobile,acquired,193,193,USA,CA,Sunnyvale,0,0,1,100000000,4,47,1200000000,39,7,1,1,4
+c:38254,ibasis,mobile,acquired,122,60,USA,MA,Burlington,0,0,0,0,1,5,93300000,50,0,1,0,6
+c:38638,novexel,biotech,acquired,217,104,FRA,unknown,Romainville,0,0,0,0,0,3,505000000,0,0,0,0,7
+c:38641,eaglepicher technologies,other,acquired,185,74,USA,MO,Joplin,0,0,0,0,1,7,171900000,33,33,1,1,24
+c:39059,fidia advanced biopolymers,biotech,acquired,175,111,ITA,unknown,Abano Terme (PD),0,0,0,0,0,0,17100000,0,0,0,0,26
+c:39366,healthvision solutions,software,acquired,350,80,USA,TX,Irving,0,0,0,0,0,5,160000000,0,0,0,0,22
+c:394,pickle,web,acquired,125,41,USA,VA,Arlington,0,0,0,0,4,3,4100000,33,33,1,1,6
+c:39557,dotomi,advertising,acquired,400,184,USA,IL,Chicago,0,0,0,0,3,8,295000000,75,25,1,1,6
+c:3962,guardianedge technologies,software,acquired,190,32,USA,CA,San Mateo,0,0,3,19500000,1,10,70000000,100,0,1,0,25
+c:3963,foxytunes,games_video,acquired,172,70,unknown,unknown,unknown,0,0,1,0,2,5,40000000,0,0,0,0,9
+c:3977,odeo,web,acquired,137,52,USA,NY,New York,0,0,1,0,2,15,1000000,33,11,1,1,4
+c:39791,hana card,hardware,acquired,0,0,KOR,unknown,unknown,0,0,0,0,0,0,343200000,0,0,0,0,9
+c:399,pringo,enterprise,acquired,200,101,USA,CA,Los Angeles,0,0,0,0,3,5,10000000,0,0,0,0,6
+c:39960,telerate systems,other,acquired,0,0,ARE,unknown,Dubai,0,0,0,0,0,1,600000,0,0,0,0,16
+c:39987,california micro devices,unknown,acquired,427,60,unknown,unknown,unknown,0,0,0,0,1,4,108000000,33,0,1,0,24
+c:40066,medical billing specialist,unknown,acquired,253,65,unknown,unknown,unknown,0,0,0,0,0,0,4100000,0,0,0,0,26
+c:40203,adesta,unknown,acquired,247,83,unknown,unknown,unknown,0,0,0,0,0,0,66000000,0,0,0,0,6
+c:40213,broadview security,security,acquired,100,60,USA,TX,Irving,0,0,0,0,0,0,2000000000,0,0,0,0,18
+c:40423,escreen,other,acquired,219,40,USA,KS,Overland Park,0,0,0,0,0,1,270000000,0,0,0,0,7
+c:40703,wingspeed,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,250000,0,0,0,0,9
+c:4092,mediawhiz,advertising,acquired,365,270,USA,NY,New York,0,0,0,0,2,5,10000000,33,0,1,0,9
+c:4143,pgp,software,acquired,121,57,USA,CA,Menlo Park,0,0,3,51050012,2,12,300000000,50,0,1,0,3
+c:41876,intrinsity,semiconductor,acquired,167,56,USA,TX,Austin,0,0,1,4000000,1,5,121000000,0,0,0,0,10
+c:42612,uhhmm,search,acquired,103,35,unknown,unknown,unknown,0,0,0,0,0,2,50000,0,0,0,0,5
+c:42945,satmex,public_relations,acquired,218,55,MEX,unknown,Mexico City,0,0,1,96250000,0,0,1140000000,0,0,0,0,6
+c:4312,kasenna,software,acquired,85,75,USA,CA,Sunnyvale,0,0,1,11000000,0,6,79910000,0,0,0,0,7
+c:43670,syntaxin,biotech,acquired,182,78,GBR,unknown,Abingdon,0,0,3,71390000,1,1,206000000,0,0,0,0,8
+c:43688,riskmetrics,software,acquired,194,126,USA,NY,New York,0,0,0,0,0,2,1550000000,0,0,0,0,11
+c:43832,loyalty lab,software,acquired,199,79,USA,CA,San Francisco,0,0,3,11000000,1,4,23000000,50,0,1,0,11
+c:43983,freeforums,web,acquired,333,68,unknown,unknown,unknown,0,0,0,0,2,2,1000000,0,0,0,0,10
+c:44529,yankee candle company,manufacturing,acquired,354,82,USA,AZ,ROGERS,0,0,0,0,1,2,1750000000,0,0,0,0,21
+c:44693,tappin,enterprise,acquired,963,437,USA,WA,Seattle,0,0,2,2293122,3,6,17000000,0,33,0,1,6
+c:44711,c c media,games_video,acquired,83,86,CHN,unknown,unknown,0,0,0,0,0,0,21000000,0,0,0,0,9
+c:44876,omthera pharmaceuticals,biotech,acquired,266,109,USA,NJ,Bedminster,0,0,3,58000000,0,6,443000000,100,0,1,0,23
+c:44893,fonestarz media,mobile,acquired,229,56,GBR,unknown,Cambridgeshire,0,0,1,6975497,1,1,4000000,0,0,0,0,15
+c:45126,insight communications,network_hosting,acquired,111,38,unknown,unknown,unknown,0,0,1,0,1,5,3000000000,60,20,1,1,22
+c:45604,livedoor,unknown,acquired,0,0,JPN,unknown,Tokyo,0,0,0,0,1,1,68000000,0,0,0,0,8
+c:45615,sintecmedia,software,acquired,0,0,USA,NY,New York,0,0,2,10001589,1,14,103000000,0,0,0,0,11
+c:46011,molecular devices,biotech,acquired,229,77,USA,CA,Sunnyvale,0,0,0,0,1,11,615000000,18,0,1,0,17
+c:46165,ekos,biotech,acquired,198,101,USA,WA,Bothell,0,0,2,44000000,0,7,220000000,14,14,1,1,4
+c:4770,razorfish,consulting,acquired,1151,199,USA,TX,Chicago,0,0,0,0,2,43,8200000,23,23,1,1,9
+c:47936,prairiefyre software,software,acquired,172,83,CAN,unknown,"Kanata, ON",0,0,0,0,1,2,20000000,0,0,0,0,20
+c:4804,sonic solutions,software,acquired,153,26,USA,CA,Novato,0,0,0,0,2,5,720000000,0,0,0,0,15
+c:48266,benchmark broadcast systems,games_video,acquired,250,30,SGP,unknown,unknown,0,0,0,0,0,0,10000000,0,0,0,0,27
+c:4849,aprimo,web,acquired,277,71,USA,IN,Indianapolis,0,0,1,14500000,2,8,525000000,0,0,0,0,6
+c:48508,actix,mobile,acquired,225,125,GBR,unknown,London,0,0,0,0,2,12,120000000,100,0,1,0,5
+c:4873,turbine,games_video,acquired,241,234,USA,MA,Westwood,0,0,3,76600000,2,12,160000000,29,0,1,0,7
+c:49300,jitterjam,software,acquired,1700,700,USA,NH,Bedford,0,0,0,0,2,3,6000000,0,0,0,0,9
+c:49332,cloupia,enterprise,acquired,432,170,USA,CA,Santa Clara,0,0,1,3532577,1,1,125000000,0,0,0,0,7
+c:49442,wireimage,games_video,acquired,226,48,USA,NY,New York,0,0,1,15000000,0,6,202000000,0,100,0,1,9
+c:49771,bresnan communications,network_hosting,acquired,141,31,USA,NY,Bethpage,0,0,0,0,1,4,1360000000,0,0,0,0,22
+c:49782,genline,other,acquired,251,43,SWE,unknown,Johanneshov,0,0,0,0,0,0,6700000,0,0,0,0,7
+c:50206,snaptu,mobile,acquired,244,64,GBR,unknown,London,0,0,1,6000000,3,6,60000000,25,0,1,0,6
+c:5069,fugen solutions,web,acquired,160,110,USA,CA,Sunnyvale,0,0,1,924752,0,3,7500000,0,0,0,0,15
+c:50727,singleplatform,web,acquired,207,34,USA,NY,New York,0,0,3,4575000,3,10,100000000,40,20,1,1,14
+c:50820,testquest,software,acquired,158,46,USA,MN,Minneapolis,0,0,1,7500000,0,1,2200000,0,0,0,0,9
+c:5094,vurv technology,software,acquired,125,62,USA,FL,Jacksonville,0,0,1,5000000,0,4,128800000,0,0,0,0,15
+c:5097,taleo,software,acquired,97,32,USA,CA,Dublin,0,0,0,0,2,34,1900000000,13,10,1,1,5
+c:50995,telsinc,unknown,acquired,159,94,BRA,unknown,SÃ£o Paulo - SP,0,0,0,0,0,0,38000000,0,0,0,0,7
+c:51125,hybricon,unknown,acquired,0,0,USA,MA,Ayer,0,0,0,0,0,1,19000000,100,0,1,0,8
+c:51244,tableau,unknown,acquired,183,42,USA,WI,Waukesha,0,0,0,0,1,0,12300000,0,0,0,0,7
+c:51271,netdragon websoft,unknown,acquired,189,64,CHN,unknown,Fuzhou,0,0,0,0,1,2,1850000000,0,0,0,0,17
+c:52139,interconnect devices,unknown,acquired,130,75,USA,KS,Kansas City,0,0,0,0,0,0,185000000,0,0,0,0,20
+c:52232,scientific games racing,software,acquired,0,0,USA,GA,Alpharetta,0,0,0,0,0,0,83000000,0,0,0,0,23
+c:52270,inform business impact,unknown,acquired,0,0,AUS,unknown,"Brisbane, QLD",0,0,0,0,0,0,40500000,0,0,0,0,22
+c:52349,inside network,web,acquired,261,34,unknown,unknown,unknown,0,0,0,0,2,2,14000000,100,0,1,0,14
+c:52368,vesystems,unknown,acquired,171,62,USA,AZ,Glendale,0,0,0,0,0,0,33000000,0,0,0,0,9
+c:52489,huizhou dongri digital,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,23000000,0,0,0,0,22
+c:52577,ge asset intelligence,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,17000000,0,0,0,0,21
+c:52982,sparco technologies,unknown,acquired,273,76,unknown,unknown,unknown,0,0,0,0,0,0,2400000,0,0,0,0,19
+c:53232,the tv,games_video,acquired,174,90,USA,VA,Dulles,0,0,1,0,1,1,45000000,100,0,1,0,6
+c:53263,fflick,web,acquired,116,70,unknown,unknown,unknown,0,0,1,0,2,4,10000000,0,25,0,1,6
+c:53314,toptable,web,acquired,587,159,GBR,unknown,London,0,0,0,0,1,1,55000000,0,0,0,0,8
+c:53619,cardiocom,biotech,acquired,192,46,USA,MN,Chanhassen,0,0,0,0,0,0,200000000,0,0,0,0,9
+c:53780,kiko,software,acquired,176,80,unknown,unknown,unknown,0,0,1,50000,1,4,258100,100,0,1,0,4
+c:53885,adgrok,advertising,acquired,400,128,USA,CA,San Francisco,0,0,2,470000,3,3,10000000,0,0,0,0,6
+c:54030,penwest,biotech,acquired,172,70,unknown,unknown,unknown,0,0,0,0,0,1,168000000,0,0,0,0,7
+c:54506,3par,software,acquired,165,88,USA,CA,Fremont,0,0,0,0,2,9,2350000000,25,0,1,0,4
+c:5456,shopandsave ca,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,5000,0,0,0,0,14
+c:5475,ars technica,web,acquired,277,84,USA,IL,Chicago,0,0,0,0,2,11,25000000,50,0,1,0,12
+c:55141,spadac,software,acquired,191,68,USA,VA,McLean,0,0,0,0,1,1,46000000,100,0,1,0,6
+c:55212,xircom,network_hosting,acquired,0,0,USA,CA,Thousand Oaks,0,0,0,0,1,2,748000000,0,0,0,0,6
+c:56075,bolt peters,other,acquired,100,100,USA,CA,San Francisco,0,0,0,0,2,1,50000000,0,0,0,0,11
+c:5638,about,web,acquired,182,54,USA,unknown,unknown,0,0,0,0,2,45,410000000,25,6,1,1,5
+c:56732,okairos,biotech,acquired,222,140,CHE,unknown,Basel,0,0,1,20500000,0,1,325000000,100,0,1,0,7
+c:569,shopzilla,web,acquired,768,142,USA,CA,Los Angeles,0,0,0,0,5,41,560000000,26,11,1,1,9
+c:5695,massive,software,acquired,434,94,unknown,unknown,unknown,0,0,2,10000000,2,15,200000000,62,0,1,0,7
+c:571,shopping,web,acquired,374,69,USA,CA,Brisbane,0,0,0,0,0,42,620000000,34,9,1,1,8
+c:57165,tensilica,software,acquired,120,73,USA,CA,Santa Clara,0,0,0,0,2,5,380000000,50,50,1,1,9
+c:58141,analysts international,unknown,acquired,268,75,USA,MN,Minneapolis,0,0,0,0,1,3,35000000,0,0,0,0,22
+c:58944,mopub,mobile,acquired,485,485,USA,CA,San Francisco,0,0,4,18500000,3,11,350000000,80,0,1,0,5
+c:59176,kagoor networks,unknown,acquired,288,144,unknown,unknown,unknown,0,0,0,0,1,10,67500000,0,0,0,0,15
+c:594,modem media,web,acquired,0,0,USA,unknown,unknown,0,0,0,0,0,14,200000000,0,0,0,0,11
+c:59608,vessix vascular,medical,acquired,512,327,USA,CA,Laguna Hills,0,0,2,27700000,0,2,300000000,0,0,0,0,15
+c:6021,qwil company,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,3800000,0,0,0,0,12
+c:60222,emachines,unknown,acquired,182,30,USA,CA,Irvine,0,0,0,0,1,3,289500000,33,33,1,1,9
+c:605,espotting,advertising,acquired,0,0,USA,unknown,unknown,0,0,0,0,1,11,171600000,33,0,1,0,9
+c:606,miva,advertising,acquired,158,30,USA,NY,New York,0,0,0,0,1,18,11600000,33,0,1,0,4
+c:61821,jump on it,ecommerce,acquired,349,84,AUS,unknown,unknown,0,0,1,5000000,0,0,40000000,0,0,0,0,10
+c:61915,zonein2,web,acquired,218,55,USA,CA,Orange,0,0,0,0,0,2,8750000,0,0,0,0,7
+c:61933,hellosoft,network_hosting,acquired,221,82,USA,CA,San JosÃ©,0,0,0,0,0,3,47000000,50,0,1,0,9
+c:62,skype,software,acquired,315,139,LUX,unknown,Luxembourg City,3,3,5,76805032,6,94,2600000000,40,4,1,1,5
+c:62012,recourse technologies,unknown,acquired,0,0,USA,CA,Redwood City,0,0,0,0,1,3,135000000,50,0,1,0,21
+c:62432,ziplist,web,acquired,223,70,USA,VA,Sterling,0,0,2,4500000,2,9,14000000,22,22,1,1,7
+c:62809,mercury interactive,unknown,acquired,160,40,USA,CA,Mountain View,0,0,0,0,2,51,4500000000,20,9,1,1,19
+c:629,getty images,web,acquired,157,39,GBR,unknown,London,1,1,0,0,2,24,3300000000,6,35,1,1,12
+c:63153,eurand,biotech,acquired,278,111,NLD,unknown,Amsterdam,0,0,0,0,0,11,583000000,0,0,0,0,6
+c:63660,cambridge research instrumentation,biotech,acquired,58,37,USA,MA,Woburn,0,0,0,0,1,4,20000000,50,0,1,0,34
+c:6428,insureme,web,acquired,226,61,USA,CO,Englewood,0,0,0,0,1,0,85000000,0,0,0,0,8
+c:64371,stage smart,unknown,acquired,0,0,VGB,unknown,unknown,0,0,0,0,0,0,30000000,0,0,0,0,11
+c:64997,match point media,unknown,acquired,0,0,USA,NY,New York,0,0,0,0,0,4,26000000,0,0,0,0,17
+c:66418,lineage power,cleantech,acquired,194,59,USA,TX,Plano,0,0,0,0,1,2,520000000,100,100,1,1,13
+c:666,friends reunited,web,acquired,108,37,GBR,unknown,London,0,0,0,0,4,1,255700000,0,0,0,0,16
+c:66625,carepoint,biotech,acquired,0,0,USA,OH,Cincinnati,0,0,1,27000000,0,1,223000000,0,0,0,0,9
+c:667,ign entertainment,games_video,acquired,144,114,USA,CA,San Francisco,0,0,0,0,4,79,700000000,26,7,1,1,17
+c:6736,cupid,web,acquired,842,595,GBR,unknown,Edinburgh,1,1,0,0,2,7,6600000,0,0,0,0,5
+c:6742,ideal bite,web,acquired,300,120,USA,CA,San Francisco,0,0,0,0,0,1,20000000,100,0,1,0,10
+c:6838,channel intelligence,web,acquired,256,85,USA,FL,Celebration,0,0,1,3008970,4,5,125000000,0,0,0,0,20
+c:68760,cybertech international,unknown,acquired,319,60,NLD,unknown,Amsterdam,0,0,0,0,0,1,60000000,100,0,1,0,23
+c:69300,investment scorecard,unknown,acquired,200,200,USA,TN,Nashville,0,0,0,0,1,4,50000000,0,0,0,0,20
+c:6948,ziplocal,search,acquired,144,144,CAN,unknown,Toronto,0,0,2,14003545,3,11,2450000,0,0,0,0,8
+c:70355,ereinsure,software,acquired,195,31,USA,UT,Salt Lake City,0,0,0,0,0,0,37000000,0,0,0,0,9
+c:70369,cascade microtech,hardware,acquired,295,69,USA,OR,Beaverton,0,0,0,0,1,2,27700000,0,0,0,0,17
+c:71615,fasulcore ltda,software,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,16000000,0,0,0,0,14
+c:71616,antamob,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,9900000,0,0,0,0,7
+c:71993,fast engines,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,1,30000000,100,0,1,0,12
+c:72,grandcentral,mobile,acquired,200,49,USA,CA,Fremont,0,0,1,4000000,4,9,60000000,43,14,1,1,12
+c:72071,molex,unknown,acquired,159,51,USA,IL,Lisle,0,0,0,0,0,1,7200000000,0,0,0,0,5
+c:72280,converteam,cleantech,acquired,298,66,FRA,unknown,Massy,0,0,0,0,0,0,3200000000,0,0,0,0,10
+c:72356,chemgenex pharmaceuticals,biotech,acquired,174,151,AUS,unknown,Geelong Vic,0,0,0,0,1,4,225000000,0,67,0,1,25
+c:725,imeem,music,acquired,310,127,USA,CA,San Francisco,0,0,5,24750000,3,13,1000000,25,12,1,1,5
+c:73269,astex,biotech,acquired,200,69,GBR,unknown,Cambridge,0,0,0,0,1,4,55000000,33,0,1,0,5
+c:73510,streeteasy,real_estate,acquired,510,170,USA,NY,New York,0,0,0,0,1,17,50000000,33,0,1,0,10
+c:73883,forumer,web,acquired,312,72,unknown,unknown,unknown,0,0,0,0,0,0,400000,0,0,0,0,7
+c:741,socialmedia,advertising,acquired,846,218,USA,CA,San Francisco,0,0,3,10000000,3,23,3000000,44,6,1,1,11
+c:7449,iona technologies,enterprise,acquired,80,60,IRL,unknown,Dublin,0,0,0,0,1,10,162000000,22,0,1,0,17
+c:74928,crowdcompass,mobile,acquired,440,150,USA,OR,Portland,0,0,1,1300000,2,5,10000000,0,0,0,0,12
+c:76089,brightwell technology,unknown,acquired,364,104,CAN,unknown,"Ottawa, Ontario",0,0,0,0,0,0,9000000,0,0,0,0,21
+c:7613,peakstream,software,acquired,180,130,USA,CA,Redwood City,0,0,2,22000000,0,2,20300000,50,0,1,0,10
+c:7640,mobile365 fka inphomatch,unknown,acquired,150,150,unknown,unknown,unknown,0,0,1,13500000,1,4,425000000,50,0,1,0,24
+c:76831,goinstant,enterprise,acquired,283,60,CAN,unknown,Halifax,0,0,1,1700000,3,20,70000000,14,14,1,1,9
+c:77,adap tv,advertising,acquired,976,261,USA,CA,San Mateo,0,0,5,48500000,3,27,405000000,42,0,1,0,7
+c:78020,woolik technologies,search,acquired,840,252,unknown,unknown,unknown,0,0,0,0,1,2,2200000,0,0,0,0,19
+c:78377,neighborhood diabetes,biotech,acquired,150,103,USA,MA,Woburn,0,0,0,0,0,2,63000000,0,0,0,0,21
+c:78379,high performance technologies hpti,other,acquired,0,0,USA,VA,Reston,0,0,0,0,1,4,143000000,50,50,1,1,34
+c:78466,globalexpense,web,acquired,215,40,GBR,unknown,London,0,0,0,0,0,0,23000000,0,0,0,0,13
+c:79431,pulse,news,acquired,2620,1167,USA,CA,San Francisco,0,0,2,9800000,2,23,90000000,40,0,1,0,5
+c:7946,reconnex,software,acquired,541,136,USA,CA,Mountain View,0,0,1,16000000,1,14,46000000,33,0,1,0,8
+c:8,postini,web,acquired,183,75,USA,CA,San Carlos,0,0,0,0,0,16,625000000,45,0,1,0,7
+c:8022,equallogic,enterprise,acquired,254,93,USA,NH,Nashua,0,0,0,0,2,7,1400000000,33,0,1,0,10
+c:8023,lefthand networks,enterprise,acquired,160,60,USA,CO,Boulder,0,0,1,25000000,3,19,360000000,25,6,1,1,17
+c:80399,servidyne,enterprise,acquired,314,103,USA,GA,Atlanta,0,0,0,0,0,0,12900000,0,0,0,0,9
+c:8041,discovery mining,web,acquired,275,67,USA,CA,San Francisco,0,0,0,0,1,2,36000000,50,0,1,0,16
+c:81111,sound solutions,hardware,acquired,0,0,unknown,unknown,unknown,0,0,0,0,0,0,855000000,0,0,0,0,15
+c:8112,brands4friends,ecommerce,acquired,375,48,USA,CA,Palo Alto,1,1,1,0,1,5,200000000,0,0,0,0,14
+c:81330,sophion bioscience,biotech,acquired,191,100,DNK,unknown,Ballerup,0,0,0,0,0,0,27900000,0,0,0,0,18
+c:822,twango,web,acquired,97,45,USA,WA,Redmond,0,0,0,0,0,6,96800000,0,0,0,0,6
+c:82453,edhance,unknown,acquired,270,71,USA,MA,Cambridge,0,0,0,0,1,4,10000000,0,0,0,0,7
+c:8361,saber,unknown,acquired,0,0,unknown,unknown,unknown,0,0,0,0,1,2,460000000,0,0,0,0,5
+c:84,aggregate knowledge,advertising,acquired,377,238,USA,CA,San Mateo,0,0,8,74311925,0,21,119000000,31,15,1,1,19
+c:850,jamdat mobile,web,acquired,146,73,USA,CA,Los Angeles,0,0,3,0,1,8,673600000,40,40,1,1,13
+c:8523,hands on mobile,mobile,acquired,296,68,USA,CA,San Francisco,0,0,1,30000000,3,13,30000000,25,25,1,1,15
+c:854,lightsurf,web,acquired,0,0,USA,unknown,unknown,0,0,0,0,0,3,270000000,33,0,1,0,9
+c:86083,bna,search,acquired,204,70,USA,MD,Bethesda,0,0,0,0,1,1,990000000,0,0,0,0,3
+c:8946,broadbus technologies,hardware,acquired,149,87,USA,IL,Libertyville,0,0,1,20000000,1,5,181000000,50,0,1,0,21
+c:8990,springsource,software,acquired,214,73,USA,CA,San Mateo,0,0,2,25000000,2,18,362000000,29,14,1,1,12
+c:9150,spss,software,acquired,100,100,USA,IL,Chicago,0,0,0,0,0,15,1200000000,38,0,1,0,4
+c:9228,half,ecommerce,acquired,132,56,unknown,unknown,unknown,0,0,0,0,2,9,350000000,67,0,1,0,4
+c:9513,instantservice,web,acquired,258,55,USA,WA,Seattle,0,0,0,0,1,5,17000000,100,0,1,0,14
+c:9532,webex,web,acquired,134,47,USA,CA,Santa Clara,0,0,0,0,0,14,2900000000,10,10,1,1,5
+c:971,playspan,games_video,acquired,1050,327,USA,CA,Santa Clara,0,0,4,46300000,4,12,190000000,50,12,1,1,8
+c:9737,axismobile,mobile,acquired,315,84,ISR,unknown,Tel-Aviv,0,0,1,3000000,1,4,4900000,0,0,0,0,10
+c:9744,axis,mobile,acquired,119,72,IDN,unknown,"Jl. Mega Kuningan Barat Kav. E4.3 No. 2, Jakarta",0,0,0,0,2,10,865000000,0,0,0,0,4
+c:9949,pptv,games_video,acquired,154,44,CHN,unknown,Shanghai,0,0,4,286500000,2,3,400000000,0,0,0,0,4
+c:999,buddystumbler,web,acquired,360,216,USA,CA,Hayward,0,0,0,0,1,1,113000,0,0,0,0,13

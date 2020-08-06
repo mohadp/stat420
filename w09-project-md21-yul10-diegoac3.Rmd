@@ -9,7 +9,7 @@ output:
   pdf_document: default
 urlcolor: cyan
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 
@@ -100,29 +100,94 @@ str(sample_data)
 
 ## Methods
 
-In order to validate the models that can help explain the aquisition value based on different startup characteristics or predictors, we start by dividing the full data into 2 datasets, one for training, with  80% of the observation; the rest were included in the test dataset. The split was done randomly.
 
-```{r message=FALSE}
-startups = read_csv("./startups.csv")
-attr(startups, "spec") = NULL
-which(dup)
-
-
-str(startups)
-
-rownames()
-
-
-
-
-```
 
 
 ### Yu
 
-### Diego
+
+### Data Adjustments (Moha)
+
+Based on the single predictor analysis above, it is now possible to further simplify the dataset that will be used for to determine whether the `aquisition_price` of startups can be correlated with startup characteristics and their performance. 
+
+Some data adjustments include:
+
+- Collapsing of the number of levels for factor variables that a high number level: `category_code`, `country_code`, `city`, `state_code`.
+- Removal of columns that are necessare or useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`.
+- Division of the full data into 2 datasets, one for training (`startups_tr`), with  80% of the observation; the rest will be included in a test dataset  (`startups_te`), useful for model cross-validation. The split is done randomly.
+
+
+```{r message=FALSE}
+
+#Loading of the data
+startups = read_csv("./startups.csv")
+attr(startups, "spec") = NULL
+n = nrow(startups)
+
+#Function that reduces the number of levels of a factor, by replacing some levels with the new.level based on the number of records a level has. 
+#If threshold < 1, then it keeps the largest levels by counts up to when a the threshold percentile is reached
+#If threshold >= 1, then it keeps the levels that have counts greater or equal to the threshold.
+shorten_levels = function(col, threshold, new.level){
+  new_col = as.character(col) 
+  levels_to_collapse = 0
+  level_counts = summary(col)
+  counts = aggregate(new_col, by = list(col = new_col), FUN = length)
+
+  if(threshold < 1){
+    counts = counts[order(counts$x, decreasing = TRUE), ]
+    counts$cumpct = cumsum(counts$x)/sum(counts$x)
+    levels_to_collapse = counts[counts$cumpct >= threshold, "col"]
+  }else{
+    #levels_to_collapse = names(which(level_counts > threshold))
+    levels_to_collapse = counts[counts$x < threshold, "col"]
+  }
+  
+  replace = new_col %in% levels_to_collapse
+  new_col[replace] = new.level
+  as.factor(new_col)
+}
+
+#Modified function from https://www.mjdenny.com/Text_Processing_In_R.html to "normalize text"
+clean_string = function(string){
+    # Lowercase
+    temp =  tolower(string)
+    # Remove everything that is not a number or letter (
+    temp = stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
+    # Shrink down to just one white space
+    temp = stringr::str_replace_all(temp,"[\\s]+", " ")
+    temp
+}
+
+#Collapse the number of levels for all factor predictors.
+startups$category_code = shorten_levels(startups$category_code, .90, "other")
+startups$country_code = shorten_levels(startups$country_code, 20, "other")
+startups$city = shorten_levels(clean_string(as.character(startups$city)),20, "other")
+startups$state_code = shorten_levels(as.character(startups$state_code),.90, "other")
+summary(startups$state_code)
+
+#Remove unnecessary columns (particularly the descriptions and single-level factors and variables that did not seem relevant for the aquisition response variable)
+to_remove = c("company_id","normalized_name", "status", "logo_width", "logo_height")
+startups_desc = startups[, to_remove]
+startups = startups[, -which(colnames(startups) %in% to_remove)]
+
+#Split of data for cross-validation: 80% for training, 20$ for testing.
+set.seed(420)
+train_index = sample(1:nrow(startups), size = floor(0.8 * nrow(startups)))
+startups_tr = startups[train_index,]
+startups_te = startups[-train_index,]
+
+```
+
+The final dataset for analysis includes the following predictors. 
 
 ```{r}
+str(startups)
+```
+
+
+### Diego
+
+```{r eval=FALSE, include=FALSE}
 #Pick one with boxcox, one with log alone
 #Loading required libraries
 library(lmtest)
@@ -304,14 +369,14 @@ qqline(resid(overall_interaction_poly_mod), col = "dodgerblue", lwd = 2)}
 ### Moha
 
 ```{r}
-str(startups_te)
+#str(startups_te)
 ```
 
 
 After the selection of columns described in the **Appendix 1**, we need to identify which of the predictors are relevant to a potential linear model that describes the aquisition value.
 
 ```{r}
-add_all_model = lm()
+#add_all_model = lm()
 ```
 
 
@@ -479,7 +544,9 @@ To ensure that the dataset is viable for linear regression analysis, we create a
 # Data set to be analized, filtering out aquisition values without aquisition price
 startups = company_aq_lds[company_aq_lds$aquisition_price_amount>0, ]
 nrow(startups)
-startups = startups[,-c(2, 3, 4, 5, 7, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 23, 25, 26, 27, 30, 31, 34, 35, 38, 39, 40)]
+col_remove = c("entity_type", "entity_id", "parent_id", "name", "permalink", "founded_at", "closed_at", "domain", "homepage_url", "twitter_username", "logo_url", "short_description", "description", "overview", "tag_list", "region", "first_investment_at", "last_investment_at", "first_funding_at", "last_funding_at", "first_milestone_at", "last_milestone_at", "created_by", "created_at", "updated_at")
+
+startups = startups[,-which(colnames(startups) %in% col_remove)]
 
 #Nulls by column
 show_nas = function(somedf){
@@ -501,12 +568,16 @@ We clean `NA` values below:
 startups[is.na(startups[,"category_code"]),"category_code"] = "unknown"
 startups[is.na(startups[,"country_code"]),"country_code"] = "unknown"
 startups[is.na(startups[,"city"]),"city"] = "unknown"
+startups[is.na(startups[,"state_code"]),"state_code"] = "unknown"
 
 #For numeric variablestop25pct, top50pct; will convert all of these into a categorical variable that says if people in company attended universities in top 25 universities in worl, then 1. Similarly, if company people (executives), attended universites in the top 26 to 50 universites `istop26_50`, 1; else, 0.
 startups[is.na(startups[,"top25pct"]),"top25pct"] = 0
 startups[is.na(startups[,"top50pct"]),"top50pct"] = 0
 startups$istop25 = ifelse(startups$top25pct > 0, 1, 0)
 startups$istop26_50 = ifelse(startups$top50pct > 0, 1, 0)
+
+#Add a few additional predictors
+startups$name_length = nchar(startups$normalized_name)
 
 show_nas(startups)
 ```
