@@ -195,7 +195,7 @@ str(startups)
 In order to compare models, we use a single function that runs tests on both:
 
 - Model assumptions: Residual vs fitted and Q-Q plots, bptest and wilk-shapiro test.
-- Model performance: Adjusted r-squared, AIC, BIC, leave one out cross-validation, regression p-value, and rmse on test data.
+- Model performance: Adjusted r-squared, AIC, BIC, leave one out cross-validation, and regression p-value.
 
 ```{r message=FALSE}
 
@@ -241,7 +241,7 @@ diagnostics_performance = function(model,
     p_val_bp = unname(bptest(model)$p.value)
     
     #RMSE
-    RMSE = sqrt(mean(sum(predict_function(predict(model, newdata = startups_te)) - startups_te$aquisition_price_amount)^2))
+    #RMSE = sqrt(mean(sum(predict_function(predict(model, newdata = startups_te)) - startups_te$aquisition_price_amount)^2))
     
     #LOOCV
     RMSE_LOOCV = sqrt(mean((resid(model) / (1 - hatvalues(model))) ^ 2))
@@ -264,7 +264,7 @@ diagnostics_performance = function(model,
     #Output from test
     list(p_val_shapiro = p_val_shapiro,
          p_val_bp = p_val_bp,
-         RMSE = RMSE,
+         #RMSE = RMSE,
          RMSE_LOOCV = RMSE_LOOCV,
          r_squared = r_squared,
          adj_r_squared = adj_r_squared,
@@ -414,10 +414,6 @@ interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_co
 
 #Diagnostics and performance of the model
 diagnostics_performance(interaction_model_simple)
-
-#Number of predictosr with high inflation factors
-length(faraway::vif(interaction_model)[faraway::vif(interaction_model)>5])
-
 ```
 
 
