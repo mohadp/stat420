@@ -8,6 +8,8 @@ output:
     toc: yes
   pdf_document: default
 urlcolor: cyan
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -101,6 +103,185 @@ str(sample_data)
 ### Yu
 
 ### Diego
+
+```{r}
+#Pick one with boxcox, one with log alone
+#Loading required libraries
+library(lmtest)
+library(MASS)
+
+#Loading data set
+startups_tr = read.csv("startups_tr.csv")
+startups_te = read.csv("startups_te.csv")
+
+
+#Definiting function to check assumptions and get initial results
+diagnostics = function(model,
+                       test_data,
+                       prediction_field,
+                       pcol = "grey",
+                       lcol = "dodgerblue",
+                       alpha = 0.05,
+                       plotit = TRUE,
+                       testit = TRUE) {
+  #Plot functionality
+  if (plotit) {
+    par(mfrow = c(1, 2))
+    
+    #Fitted vs residuals plot
+    plot(
+      resid(model) ~ fitted(model),
+      col = pcol,
+      pch = 20,
+      main = "Fitted vs Residuals Plot",
+      xlab = "Fitted",
+      ylab = "Residuals"
+    )
+    abline(h = 0, col = lcol, lwd = 2)
+    
+    #Q-Q plot
+    qqnorm(resid(model), col = pcol, main = "Normal Q-Q Plot")
+    qqline(resid(model),
+           lty = 2,
+           lwd = 2,
+           col = lcol)
+  }
+  
+  #Test functionality
+  if (testit) {
+    #P-val from Shapiro-Wilk test to assess normality
+    p_val_shapiro = shapiro.test(resid(model))$p.value
+    
+    #Decicion for a given alpha
+    decision_shapiro = ifelse(p_val < alpha, "Normality suspect", "Normality not suspect")
+    
+    #P-val from BP test to assess cosntant variance
+    p_val_bp = bptest(model)
+    
+    #Decicion for a given alpha
+    decision_bp = ifelse(p_val_bp < alpha, "Constant variance suspect", "Constant variance not suspect")
+    
+    #RMSE
+    model_RMSE = 1 / nrow(test_data) * sum(predict(model,newdata = test_data) - test_data$aquisition_price_amount)
+    
+    #LOOCV
+    model_LOOCV = 
+      
+    #r_squared
+    model_r_squared = summary(model)$r.squared
+    
+    #model_adjusted_r_squared
+    model_adj_r_squared = summary(model)$adj.r.squared
+      
+    #Output test
+    list(p_val_shapiro = p_val_shapiro,
+         decision_shapiro = decision_shapiro,
+         p_val_bp = p_val_bp,
+         decision_bp = decision_bp,
+         model_RMSE = model_RMSE,
+         model_LOOCV = model_LOOCV,
+         model_r_squared = 
+         )
+  }
+}
+
+
+#An interesting first check is around whether coming from a top university
+#has any influence on the acquisition price
+plot(aquisition_price_amount ~ istop25, data = startups_tr)
+
+#Because there seems to be an outlier in acquisition price amount
+#we perform a logarithmic transformation on the response variable
+plot(log(aquisition_price_amount) ~ istop25, data = startups_tr)
+plot(log(aquisition_price_amount) ~ istop26_50, data = startups_tr)
+
+
+#Now we can see a more clear relationship between acquisition price and
+#founders coming from a top university
+
+plot(log(aquisition_price_amount) ~ I(investment_rounds^(1/1.3)), data = startups_tr)
+plot(log(aquisition_price_amount) ~ I(milestones^(1/1)), data = startups_tr)
+plot(log(aquisition_price_amount) ~ I(invested_companies^(1/1.2)), data = startups_tr)
+plot(log(aquisition_price_amount) ~ log(relationships), data = startups_tr)
+plot(log(aquisition_price_amount) ~ log(funding_total_usd), data = startups_tr)
+str(startups_tr)
+
+
+
+#1. 2 way interactions model all variables; vector memory exhausted.
+
+#2. 3 way model, focusing on top variables instead - 3 hours without results
+#overall_model = lm(log(aquisition_price_amount)~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3, data = startups)
+
+#3. Additive model, focusing on top variables
+additive_model = lm(aquisition_price_amount~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
+
+summary(additive_model)
+plot(resid(additive_model)~fitted(additive_model))
+shapiro.test(resid(additive_model)) #normality violated, <2.2e-16
+bptest(additive_model) #constant variance not violated? 1
+boxcox(additive_model, plotit = TRUE)
+boxcox(additive_model, plotit = TRUE, lambda = seq(0.11, 0.14, by = 0.001))
+
+additive_model_mod = lm((aquisition_price_amount)^0.125~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
+
+summary(additive_model_mod)$r.squared
+plot(resid(additive_model_mod)~fitted(additive_model_mod))
+{qqnorm(resid(additive_model_mod), main = "Normal Q-Q Plot", col = "darkgrey")
+qqline(resid(additive_model_mod), col = "dodgerblue", lwd = 2)}
+
+shapiro.test(resid(additive_model_mod)) #normality violated, <2.2e-16
+bptest(additive_model_mod)
+
+#4. BEST MODEL SO FAR Three-way interactions, focusing on top variables (except cities)
+#Good R squared, normality is still violated
+overall_interaction_model = lm(aquisition_price_amount~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
+boxcox(overall_interaction_model, plotit = TRUE)
+boxcox(overall_interaction_model, plotit = TRUE, lambda = seq(0.13, 0.16, by = 0.001))
+
+overall_interaction_model_mod = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
+predict(overall_interaction_model_mod, newdata = startups_te)
+summary(overall_interaction_model_mod)$r.squared
+plot(resid(overall_interaction_model_mod)~fitted(overall_interaction_model_mod))
+shapiro.test(resid(overall_interaction_model_mod)) #normality violated, <2.2e-16
+bptest(overall_interaction_model_mod) #constant variance not suspect, p-value 0.9248
+{qqnorm(resid(additive_model_mod), main = "Normal Q-Q Plot", col = "darkgrey")
+qqline(resid(additive_model_mod), col = "dodgerblue", lwd = 2)}
+
+#Excluding values where fitted vs residuals looks odd (aquisition_price_amount^0.145 between 7 to exp 15)
+#Made it worse
+overall_interaction_model_mod_excluded = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr, subset = (aquisition_price_amount^0.145 > 7 & aquisition_price_amount^0.145 < 15))
+
+summary(overall_interaction_model_mod_excluded)$r.squared
+plot(resid(overall_interaction_model_mod_excluded)~fitted(overall_interaction_model_mod_excluded))
+shapiro.test(resid(overall_interaction_model_mod_excluded)) #normality violated, <2.2e-16
+bptest(overall_interaction_model_mod_excluded) #constant variance not suspect, p-value 0.9248
+{qqnorm(resid(overall_interaction_model_mod_excluded), main = "Normal Q-Q Plot", col = "darkgrey")
+qqline(resid(overall_interaction_model_mod_excluded), col = "dodgerblue", lwd = 2)}
+
+#Outliers and influential points from best model so far
+length(rstandard(overall_interaction_model_mod)[abs(rstandard(overall_interaction_model_mod)) > 2]) #460 outliers
+sum(cooks.distance(overall_interaction_model_mod) > 4 / length(cooks.distance(overall_interaction_model_mod)), na.rm = TRUE) #183 influential values
+
+
+
+#Polynomials, focusing on top variables (except cities)
+overall_interaction_poly = lm(aquisition_price_amount~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city + I(investment_rounds^2) + I(invested_companies^2), data = startups_tr)
+boxcox(overall_interaction_poly, plotit = TRUE)
+boxcox(overall_interaction_poly, plotit = TRUE, lambda = seq(0.13, 0.16, by = 0.01))
+
+
+overall_interaction_poly_mod = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city + I(investment_rounds^2) + I(invested_companies^2), data = startups_tr)
+
+summary(overall_interaction_poly_mod)$r.squared
+plot(resid(overall_interaction_poly_mod)~fitted(overall_interaction_poly_mod))
+shapiro.test(resid(overall_interaction_poly_mod)) #normality violated, <2.2e-16
+bptest(overall_interaction_poly_mod) #constant variance not suspect, p-value 0.9248
+{qqnorm(resid(overall_interaction_poly_mod), main = "Normal Q-Q Plot", col = "darkgrey")
+qqline(resid(overall_interaction_poly_mod), col = "dodgerblue", lwd = 2)}
+
+```
+
 
 ### Moha
 
@@ -304,6 +485,10 @@ With clean data, we can now perform the data split for training and data
 #Generate the full data
 write_csv(x = startups, path = "./startups.csv")
 
+set.seed(20200805)
+library(splitstackshape)
+test = stratified(startups, c("city","category_code"), 0.7)
+nrow(test) / nrow(startups)
 train_index = sample(1:nrow(startups), size = floor(0.8 * nrow(startups)))
 startups_tr = startups[train_index,]
 startups_te = startups[-train_index,]
