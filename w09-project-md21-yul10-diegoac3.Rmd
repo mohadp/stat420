@@ -1,7 +1,7 @@
 ---
 title: "Data Analysis - Project Proposal"
 author: "Mohamed Diakite Pineda, Yu Liu, Diego Carreno, STAT 420, Summer 2020"
-date: "7/19/2020"
+date: "8/06/2020"
 output:
   html_document: 
     theme: readable
@@ -58,7 +58,7 @@ We consider the following 14 variables as the potential predictor:
 | acquired_at | Date of deal | acquisition.csv | timestamp | numerical | 0 |
 
 
-## Background information of the data set
+### Background information of the data set
 
 The database comes from [a Kaggle public dataset about startup investments](https://www.kaggle.com/justinas/startup-investments?select=funding_rounds.csv%29) published by Justinas Cirtautas at the end of 2019. The dataset covers more 450 thousand company information from all over the world till 2013. Among those, about 10 thousand companies acomplished their acquisition successfully, while 80% of them got 0 dollars in their acquisition. 
 
@@ -68,14 +68,14 @@ The entire dataset provides 11 cvs file with 154 columns, which covers six aspec
 - objects.csv provides the basic company profiles, which can be used as the predictor of our study.
 
 
-## Purpose statement
+### Purpose statement
 Venture capital investments hits 9.5 billion U.S. dollars in the internet industry in the United States, as of first quarter 2020. Other leading VC sectors in terms of investment were healthcare, and software. Inspired by the florish startup world, we want to investigate what factors can impact the company price during acquisition.
 
 In this study, we select the price of the company for acquisition as our 'Y', the response variable. Our target is to find a set of predictors and use regression method to predict our Y. We checked all dataset and select 14 varaibles as our potential predictors. Later on we will do feature engineering to determine our X's in the regression.
 
-Meanwhile, we also want to know some interesting questions, like, whether the company name and the logo size has any impact on the acquisition price, or how the acquisition distributed by geography. We believe the data will tell us the answer after finishing this project. 
+Meanwhile, we also want to know some interesting questions, like, whether the company name and the logo size has any impact on the acquisition price, or how the acquisition distributed by geography.
 
-## Loading the data into `R`
+### Loading the data into `R`
 We merged two csv file to get our final database `startups.csv`. For the details in data cleaning, please refer to the Appendix at the end of the proposal.
 
 Below is the snapshot to show we load our data into `R` successfully. We are including a subset of the columns for simplicity, because some columns have very long text entries.
@@ -113,13 +113,15 @@ Based on the single predictor analysis above, it is now possible to further simp
 Some data adjustments include:
 
 - Collapsing of the number of levels for factor variables a high number levels: `category_code`, `country_code`, `city`, `state_code`. This will ommit potential dummy variables when dealing with factor variables with levels that provide little significance. This also adds benefit of improving model simplicity by reducing number of levels.
-- Removal of columns that are necessare or useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`.
-- Division of the full data into 2 datasets, one for training (`startups_tr`), with  80% of the observation; the rest will be included in a test dataset  (`startups_te`), useful for model cross-validation. The split is done randomly.
+- Removal of columns that are necessary or useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`.
+- Division of the full data into 2 datasets, one for training (`startups_tr`), with  80% of the observations; the rest will be included in a test dataset (`startups_te`), useful for model cross-validation. The split is done randomly.
+- Removing outlier case of acquisition for 2.6T. For reference, Amazon's Market Cap is 1.6T. We believe this was an input error.
 
 
 ```{r message=FALSE}
 
 #Loading of the data
+library(readr)
 startups = read_csv("./startups.csv")
 attr(startups, "spec") = NULL
 n = nrow(startups)
@@ -170,6 +172,9 @@ to_remove = c("company_id","normalized_name", "status", "logo_width", "logo_heig
 startups_desc = startups[, to_remove]
 startups = startups[, -which(colnames(startups) %in% to_remove)]
 
+#Remove outlier in acquisition price
+startups = startups[startups$aquisition_price_amount<1e12,]
+
 #Split of data for cross-validation: 80% for training, 20$ for testing.
 set.seed(420)
 train_index = sample(1:nrow(startups), size = floor(0.8 * nrow(startups)))
@@ -185,26 +190,22 @@ str(startups)
 ```
 
 
-### Diego
+### Diagnostics and Performance Function (Diego)
 
-```{r echo=TRUE}
-#Pick one with boxcox, one with log alone
-#Loading required libraries
+In order to compare models, we use a single function that runs tests on both:
+
+- Model assumptions: Residual vs fitted and Q-Q plots, bptest and wilk-shapiro test.
+- Model performance: adjusted r-squared, AIC, BIC, leave one out cross-validation, and rmse on test data.
+
+```{r echo=FALSE}
+
 library(lmtest)
 library(MASS)
 
-#Loading data set
-startups_tr = read.csv("startups_tr.csv")
-startups_te = read.csv("startups_te.csv")
-
-
-#Definiting function to check assumptions and get initial results
-diagnostics = function(model,
-                       test_data,
-                       prediction_field,
+diagnostics_performance = function(model,
+                       predict_function = function (x) {x},
                        pcol = "grey",
                        lcol = "dodgerblue",
-                       alpha = 0.05,
                        plotit = TRUE,
                        testit = TRUE) {
   #Plot functionality
@@ -235,66 +236,76 @@ diagnostics = function(model,
     #P-val from Shapiro-Wilk test to assess normality
     p_val_shapiro = shapiro.test(resid(model))$p.value
     
-    #Decicion for a given alpha
-    decision_shapiro = ifelse(p_val < alpha, "Normality suspect", "Normality not suspect")
-    
     #P-val from BP test to assess cosntant variance
-    p_val_bp = bptest(model)
-    
-    #Decicion for a given alpha
-    decision_bp = ifelse(p_val_bp < alpha, "Constant variance suspect", "Constant variance not suspect")
+    p_val_bp = unname(bptest(model)$p.value)
     
     #RMSE
-    #model_RMSE = 1 / nrow(test_data) * sum(predict(model,newdata = test_data) - test_data$aquisition_price_amount)
+    RMSE = sqrt(mean(sum(predict_function(predict(model, newdata = startups_te)) - startups_te$aquisition_price_amount)^2))
     
     #LOOCV
-    #model_LOOCV = 
-      
-    #r_squared
-    #model_r_squared = summary(model)$r.squared
+    RMSE_LOOCV = sqrt(mean((resid(model) / (1 - hatvalues(model))) ^ 2))
     
-    #model_adjusted_r_squared
-    #model_adj_r_squared = summary(model)$adj.r.squared
+    #Adjusted r squared
+    adj_r_squared = summary(model)$adj.r.squared
+    
+    #AIC
+    AIC = extractAIC(model)[2]
+    
+    #BIC
+    BIC =  extractAIC(model, k = log(n))[2]
       
-    #Output test
+    #Output from test
     list(p_val_shapiro = p_val_shapiro,
-         decision_shapiro = decision_shapiro,
          p_val_bp = p_val_bp,
-         decision_bp = decision_bp
-         #model_RMSE = model_RMSE,
-         #model_LOOCV = model_LOOCV,
-         #model_r_squared = model_r_squared
+         RMSE = RMSE,
+         RMSE_LOOCV = RMSE_LOOCV,
+         adj_r_squared = adj_r_squared,
+         AIC = AIC,
+         BIC = BIC
          )
   }
 }
 
-
-#An interesting first check is around whether coming from a top university
-#has any influence on the acquisition price
-plot(aquisition_price_amount ~ istop25, data = startups_tr)
-
-#Because there seems to be an outlier in acquisition price amount
-#we perform a logarithmic transformation on the response variable
-plot(log(aquisition_price_amount) ~ istop25, data = startups_tr)
-plot(log(aquisition_price_amount) ~ istop26_50, data = startups_tr)
+```
 
 
-#Now we can see a more clear relationship between acquisition price and
-#founders coming from a top university
+### Model building
 
-plot(log(aquisition_price_amount) ~ I(investment_rounds^(1/1.3)), data = startups_tr)
-plot(log(aquisition_price_amount) ~ I(milestones^(1/1)), data = startups_tr)
-plot(log(aquisition_price_amount) ~ I(invested_companies^(1/1.2)), data = startups_tr)
-plot(log(aquisition_price_amount) ~ log(relationships), data = startups_tr)
-plot(log(aquisition_price_amount) ~ log(funding_total_usd), data = startups_tr)
-str(startups_tr)
+- **Additive model**
+
+The first step of the exploration is to look at a simple additive model that contains all variables.
+
+```{r}
+additive_full = lm(aquisition_price_amount ~ . , data = startups_tr)
+diagnostics_performance(additive_full)
+
+```
+
+We can see that model assumptions are clearly violated. When looking at variables, it would make sense to only use investment_rounds or invested_companies, because there's collinearity between both.
+
+```{r}
+startups_tr$aquisition_price_amount[abs(rstandard(additive_full)) > 2]
+range(startups_tr$aquisition_price_amount)
+mean(startups_tr$aquisition_price_amount)
+```
 
 
+
+```{r eval=FALSE}
 
 #1. 2 way interactions model all variables; vector memory exhausted.
-
 #2. 3 way model, focusing on top variables instead - 3 hours without results
-#overall_model = lm(log(aquisition_price_amount)~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3, data = startups)
+
+full_model = lm(log(aquisition_price_amount) ~ . , data = startups_tr)
+startups_te$aquisition_price_amount[1]
+exp(predict(full_model, newdata = startups_te)[1])
+
+
+predict_function = function (x) {exp(x)}
+(model_RMSE = sqrt(mean(sum(exp(predict(full_model, newdata = startups_te)) - startups_te$aquisition_price_amount)^2)))
+
+diagnostics(full_model, predict_function = function (x) {exp(x)})
+startups_te$aquisition_price_amount
 
 #3. Additive model, focusing on top variables
 additive_model = lm(aquisition_price_amount~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
@@ -304,9 +315,9 @@ plot(resid(additive_model)~fitted(additive_model))
 shapiro.test(resid(additive_model)) #normality violated, <2.2e-16
 bptest(additive_model) #constant variance not violated? 1
 boxcox(additive_model, plotit = TRUE)
-boxcox(additive_model, plotit = TRUE, lambda = seq(0.11, 0.14, by = 0.001))
+boxcox(additive_model, plotit = TRUE, lambda = seq(0.01, 0.14, by = 0.001))
 
-additive_model_mod = lm((aquisition_price_amount)^0.125~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
+additive_model_mod = lm((aquisition_price_amount)^0.11~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
 
 summary(additive_model_mod)$r.squared
 plot(resid(additive_model_mod)~fitted(additive_model_mod))
@@ -322,9 +333,10 @@ overall_interaction_model = lm(aquisition_price_amount~(category_code + investme
 boxcox(overall_interaction_model, plotit = TRUE)
 boxcox(overall_interaction_model, plotit = TRUE, lambda = seq(0.13, 0.16, by = 0.001))
 
-overall_interaction_model_mod = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
+overall_interaction_model_mod = lm(aquisition_price_amount^0.130~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
 
-
+startups_te$aquisition_price_amount[1]
+predict(overall_interaction_model_mod, newdata = startups_te)[1]
 
 #predict(overall_interaction_model_mod, newdata = startups_te)
 summary(overall_interaction_model_mod)$r.squared
@@ -488,7 +500,7 @@ This dataset contains information about the startup ecosystem: organizations, in
 
 - **People Data Loading:**
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 
 library(readr)
 
@@ -504,7 +516,7 @@ colnames(people)
 - **People Education Data Loading:**
 
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 
 degrees = read_csv("./degrees.csv")
 colnames(degrees)[2] = "person_id"
@@ -516,7 +528,7 @@ colnames(degrees)
 
 - **Companies Data Loading:**
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, eval=FALSE}
 #Company
 companies = read_csv("./objects.csv")
 attr(companies, "spec") = NULL
@@ -528,7 +540,7 @@ colnames(companies)
 
 - **People/Company Relationship Data Loading:**
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 comp_peep = read_csv("./relationships.csv")
 colnames(comp_peep)[3] = "person_id"
 colnames(comp_peep)[4] = "company_id"
@@ -542,7 +554,7 @@ attr(comp_peep, "spec") = NULL
 - **Company Aquisition Data Loading:**
 
 
-```{r message=FALSE}
+```{r message=FALSE, eval=FALSE}
 aquisitions = read_csv("./acquisitions.csv")
 colnames(aquisitions)[4] = "company_id"
 colnames(aquisitions)[6] = "aquisition_price_amount"
@@ -563,7 +575,7 @@ After loading the individual tables, we need to join all into a single dataset t
 
 The people, degrees and their relationship to the companies can all be joined into a sigle people dimension table. Additionally, we can extract potential relevant predictors for regression. For every person, generally an executive, we identify in each company people that attended to any of the top 25 or top 50 universities in the world ("top 50" excludes the top 25 universities). Also, we count the number of people in each company as well as the count of people by company that attended the top 25 and top 50 universities. Finally, to normalize these numbers, we also additional columns that represent percentage of people in each company that attended the top 25 and top 50 universities.
 
-```{r}
+```{r eval=FALSE}
 #Auxiliary functions to count rows for analysis of data
 count_disticts = function(x){
   length(unique(x))
@@ -588,7 +600,7 @@ founders["top25"] = top25
 founders["top50"] = top50
 ```
 
-```{r}
+```{r eval=FALSE}
 founders = aggregate(x = founders[,c("top25", "top50")], by = list(company_id = founders$company_id, person_id = founders$person_id), FUN = max)
 peeps = aggregate(x = founders[,c("company_id", "person_id")], by = list(company_id = founders$company_id), FUN = counts)
 peeps = peeps[,c(1,2)]
@@ -606,7 +618,7 @@ founders = na.omit(founders[,-c(2,3,4)])
 
 After extracting the individual data aspects (people, company, investments) of the companies, these aspects are joined into a single dataset. The dataset that will be used for this project will depend on the resulting row numbers after different combination of joins.
 
-```{r}
+```{r eval=FALSE}
 company_aq = merge(companies, aquisitions, by = "company_id")
 #nrow(company_aq)
 company_aq_lds = merge(x = company_aq, y = founders, by = "company_id", all.x = TRUE)
@@ -618,7 +630,7 @@ company_aq_lds = merge(x = company_aq, y = founders, by = "company_id", all.x = 
 
 To ensure that the dataset is viable for linear regression analysis, we create a preliminary linear model with company aquisition price as the response variable, and several other potential columns in the startups dataset as predictors. We are using the `company_aq` dataset above.
 
-```{r}
+```{r eval=FALSE}
 # Data set to be analized, filtering out aquisition values without aquisition price
 startups = company_aq_lds[company_aq_lds$aquisition_price_amount>0, ]
 nrow(startups)
@@ -640,7 +652,7 @@ show_nas(startups)
 ```
 
 We clean `NA` values below:
-```{r}
+```{r eval=FALSE}
 
 #clean NAs; introduce "Unknown" for categorical variables where ther are N/As
 startups[is.na(startups[,"category_code"]),"category_code"] = "unknown"
@@ -662,7 +674,7 @@ show_nas(startups)
 
 With clean data, we can now perform the data split for training and data
 
-```{r}
+```{r eval=FALSE}
 #Generate the full data
 write_csv(x = startups, path = "./startups.csv")
 
