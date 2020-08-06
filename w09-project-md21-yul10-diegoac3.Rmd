@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-## Student names
+## Names
 
 - Mohamed Diakite Pineda, *md21@*
 - Yu Liu, *yul10@*
@@ -103,7 +103,7 @@ str(sample_data)
 
 
 
-### Yu
+### Data Exploration (Yu)
 
 
 ### Data Adjustments (Moha)
@@ -195,12 +195,13 @@ str(startups)
 In order to compare models, we use a single function that runs tests on both:
 
 - Model assumptions: Residual vs fitted and Q-Q plots, bptest and wilk-shapiro test.
-- Model performance: adjusted r-squared, AIC, BIC, leave one out cross-validation, and rmse on test data.
+- Model performance: Adjusted r-squared, AIC, BIC, leave one out cross-validation, regression p-value, and rmse on test data.
 
-```{r echo=FALSE}
+```{r message=FALSE}
 
 library(lmtest)
 library(MASS)
+library(faraway)
 
 diagnostics_performance = function(model,
                        predict_function = function (x) {x},
@@ -245,6 +246,9 @@ diagnostics_performance = function(model,
     #LOOCV
     RMSE_LOOCV = sqrt(mean((resid(model) / (1 - hatvalues(model))) ^ 2))
     
+    #R squqred
+    r_squared = summary(model)$r.squared
+    
     #Adjusted r squared
     adj_r_squared = summary(model)$adj.r.squared
     
@@ -253,13 +257,18 @@ diagnostics_performance = function(model,
     
     #BIC
     BIC =  extractAIC(model, k = log(n))[2]
-      
+    
+    #Regression p-value
+    reg_p_value = unname(pf(summary(model)$fstatistic[1],summary(model)$fstatistic[2],summary(model)$fstatistic[3], lower.tail=FALSE))
+    
     #Output from test
     list(p_val_shapiro = p_val_shapiro,
          p_val_bp = p_val_bp,
          RMSE = RMSE,
          RMSE_LOOCV = RMSE_LOOCV,
+         r_squared = r_squared,
          adj_r_squared = adj_r_squared,
+         reg_p_value = reg_p_value,
          AIC = AIC,
          BIC = BIC
          )
@@ -271,24 +280,81 @@ diagnostics_performance = function(model,
 
 ### Model building
 
-- **Additive model**
+- **Additive models**
 
 The first step of the exploration is to look at a simple additive model that contains all variables.
 
 ```{r}
+#Training the model
 additive_full = lm(aquisition_price_amount ~ . , data = startups_tr)
+
+#Diagnostics and performance of the model
 diagnostics_performance(additive_full)
 
+#Variance inflation factors
+faraway::vif(additive_full)[faraway::vif(additive_full)>5]
 ```
 
-We can see that model assumptions are clearly violated. When looking at variables, it would make sense to only use investment_rounds or invested_companies, because there's collinearity between both.
+We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section.
 
 ```{r}
-startups_tr$aquisition_price_amount[abs(rstandard(additive_full)) > 2]
-range(startups_tr$aquisition_price_amount)
-mean(startups_tr$aquisition_price_amount)
+#Direct correlation between investment_rounds and invested_companies is close to one
+cor(startups_tr$investment_rounds,startups_tr$invested_companies)
+
+#The partial correlation coefficient is also very close to zero.
+#The variation of invested_companies that is unexplained by remaining predictors shows little correlation
+#with the variation of aquisition_price_amount that is not explained remaining predictors.
+#Adding invested companies is of little use to the model.
+model_test_invested_companies_1 = lm(invested_companies ~ .-aquisition_price_amount , data = startups_tr)
+model_test_invested_companies_2 = lm(aquisition_price_amount ~ .-invested_companies , data = startups_tr)
+cor(resid(model_test_invested_companies_1), resid(model_test_invested_companies_2))
+
+
 ```
 
+We remove the invested_companies and state_code from the predictors.
+
+```{r}
+#Training the model
+additive_full_updated = lm(aquisition_price_amount ~ .-investment_rounds -state_code , data = startups_tr)
+
+#Diagnostics and performance of the model
+diagnostics_performance(additive_full_updated, predict_function = function (x) {exp(x)})
+
+#Variance inflation factors
+faraway::vif(additive_full_updated)[faraway::vif(additive_full_updated)>5]
+
+```
+
+In the plots, we can see that normality and constant variance are still suspect. We also see confirm that normality suspect due to the low shapiro-wilk test p-value, and that the constant variance is suspect due to low bp test p-value. The R squared and adjusted R squared remain somewhat similar, as well as the RMSE leave one out cross validation. We now have less variables with a potentially large collinearity. We are ok to keep them for now: for completeness sake when performing predictions, we want to be able to still provide the business category code, the city, and the country.
+
+Now we will perform a backwards AIC search to optimize for AIC.
+```{r}
+#Finding the model
+model_additive_selected = step(additive_full_updated, trace = 0)
+
+#Diagnostics and performance of the model
+diagnostics_performance(model_additive_selected)
+
+#Variance inflation factors
+faraway::vif(model_additive_selected)[faraway::vif(model_additive_selected)>5]
+
+
+```
+
+The found model still violates normality and constant variance assumptions, as would normally be expected since this is derived from a model that also violated them. However, we are able to see less predictors with a variance inflation factor higher than 5. Now we proceed to compare both models with an anova test.
+
+```{r}
+anova(model_additive_selected, additive_full_updated)
+```
+
+We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For thatt reason, we prefer the model found through the backwards BIC method, `model_additive_selected`.
+
+
+- **Interaction models**
+
+
+- **Transformation models**
 
 
 ```{r eval=FALSE}
