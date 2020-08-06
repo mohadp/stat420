@@ -245,25 +245,25 @@ diagnostics = function(model,
     decision_bp = ifelse(p_val_bp < alpha, "Constant variance suspect", "Constant variance not suspect")
     
     #RMSE
-    model_RMSE = 1 / nrow(test_data) * sum(predict(model,newdata = test_data) - test_data$aquisition_price_amount)
+    #model_RMSE = 1 / nrow(test_data) * sum(predict(model,newdata = test_data) - test_data$aquisition_price_amount)
     
     #LOOCV
-    model_LOOCV = 
+    #model_LOOCV = 
       
     #r_squared
-    model_r_squared = summary(model)$r.squared
+    #model_r_squared = summary(model)$r.squared
     
     #model_adjusted_r_squared
-    model_adj_r_squared = summary(model)$adj.r.squared
+    #model_adj_r_squared = summary(model)$adj.r.squared
       
     #Output test
     list(p_val_shapiro = p_val_shapiro,
          decision_shapiro = decision_shapiro,
          p_val_bp = p_val_bp,
-         decision_bp = decision_bp,
-         model_RMSE = model_RMSE,
-         model_LOOCV = model_LOOCV,
-         model_r_squared = 
+         decision_bp = decision_bp
+         #model_RMSE = model_RMSE,
+         #model_LOOCV = model_LOOCV,
+         #model_r_squared = model_r_squared
          )
   }
 }
@@ -323,7 +323,10 @@ boxcox(overall_interaction_model, plotit = TRUE)
 boxcox(overall_interaction_model, plotit = TRUE, lambda = seq(0.13, 0.16, by = 0.001))
 
 overall_interaction_model_mod = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
-predict(overall_interaction_model_mod, newdata = startups_te)
+
+
+
+#predict(overall_interaction_model_mod, newdata = startups_te)
 summary(overall_interaction_model_mod)$r.squared
 plot(resid(overall_interaction_model_mod)~fitted(overall_interaction_model_mod))
 shapiro.test(resid(overall_interaction_model_mod)) #normality violated, <2.2e-16
