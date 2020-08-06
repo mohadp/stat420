@@ -326,7 +326,7 @@ cor(resid(model_test_invested_companies_1), resid(model_test_invested_companies_
 
 ```
 
-We remove the invested_companies and state_code from the predictors. and train a new model.
+We remove the invested_companies and state_code from the predictors and train a new model.
 
 *Improving collinearity*
 
@@ -401,6 +401,37 @@ We can see that the larger model doesn't offer a statistically significant diffe
 
 
 - **INTERACTION MODELS**
+
+*Three-way interactions*
+
+We start the exploration by training a 3-way interaction model, excluding investment_rounds and state_code from the variables, due to collinearity.
+
+```{r}
+#Training the model
+interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^3 , data = startups_tr)
+
+#Diagnostics and performance of the model
+diagnostics_performance(interaction_model)
+
+#Variance inflation factors
+faraway::vif(interaction_model)[faraway::vif(interaction_model)>5]
+
+#Outliers
+c(
+  num_outliers = length(rstandard(interaction_model)[abs(rstandard(interaction_model)) > 2]),
+  pct_outliers = length(rstandard(interaction_model)[abs(rstandard(interaction_model)) > 2]) / length(rstandard(interaction_model))
+)
+
+#Influential points
+c(
+  num_influential_points = sum(
+    cooks.distance(interaction_model) > 4 / length(cooks.distance(interaction_model))
+  ),
+  pct_influential_points = sum(
+    cooks.distance(interaction_model) > 4 / length(cooks.distance(interaction_model))
+  ) / length(cooks.distance(interaction_model))
+)
+```
 
 
 
