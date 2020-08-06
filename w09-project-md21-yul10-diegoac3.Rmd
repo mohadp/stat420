@@ -485,10 +485,7 @@ With clean data, we can now perform the data split for training and data
 #Generate the full data
 write_csv(x = startups, path = "./startups.csv")
 
-set.seed(20200805)
-library(splitstackshape)
-test = stratified(startups, c("city","category_code"), 0.7)
-nrow(test) / nrow(startups)
+set.seed(420)
 train_index = sample(1:nrow(startups), size = floor(0.8 * nrow(startups)))
 startups_tr = startups[train_index,]
 startups_te = startups[-train_index,]
