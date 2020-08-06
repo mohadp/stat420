@@ -414,9 +414,80 @@ interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_co
 
 #Diagnostics and performance of the model
 diagnostics_performance(interaction_model_simple)
+
+#Number of predictors
+length(coef(interaction_model)) - 1
 ```
 
+Although this model mathematically has a good R squared and adjusted R squared, the normality and constant variance assumptions are still violated. Furthermore, because there are 906 predictors, this is not an easy to understand model. We will find a simplified model doing a backwards AIC search.
 
+*Forward AIC*
+
+Because the previous model has 906 predictors, we use a forward search to optimize for computational resources. We tried to follow use a BIC approach so that we optimize for reducing the number of predictors, but the resulting R squared was quite low (0.10), so we decided to continue with the AIC method.
+
+```{r warning=FALSE}
+#Finding the model
+model_interaction_start = lm(aquisition_price_amount ~ 1, data = startups_tr)
+model_interaction_selected = step(
+  model_interaction_start,
+  scope = ~ category_code * funding_rounds + category_code * milestones +
+    category_code * aquisition_price_amount + category_code * top50pct + category_code *
+    istop26_50 + category_code * country_code + category_code * city + category_code *
+    invested_companies + category_code * funding_total_usd + category_code *
+    relationships + category_code * top25pct + category_code * istop25 + category_code *
+    name_length + funding_rounds * milestones + funding_rounds * aquisition_price_amount +
+    funding_rounds * top50pct + funding_rounds * istop26_50 + funding_rounds *
+    country_code + funding_rounds * city + funding_rounds * invested_companies +
+    funding_rounds * funding_total_usd + funding_rounds * relationships + funding_rounds *
+    top25pct + funding_rounds * istop25 + funding_rounds * name_length + milestones *
+    aquisition_price_amount + milestones * top50pct + milestones * istop26_50 +
+    milestones * country_code + milestones * city + milestones * invested_companies +
+    milestones * funding_total_usd + milestones * relationships + milestones *
+    top25pct + milestones * istop25 + milestones * name_length + aquisition_price_amount *
+    top50pct + aquisition_price_amount * istop26_50 + aquisition_price_amount *
+    country_code + aquisition_price_amount * city + aquisition_price_amount *
+    invested_companies + aquisition_price_amount * funding_total_usd + aquisition_price_amount *
+    relationships + aquisition_price_amount * top25pct + aquisition_price_amount *
+    istop25 + aquisition_price_amount * name_length + top50pct * istop26_50 +
+    top50pct * country_code + top50pct * city + top50pct * invested_companies +
+    top50pct * funding_total_usd + top50pct * relationships + top50pct * top25pct +
+    top50pct * istop25 + top50pct * name_length + istop26_50 * country_code +
+    istop26_50 * city + istop26_50 * invested_companies + istop26_50 * funding_total_usd +
+    istop26_50 * relationships + istop26_50 * top25pct + istop26_50 * istop25 +
+    istop26_50 * name_length + country_code * city + country_code * invested_companies +
+    country_code * funding_total_usd + country_code * relationships + country_code *
+    top25pct + country_code * istop25 + country_code * name_length + city *
+    invested_companies + city * funding_total_usd + city * relationships + city *
+    top25pct + city * istop25 + city * name_length + invested_companies * funding_total_usd +
+    invested_companies * relationships + invested_companies * top25pct + invested_companies *
+    istop25 + invested_companies * name_length + funding_total_usd * relationships +
+    funding_total_usd * top25pct + funding_total_usd * istop25 + funding_total_usd *
+    name_length + relationships * top25pct + relationships * istop25 + relationships *
+    name_length + top25pct * istop25 + top25pct * name_length + istop25 * name_length,
+  direction = "forward",
+  trace = 0
+)
+
+#Diagnostics and performance of the model
+diagnostics_performance(model_interaction_selected)
+
+#Variance inflation factors
+faraway::vif(model_interaction_selected)[faraway::vif(model_interaction_selected)>5]
+
+#Outliers
+c(
+  num_outliers = length(rstandard(model_interaction_selected)[abs(rstandard(model_interaction_selected)) > 2]),
+  pct_outliers = length(rstandard(model_interaction_selected)[abs(rstandard(model_interaction_selected)) > 2]) / length(rstandard(model_interaction_selected))
+)
+
+#Influential points
+c(
+  num_influential_points = sum(cooks.distance(model_interaction_selected) > 4 / length(cooks.distance(model_interaction_selected))),
+  pct_influential_points = sum(cooks.distance(model_interaction_selected) > 4 / length(cooks.distance(model_interaction_selected))) / length(cooks.distance(model_interaction_selected))
+)
+```
+
+Although this model optimizes for AIC (it has a lower AIC than the first two-way interaction model), this model performs worse in other areas. In particular the both the R squared and adjusted R squared decreased (0.55 and 0.53 respectively). The normality and constant variance assumptions continue to be violated.
 
 
 - **TRANSFORMATION MODELS**
