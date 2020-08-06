@@ -489,6 +489,15 @@ c(
 
 Although this model optimizes for AIC (it has a lower AIC than the first two-way interaction model), this model performs worse in other areas. In particular the both the R squared and adjusted R squared decreased (0.55 and 0.53 respectively). The normality and constant variance assumptions continue to be violated.
 
+*Selecting the best interaction model*
+
+Although we prefer the first two-way interaction model due to its better performance, we run an anova test to check the significance of the additional parameters included on the first two-way model vs the model found via forward AIC.
+
+```{r}
+anova(model_interaction_selected, interaction_model)
+```
+
+The anova test confirms that the initial model does include predictors that are significant. The preferred interaction model is `interaction_model`.
 
 - **TRANSFORMATION MODELS**
 
