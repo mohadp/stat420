@@ -81,6 +81,7 @@ Below is the snapshot to show we load our data into `R` successfully. We are inc
 ```{r}
 sample_data = read.csv("startups.csv")
 
+
 knitr::kable(head(sample_data[, c(
   "aquisition_price_amount",
   "city",
@@ -97,12 +98,43 @@ str(sample_data)
 
 ## Methods
 
+In order to validate the models that can help explain the aquisition value based on different startup characteristics or predictors, we start by dividing the full data into 2 datasets, one for training, with  80% of the observation; the rest were included in the test dataset. The split was done randomly.
+
+```{r message=FALSE}
+startups = read_csv("./startups.csv")
+attr(startups, "spec") = NULL
+which(dup)
+
+
+str(startups)
+
+rownames()
+
+
+
+
+```
+
 
 ### Yu
 
 ### Diego
 
 ### Moha
+
+```{r}
+str(startups_te)
+```
+
+
+After the selection of columns described in the **Appendix 1**, we need to identify which of the predictors are relevant to a potential linear model that describes the aquisition value.
+
+```{r}
+add_all_model = lm()
+```
+
+
+
 
 ## Results
 
@@ -252,9 +284,9 @@ After extracting the individual data aspects (people, company, investments) of t
 
 ```{r}
 company_aq = merge(companies, aquisitions, by = "company_id")
-nrow(company_aq)
+#nrow(company_aq)
 company_aq_lds = merge(x = company_aq, y = founders, by = "company_id", all.x = TRUE)
-nrow(company_aq_lds)
+#nrow(company_aq_lds)
 
 ```
 
