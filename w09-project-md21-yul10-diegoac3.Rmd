@@ -280,7 +280,9 @@ diagnostics_performance = function(model,
 
 ### Model building
 
-- **Additive models**
+- **ADDITIVE MODELS**
+
+*All variables*
 
 The first step of the exploration is to look at a simple additive model that contains all variables.
 
@@ -293,9 +295,21 @@ diagnostics_performance(additive_full)
 
 #Variance inflation factors
 faraway::vif(additive_full)[faraway::vif(additive_full)>5]
+
+#Outliers
+c(
+  num_outliers = length(rstandard(additive_full)[abs(rstandard(additive_full)) > 2]),
+  pct_outliers = length(rstandard(additive_full)[abs(rstandard(additive_full)) > 2]) / length(rstandard(additive_full))
+)
+
+#Influential points
+c(
+  num_influential_points = sum(cooks.distance(additive_full) > 4 / length(cooks.distance(additive_full))),
+  pct_influential_points = sum(cooks.distance(additive_full) > 4 / length(cooks.distance(additive_full))) / length(cooks.distance(additive_full))
+)
 ```
 
-We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section.
+We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section. 1.97% and 2.73% of points are considered to be outliers and to have influence respectevely. Although we can aim to reduce these, in this first exploration of different additive models it does not seem likely this values will change much.
 
 ```{r}
 #Direct correlation between investment_rounds and invested_companies is close to one
@@ -312,23 +326,44 @@ cor(resid(model_test_invested_companies_1), resid(model_test_invested_companies_
 
 ```
 
-We remove the invested_companies and state_code from the predictors.
+We remove the invested_companies and state_code from the predictors. and train a new model.
+
+*Improving collinearity*
 
 ```{r}
 #Training the model
 additive_full_updated = lm(aquisition_price_amount ~ .-investment_rounds -state_code , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(additive_full_updated, predict_function = function (x) {exp(x)})
+diagnostics_performance(additive_full_updated)
 
 #Variance inflation factors
 faraway::vif(additive_full_updated)[faraway::vif(additive_full_updated)>5]
 
+#Outliers
+c(
+  num_outliers = length(rstandard(additive_full_updated)[abs(rstandard(additive_full_updated)) > 2]),
+  pct_outliers = length(rstandard(additive_full_updated)[abs(rstandard(additive_full_updated)) > 2]) / length(rstandard(additive_full_updated))
+)
+
+#Influential points
+c(
+  num_influential_points = sum(
+    cooks.distance(additive_full_updated) > 4 / length(cooks.distance(additive_full_updated))
+  ),
+  pct_influential_points = sum(
+    cooks.distance(additive_full_updated) > 4 / length(cooks.distance(additive_full_updated))
+  ) / length(cooks.distance(additive_full_updated))
+)
+
 ```
 
-In the plots, we can see that normality and constant variance are still suspect. We also see confirm that normality suspect due to the low shapiro-wilk test p-value, and that the constant variance is suspect due to low bp test p-value. The R squared and adjusted R squared remain somewhat similar, as well as the RMSE leave one out cross validation. We now have less variables with a potentially large collinearity. We are ok to keep them for now: for completeness sake when performing predictions, we want to be able to still provide the business category code, the city, and the country.
+In the plots, we can see that normality and constant variance are still suspect. We also see confirm that normality suspect due to the low shapiro-wilk test p-value, and that the constant variance is suspect due to low bp test p-value. The R squared and adjusted R squared remain somewhat similar, as well as the RMSE leave one out cross validation. But we now have less variables with a potentially large collinearity. Outlier and influential points remain somewhat similar.
 
-Now we will perform a backwards AIC search to optimize for AIC.
+*Backwards AIC*
+
+Now we will perform a backwards AIC search to optimize for AIC and further decrease collinearity issues.
+
 ```{r}
 #Finding the model
 model_additive_selected = step(additive_full_updated, trace = 0)
@@ -339,22 +374,38 @@ diagnostics_performance(model_additive_selected)
 #Variance inflation factors
 faraway::vif(model_additive_selected)[faraway::vif(model_additive_selected)>5]
 
+#Outliers
+c(
+  num_outliers = length(rstandard(model_additive_selected)[abs(rstandard(model_additive_selected)) > 2]),
+  pct_outliers = length(rstandard(model_additive_selected)[abs(rstandard(model_additive_selected)) > 2]) / length(rstandard(model_additive_selected))
+)
+
+#Influential points
+c(
+  num_influential_points = sum(cooks.distance(model_additive_selected) > 4 / length(cooks.distance(model_additive_selected))),
+  pct_influential_points = sum(cooks.distance(model_additive_selected) > 4 / length(cooks.distance(model_additive_selected))) / length(cooks.distance(model_additive_selected))
+)
+
 
 ```
 
-The found model still violates normality and constant variance assumptions, as would normally be expected since this is derived from a model that also violated them. However, we are able to see less predictors with a variance inflation factor higher than 5. Now we proceed to compare both models with an anova test.
+The found model still violates normality and constant variance assumptions, as would normally be expected since this is derived from a model that also violated them. However, we are able to see less predictors with a variance inflation factor higher than 5. Outlier and influential points remain similar. Now we proceed to compare both models with an anova test and decide which is the best additive model.
+
+*Selecting the best additive model*
 
 ```{r}
 anova(model_additive_selected, additive_full_updated)
 ```
 
-We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For thatt reason, we prefer the model found through the backwards BIC method, `model_additive_selected`.
+We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For that reason, we prefer the model found through the backwards BIC method, `model_additive_selected`. This model still violates normality and constant variance assumptions, and these will not likely be corrected or at least further improved until we look at more complex interaction models or we apply transformations to predictor or response variables (done below).
 
 
-- **Interaction models**
+- **INTERACTION MODELS**
 
 
-- **Transformation models**
+
+
+- **TRANSFORMATION MODELS**
 
 
 ```{r eval=FALSE}
@@ -424,8 +475,7 @@ bptest(overall_interaction_model_mod_excluded) #constant variance not suspect, p
 qqline(resid(overall_interaction_model_mod_excluded), col = "dodgerblue", lwd = 2)}
 
 #Outliers and influential points from best model so far
-length(rstandard(overall_interaction_model_mod)[abs(rstandard(overall_interaction_model_mod)) > 2]) #460 outliers
-sum(cooks.distance(overall_interaction_model_mod) > 4 / length(cooks.distance(overall_interaction_model_mod)), na.rm = TRUE) #183 influential values
+
 
 
 
