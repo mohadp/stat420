@@ -402,35 +402,22 @@ We can see that the larger model doesn't offer a statistically significant diffe
 
 - **INTERACTION MODELS**
 
-*Three-way interactions*
+*Two-way interactions*
 
-We start the exploration by training a 3-way interaction model, excluding investment_rounds and state_code from the variables, due to collinearity.
+We started the exploration by training a 2-way interaction model, excluding investment_rounds and state_code from the variables, due to collinearity.
+
+We also tried to fit an overall 3-way model in a couple of ways. First, by considering all terms besides investment_rounds and  state_code, but due to computational limitations we decided to take a different approach (after 3 hours the model was not complete training yet). We also tried to fit an overall 3-way model, excluding city from the interaction terms (and adding it as a separate term on its own) to try to improve machine performance--altough this model offered a good initial R squared (~0.9) it was hard to interpret and still taxing on machine resources.
 
 ```{r}
 #Training the model
-interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^3 , data = startups_tr)
+interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^2 , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(interaction_model)
+diagnostics_performance(interaction_model_simple)
 
-#Variance inflation factors
-faraway::vif(interaction_model)[faraway::vif(interaction_model)>5]
+#Number of predictosr with high inflation factors
+length(faraway::vif(interaction_model)[faraway::vif(interaction_model)>5])
 
-#Outliers
-c(
-  num_outliers = length(rstandard(interaction_model)[abs(rstandard(interaction_model)) > 2]),
-  pct_outliers = length(rstandard(interaction_model)[abs(rstandard(interaction_model)) > 2]) / length(rstandard(interaction_model))
-)
-
-#Influential points
-c(
-  num_influential_points = sum(
-    cooks.distance(interaction_model) > 4 / length(cooks.distance(interaction_model))
-  ),
-  pct_influential_points = sum(
-    cooks.distance(interaction_model) > 4 / length(cooks.distance(interaction_model))
-  ) / length(cooks.distance(interaction_model))
-)
 ```
 
 
@@ -438,94 +425,6 @@ c(
 
 - **TRANSFORMATION MODELS**
 
-
-```{r eval=FALSE}
-
-#1. 2 way interactions model all variables; vector memory exhausted.
-#2. 3 way model, focusing on top variables instead - 3 hours without results
-
-full_model = lm(log(aquisition_price_amount) ~ . , data = startups_tr)
-startups_te$aquisition_price_amount[1]
-exp(predict(full_model, newdata = startups_te)[1])
-
-
-predict_function = function (x) {exp(x)}
-(model_RMSE = sqrt(mean(sum(exp(predict(full_model, newdata = startups_te)) - startups_te$aquisition_price_amount)^2)))
-
-diagnostics(full_model, predict_function = function (x) {exp(x)})
-startups_te$aquisition_price_amount
-
-#3. Additive model, focusing on top variables
-additive_model = lm(aquisition_price_amount~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
-
-summary(additive_model)
-plot(resid(additive_model)~fitted(additive_model))
-shapiro.test(resid(additive_model)) #normality violated, <2.2e-16
-bptest(additive_model) #constant variance not violated? 1
-boxcox(additive_model, plotit = TRUE)
-boxcox(additive_model, plotit = TRUE, lambda = seq(0.01, 0.14, by = 0.001))
-
-additive_model_mod = lm((aquisition_price_amount)^0.11~(city + category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25), data = startups_tr)
-
-summary(additive_model_mod)$r.squared
-plot(resid(additive_model_mod)~fitted(additive_model_mod))
-{qqnorm(resid(additive_model_mod), main = "Normal Q-Q Plot", col = "darkgrey")
-qqline(resid(additive_model_mod), col = "dodgerblue", lwd = 2)}
-
-shapiro.test(resid(additive_model_mod)) #normality violated, <2.2e-16
-bptest(additive_model_mod)
-
-#4. BEST MODEL SO FAR Three-way interactions, focusing on top variables (except cities)
-#Good R squared, normality is still violated
-overall_interaction_model = lm(aquisition_price_amount~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
-boxcox(overall_interaction_model, plotit = TRUE)
-boxcox(overall_interaction_model, plotit = TRUE, lambda = seq(0.13, 0.16, by = 0.001))
-
-overall_interaction_model_mod = lm(aquisition_price_amount^0.130~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr)
-
-startups_te$aquisition_price_amount[1]
-predict(overall_interaction_model_mod, newdata = startups_te)[1]
-
-#predict(overall_interaction_model_mod, newdata = startups_te)
-summary(overall_interaction_model_mod)$r.squared
-plot(resid(overall_interaction_model_mod)~fitted(overall_interaction_model_mod))
-shapiro.test(resid(overall_interaction_model_mod)) #normality violated, <2.2e-16
-bptest(overall_interaction_model_mod) #constant variance not suspect, p-value 0.9248
-{qqnorm(resid(additive_model_mod), main = "Normal Q-Q Plot", col = "darkgrey")
-qqline(resid(additive_model_mod), col = "dodgerblue", lwd = 2)}
-
-#Excluding values where fitted vs residuals looks odd (aquisition_price_amount^0.145 between 7 to exp 15)
-#Made it worse
-overall_interaction_model_mod_excluded = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city, data = startups_tr, subset = (aquisition_price_amount^0.145 > 7 & aquisition_price_amount^0.145 < 15))
-
-summary(overall_interaction_model_mod_excluded)$r.squared
-plot(resid(overall_interaction_model_mod_excluded)~fitted(overall_interaction_model_mod_excluded))
-shapiro.test(resid(overall_interaction_model_mod_excluded)) #normality violated, <2.2e-16
-bptest(overall_interaction_model_mod_excluded) #constant variance not suspect, p-value 0.9248
-{qqnorm(resid(overall_interaction_model_mod_excluded), main = "Normal Q-Q Plot", col = "darkgrey")
-qqline(resid(overall_interaction_model_mod_excluded), col = "dodgerblue", lwd = 2)}
-
-#Outliers and influential points from best model so far
-
-
-
-
-#Polynomials, focusing on top variables (except cities)
-overall_interaction_poly = lm(aquisition_price_amount~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city + I(investment_rounds^2) + I(invested_companies^2), data = startups_tr)
-boxcox(overall_interaction_poly, plotit = TRUE)
-boxcox(overall_interaction_poly, plotit = TRUE, lambda = seq(0.13, 0.16, by = 0.01))
-
-
-overall_interaction_poly_mod = lm(aquisition_price_amount^0.145~(category_code + investment_rounds + invested_companies + funding_rounds + log(funding_total_usd+1) + milestones + log(relationships+1) + istop25)^3 + city + I(investment_rounds^2) + I(invested_companies^2), data = startups_tr)
-
-summary(overall_interaction_poly_mod)$r.squared
-plot(resid(overall_interaction_poly_mod)~fitted(overall_interaction_poly_mod))
-shapiro.test(resid(overall_interaction_poly_mod)) #normality violated, <2.2e-16
-bptest(overall_interaction_poly_mod) #constant variance not suspect, p-value 0.9248
-{qqnorm(resid(overall_interaction_poly_mod), main = "Normal Q-Q Plot", col = "darkgrey")
-qqline(resid(overall_interaction_poly_mod), col = "dodgerblue", lwd = 2)}
-
-```
 
 
 ### Moha
