@@ -187,7 +187,7 @@ str(startups)
 
 ### Diego
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 #Pick one with boxcox, one with log alone
 #Loading required libraries
 library(lmtest)
@@ -372,8 +372,83 @@ qqline(resid(overall_interaction_poly_mod), col = "dodgerblue", lwd = 2)}
 ### Moha
 
 ```{r}
-#str(startups_te)
+str(startups_tr)
+library(lmtest)
+
+plot_fitted_resid = function(model, pointcol = "dodgerblue", linecol = "darkorange") {
+  plot(fitted(model), resid(model), 
+       col = pointcol, pch = 20, cex = 1.5,
+       xlab = "Fitted", ylab = "Residuals")
+  abline(h = 0, col = linecol, lwd = 2)
+}
+
+plot_qq = function(model, pointcol = "dodgerblue", linecol = "darkorange") {
+  qqnorm(resid(model), col = pointcol, pch = 20, cex = 1.5)
+  qqline(resid(model), col = linecol, lwd = 2)
+}
+
+diagnostics2 = function(model, pcol = "grey", lcol = "dodgerblue", alpha = 0.50, plotit = TRUE, testit = TRUE){
+  
+  if(plotit){
+    par(mfrow=c(1,2))
+    plot(fitted(model), resid(model), col =  pcol, pch = 20, xlab = "Fitted", ylab = "Residuals", main = paste("Data from", deparse(substitute(model))))
+    abline(h = 0, col = lcol, lwd = 2)
+    
+    qqnorm(resid(model), main = paste("Normal Q-Q Plot from",deparse(substitute(model))), col = pcol)
+    qqline(resid(model), col = lcol, lwd = 2)
+  }
+  
+  if(testit){
+    shatest = shapiro.test(resid(model))
+    bp = bptest(model)
+    p = length(coef(model))
+    n = length(resid(model))
+    rsme_looocv = sqrt(mean((resid(model) / (1 - hatvalues(model))) ^ 2))
+    
+    
+    
+    res = t(c(
+      "r2" =  summary(model)$r.squared,
+      "shapiro" =  shatest$p.value,
+      "bptest" =  bp$p.value,
+      "p" =  p,
+      "AIC" =  extractAIC(model)[2],
+      "BIC" =  extractAIC(model, k = log(n))[2],
+      "adjR2" =  summary(model)$adj.r.squared,
+      "rsme_looocv" =  rsme_looocv))
+    res
+  }
+}
 ```
+
+```{r}
+#str(startups_tr)
+additive_all_model = lm(log(aquisition_price_amount) ~ . - invested_companies -top25pct -top50pct , data = startups_te)
+summary(additive_all_model)
+#diagnostics2(additive_all_model, alpha = .01)
+
+numeric_cols = which(sapply(startups_tr, typeof)  == "double")
+numeric_cols
+
+
+
+cor(startups_tr[,numeric_cols])
+
+
+```
+
+```{r}
+vifs = faraway::vif(additive_all_model)
+vifs[vifs > 5]
+```
+
+```{r}
+plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
+plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
+plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
+plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
+```
+
 
 
 After the selection of columns described in the **Appendix 1**, we need to identify which of the predictors are relevant to a potential linear model that describes the aquisition value.
