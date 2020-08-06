@@ -304,6 +304,7 @@ With clean data, we can now perform the data split for training and data
 #Generate the full data
 write_csv(x = startups, path = "./startups.csv")
 
+set.seed(420)
 train_index = sample(1:nrow(startups), size = floor(0.8 * nrow(startups)))
 startups_tr = startups[train_index,]
 startups_te = startups[-train_index,]
