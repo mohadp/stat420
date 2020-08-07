@@ -432,7 +432,7 @@ diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", p
     
     #Output from test
     res = list(
-      "coefs" =  nrow(summary(model)$coefficients),
+      "coefficients" =  nrow(summary(model)$coefficients),
       "model.pval" = model_pval,
       "r2" =  r_squared,
       "rmse.train" = rmse_train,
@@ -450,6 +450,7 @@ diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", p
     
     if(as_data_frame)
       res = data.frame(unlist(res))
+    colnames(res) = NULL
     res
   }
 }
@@ -465,33 +466,28 @@ get_vifs = function(model){
 
 #Compares  two or more models side-by-side in a single dataframe, all model assumptions and prformance.
 compare_model_performance = function(models, predict_transforms = NULL, test_data, test_actuals_col, train_actuals = NULL, as_data_frame = FALSE){
-  dummy = unlist(diagnostics_performance(models[[1]], plotit = F))
+  dummy = unlist(diagnostics_performance(models[[1]], plotit = FALSE, as_data_frame = FALSE))
   model_comp = matrix(0, nrow = length(dummy), ncol = length(models))
-  col_names = rep(0, length(models))
+  #col_names = rep(0, length(models))
+  train_actuals = unlist(train_actuals)
   
-  #View(model_comp)
-
   for(m in 1:length(models)){
     model = models[[m]]
-    model_comp[,m] = as.numeric(unlist(diagnostics_performance(model, plotit = FALSE, response_transform = predict_transforms[[m]], train_actuals = train_actuals, as_data_frame = FALSE)))
+    model_comp[,m] = unlist(diagnostics_performance(model, plotit = FALSE, response_transform = predict_transforms[[m]], train_actuals = train_actuals, as_data_frame = FALSE))
 
     transform_func = function(x){x}
-    transform_func = ifelse(is.null(predict_transforms), transform_func, predict_transforms[[m]])
+    if(!is.null(predict_transforms))
+      transform_func = predict_transforms[[m]]
+    
     predict_func = custom_predict(model, test_data = test_data, fitted_transform = transform_func)
+    actuals = unlist(test_data[,test_actuals_col])
     
-    actuals = as.numeric(unlist(test_data[,test_actuals_col]))
     rmse_test = get_rmse(model, predict_function = predict_func, test_actuals = actuals)
-    print(rownames(model_comp))
-    print(model_comp)
     model_comp[names(dummy) == "rmse.test", m] = rmse_test #
-    
   }
-  #print(col_names)
   rownames(model_comp) = names(dummy)
   model_comp
 }
-
-compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12))
 
 
 #Helper function to allow custom response transforamtions, relevant to compare models.
@@ -508,7 +504,9 @@ compare_without_influential = function(model, train_data, test_data, test_actual
   influentials = get_influentials(model)$influentials
   new_model = lm(as.formula(formula), data = train_data, subset = !influentials)
   
-  compare_coef = compare_model_performance(list(model, new_model), predict_transforms = list(response_transform, response_transform), test_data = test_data, test_actuals_col = test_actuals_col,  train_actuals = as.numeric(unlist(train_data[,test_actuals_col])))
+  compare_coef = compare_model_performance(list(model, new_model), predict_transforms = list(response_transform, response_transform), 
+                                           test_data = test_data, test_actuals_col = test_actuals_col,  train_actuals = train_data[,test_actuals_col])
+  
   colnames(compare_coef) = c("W/ Influential", "W/o Influential")
   compare_coef
 }
@@ -529,14 +527,9 @@ compare_parameters = function(models,  variables, model_names = 0){
                         variable = summary(model)$coefficients[,variables[v]])
       
       colnames(new_items)[v+1] =  paste(model_name,"_",v)
-      
     }
-    
     all_coefs = merge(all_coefs, new_items, by = "coefficients", all = TRUE)
-    #colnames(all_coefs) = col_names
-    
   }
-  #colnames(all_coefs) = col_names
   all_coefs
 }
 
@@ -798,7 +791,7 @@ knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox_selecte
 
 
 
-## Evaluate whether removing influential observations help on the model assumption and fit.
+## Evaluate whether removing influential observations helps on the model assumption and fit.
 knitr::kable(compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12)), digits = 2)
 
 ```
@@ -814,7 +807,7 @@ We also explore using a logarithmic transformation in the response variable, usi
 model_transformation_log = lm(log(aquisition_price_amount) ~ (. -investment_rounds -state_code)^2 + log(funding_total_usd+1) +log(relationships+1) , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_transformation_log, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(model_transformation_log, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 
 ```
 
@@ -870,10 +863,7 @@ model_transformation_log_selected = step(
 )
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_transformation_log_selected)
-
-#Number of predictors
-length(coef(model_transformation_log_selected))
+knitr::kable(na.omit(diagnostics_performance(model_transformation_log_selected, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 ```
 
 Although this model shows improvements in AIC and BIC, other metrics do not look as good. And the constant variance assumption is more suspect now. For that reason the original logarithmic model `model_transformation_log` seems better, and overall, we still prefer the original boxcox model `model_transformation_boxcox` as a transformation-based model.
@@ -890,10 +880,14 @@ In summary, the two preferred models are: `interaction_model` (interaction), `mo
 #for interaction_model and model_additive_selected_AIC,no response transformation
 simple_function = function(x){x}
 
-compare_model_performance(
-  models = list(interaction_model, model_additive_selected_AIC), 
-  predict_transforms = list(simple_function,  simple_function),
+comp = compare_model_performance(
+  models = list(interaction_model, model_transformation_boxcox, model_additive_selected_AIC), 
+  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12), simple_function),
   test_data = startups_te, test_actuals_col = "aquisition_price_amount", train_actuals = startups_tr$aquisition_price_amount)
+
+colnames(comp) = c("interaction_model", " model_transformation_boxcox", " model_additive_selected_AIC")
+knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
+
 ```
 
 
