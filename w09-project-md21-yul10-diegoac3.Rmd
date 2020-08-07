@@ -379,7 +379,7 @@ get_influentials = function(model){
 get_rmse = function(model, predict_function = NULL, test_actuals = NULL){
   predictions = 0
   if(!is.null(predict_function))
-    predict_function(model)
+    predictions = predict_function(model)
   rsme_val = 0
     
   if(!is.null(test_actuals)) 
@@ -881,12 +881,15 @@ In summary, the two preferred models are: `interaction_model` (interaction), `mo
 simple_function = function(x){x}
 
 comp = compare_model_performance(
-  models = list(interaction_model, model_transformation_boxcox, model_additive_selected_AIC), 
-  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12), simple_function),
+  models = list(interaction_model, model_transformation_boxcox), 
+  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12)),
   test_data = startups_te, test_actuals_col = "aquisition_price_amount", train_actuals = startups_tr$aquisition_price_amount)
 
-colnames(comp) = c("interaction_model", " model_transformation_boxcox", " model_additive_selected_AIC")
-knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
+colnames(comp) = c("interaction_model", " model_transformation_boxcox")
+comp = as.data.frame(t(as.matrix(comp)))
+colnames(comp)
+comp
+#knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
 
 ```
 
