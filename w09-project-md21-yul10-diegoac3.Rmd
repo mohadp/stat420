@@ -274,7 +274,7 @@ diagnostics_performance = function(model,
 
 ### Model building
 
-- **ADDITIVE MODELS**
+- **Additive Models**
 
 *All variables*
 
@@ -360,24 +360,24 @@ Now we will perform a backwards AIC search to optimize for AIC and further decre
 
 ```{r}
 #Finding the model
-model_additive_selected = step(additive_full_updated, trace = 0)
+model_additive_selected_AIC = step(additive_full_updated, trace = 0)
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_additive_selected)
+diagnostics_performance(model_additive_selected_AIC)
 
 #Variance inflation factors
-faraway::vif(model_additive_selected)[faraway::vif(model_additive_selected)>5]
+faraway::vif(model_additive_selected_AIC)[faraway::vif(model_additive_selected_AIC)>5]
 
 #Outliers
 c(
-  num_outliers = length(rstandard(model_additive_selected)[abs(rstandard(model_additive_selected)) > 2]),
-  pct_outliers = length(rstandard(model_additive_selected)[abs(rstandard(model_additive_selected)) > 2]) / length(rstandard(model_additive_selected))
+  num_outliers = length(rstandard(model_additive_selected_AIC)[abs(rstandard(model_additive_selected_AIC)) > 2]),
+  pct_outliers = length(rstandard(model_additive_selected_AIC)[abs(rstandard(model_additive_selected_AIC)) > 2]) / length(rstandard(model_additive_selected_AIC))
 )
 
 #Influential points
 c(
-  num_influential_points = sum(cooks.distance(model_additive_selected) > 4 / length(cooks.distance(model_additive_selected))),
-  pct_influential_points = sum(cooks.distance(model_additive_selected) > 4 / length(cooks.distance(model_additive_selected))) / length(cooks.distance(model_additive_selected))
+  num_influential_points = sum(cooks.distance(model_additive_selected_AIC) > 4 / length(cooks.distance(model_additive_selected_AIC))),
+  pct_influential_points = sum(cooks.distance(model_additive_selected_AIC) > 4 / length(cooks.distance(model_additive_selected_AIC))) / length(cooks.distance(model_additive_selected_AIC))
 )
 
 
@@ -388,13 +388,13 @@ The found model still violates normality and constant variance assumptions, as w
 *Selecting the best additive model*
 
 ```{r}
-anova(model_additive_selected, additive_full_updated)
+anova(model_additive_selected_AIC, additive_full_updated)
 ```
 
-We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For that reason, we prefer the model found through the backwards BIC method, `model_additive_selected`. This model still violates normality and constant variance assumptions, and these will not likely be corrected or at least further improved until we look at more complex interaction models or we apply transformations to predictor or response variables (done below).
+We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For that reason, we prefer the model found through the backwards BIC method, `model_additive_selected_AIC`. This model still violates normality and constant variance assumptions, and these will not likely be corrected or at least further improved until we look at more complex interaction models or we apply transformations to predictor or response variables (done below).
 
 
-- **INTERACTION MODELS**
+- **Interaction Models**
 
 *Two-way interactions*
 
@@ -479,7 +479,7 @@ anova(model_interaction_selected, interaction_model)
 
 The anova test confirms that the initial model does include predictors that are significant. The preferred interaction model is `interaction_model`.
 
-- **TRANSFORMATION MODELS**
+- **Transformation Models**
 
 *Boxcox method*
 
@@ -573,7 +573,7 @@ model_transformation_log = lm(log(aquisition_price_amount) ~ (. -investment_roun
 diagnostics_performance(model_transformation_log)
 ```
 
-In R squared and in predicted R squared this model performs marginally worse than the boxcox model. However, in AIC and in BIC, this model shows a more significant drop in performance (drop from 3274 to 3931 in AIC and from 7070 to 7727 in BIC).
+In R squared and in predicted R squared this model performs marginally worse than the boxcox model, and the constant variance assumption doesn't seem suspect from the bp test (although we can see it's not fully met either from the fitted vs residuals plot). However, in AIC and in BIC, this model shows a more significant drop in performance (drop from 3274 to 3931 in AIC and from 7070 to 7727 in BIC). For that reason we prefer the boxcox model `model_transformation_boxcox` as a transformation-based model
 
 *Forward AIC, using lorarigthmic model as the scope*
 
@@ -631,7 +631,11 @@ diagnostics_performance(model_transformation_log_selected)
 length(coef(model_transformation_log_selected))
 ```
 
-Although
+Although this model shows improvements in AIC and BIC, other metrics do not look as good. And the constant variance assumption is more suspect now. For that reason the original logarithmic model `model_transformation_log` seems better, and overall, we still prefer the original boxcox model `model_transformation_boxcox` as a transformation-based model.
+
+- **Summary**
+
+In summary, the three preferred models are: `model_additive_selected_AIC` (additive), `interaction_model` (interaction), `model_transformation_boxcox` (transformation).
 
 ### Moha
 
