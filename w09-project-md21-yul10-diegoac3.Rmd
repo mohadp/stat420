@@ -491,9 +491,6 @@ compare_model_performance = function(models, predict_transforms = NULL, test_dat
   model_comp
 }
 
-compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12))
-
-
 #Helper function to allow custom response transforamtions, relevant to compare models.
 custom_predict = function(model, test_data, fitted_transform = NULL){
   fitted.transform = ifelse(is.null(fitted_transform), function(x){x}, fitted_transform)
@@ -885,15 +882,19 @@ In summary, the two preferred models are: `interaction_model` (interaction), `mo
 
 ## Results
 
-
 ```{r}
 #for interaction_model and model_additive_selected_AIC,no response transformation
-simple_function = function(x){x}
+simple_function = function(x) {
+  x
+}
 
 compare_model_performance(
-  models = list(interaction_model, model_additive_selected_AIC), 
+  models = list(interaction_model, model_additive_selected_AIC),
   predict_transforms = list(simple_function,  simple_function),
-  test_data = startups_te, test_actuals_col = "aquisition_price_amount", train_actuals = startups_tr$aquisition_price_amount)
+  test_data = startups_te,
+  test_actuals_col = "aquisition_price_amount",
+  train_actuals = startups_tr$aquisition_price_amount
+)
 ```
 
 
