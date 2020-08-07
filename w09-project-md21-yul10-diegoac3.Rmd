@@ -95,9 +95,14 @@ knitr::kable(head(sample_data[, c(
 )]))
 ```
 
-## Explory Anlaysis
 
-### Univarite Analysis
+## Methods
+
+
+
+
+### Data Exploration (Yu)
+#### Univarite Analysis
 
 ```{r}
 # read the dataset
@@ -237,7 +242,7 @@ plot(data1$relationships, data1$logprice)
 fit = lm(logprice ~ relationships, data1)
 abline(fit, col = "red")
 ```
-### Correlation Analysis
+####  Correlation Analysis
 Then we checked the correlation matrix of the numerical variables.
 ```{r}
 data2 = data1[,c("name_length", "investment_rounds", "invested_companies", "milestones", "relationships")]
@@ -246,12 +251,6 @@ cor(data2)
 
 It turns out the `investment_rounds` and `invested_companies` shows strongly collinearity. We should only use one of them in the model to avoid the collinearity issue.
 
-## Methods
-
-
-
-
-### Data Exploration (Yu)
 
 
 ### Data Adjustments (Moha)
@@ -491,7 +490,7 @@ compare_model_performance = function(models, predict_transforms = NULL, test_dat
   model_comp
 }
 
-compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12))
+#compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12))
 
 
 #Helper function to allow custom response transforamtions, relevant to compare models.
