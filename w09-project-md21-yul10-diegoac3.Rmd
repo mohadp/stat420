@@ -60,7 +60,7 @@ We consider the following 14 variables as the potential predictor:
 
 ### Background information of the data set
 
-The database comes from [a Kaggle public dataset about startup investments](https://www.kaggle.com/justinas/startup-investments?select=funding_rounds.csv%29) published by Justinas Cirtautas at the end of 2019. The dataset covers more 450 thousand company information from all over the world till 2013. Among those, about 10 thousand companies acomplished their acquisition successfully, while 80% of them got 0 dollars in their acquisition. 
+The database comes from [a Kaggle public dataset about startup investments](https://www.kaggle.com/justinas/startup-investments?select=funding_rounds.csv%29) published by Justinas Cirtautas at the end of 2019. The dataset covers more 450 thousand company information from all over the world till 2013. Among those, about 10 thousand companies acomplished their acquisition successfully, while 80% of them got 0 dollars in their acquisition.
 
 The entire dataset provides 11 cvs file with 154 columns, which covers six aspects of the startup ecosystem including organizations, individuals, company news, funding rounds, acquisitions, and IPOs. We populated all the 11 csv files. More detials can be found in the appendix at the end of this proposal. Considering the missing data rate, we determine to focus on only two files: acquisition.csv and objects.csv.
 
@@ -93,10 +93,158 @@ knitr::kable(head(sample_data[, c(
   "milestones",
   "relationships"
 )]))
-
-str(sample_data)
 ```
 
+## Explory Anlaysis
+
+### Univarite Analysis
+
+```{r}
+# read the dataset
+data0 = read.csv('startups1.csv', header = TRUE)
+```
+
+First, we checked the distribution of aquisition price.
+```{r}
+hist(data0$aquisition_price_amount, breaks = 100)
+```
+
+As we can see from the plot above, the distrbution is highly right skewed.
+Then we use the box plot to check if there is any outliers.
+```{r}
+boxplot(data0$aquisition_price_amount)
+```
+
+As we can see there is one record in the dataset with extremely high acquicition price. We checked the database further and found its acqusition price is 2600 billion, which equals the valuation of google and amazon. So we think this one should be an database error, we will exclude this database in our further analysis.
+```{r}
+data1 = data0[data0$aquisition_price_amount < 10^12,]
+```
+```{r}
+boxplot(data1$aquisition_price_amount)
+```
+
+After excluding the error in our database, the distribution of aquisition price is still highly right skewed. We will consider the log transformation on the aquisition price.
+
+```{r}
+data1["logprice"] = apply(data1["aquisition_price_amount"],2,log)
+hist(data1$logprice, breaks = 100)
+boxplot(data1$logprice)
+```
+
+The distributino of log aquisition price is relatively sysmetric. From the boxplot we can still find there are many records is outside of the 1.75 IQR. But we think we can start from here to build our model.
+
+Then we checked the precdictor in the database one by one. For category_code, this is a categorical varaible.
+```{r}
+summary(data1$category_code)
+plot(data1$category_code, data1$logprice)
+```
+
+The records concentrated in several major levels of category_code. As for the boxplot between category_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable and put them in our candidate predictor list.
+
+Then we turn to the name of the company. We extract the length of the company name as a feature.
+```{r}
+data1["name_length"] = apply(data1["normalized_name"],2,nchar)
+plot(data1$name_length, data1$logprice)
+```
+
+After check the relationship between length of the company name, we found if the company name has more than 30 characters, the acquisition price tend to decrease. so we plan to create a dummy variable, company name lenght > 30 or not, and add it to our candidate predictor list.
+
+Then we check the logo width.
+```{r}
+plot(data1$logo_width, data1$logprice)
+fit = lm(logprice ~ logo_width, data1)
+abline(fit, col = "red")
+```
+For the plot we found in fact, quite amount of the logo_width is 0. Then we guess, maybe in this column, 0 means missing value. so we decide to remove that part and replot the above figure.
+
+```{r}
+sum(data1$logo_width == 0)
+temp = data1[data1$logo_width > 0, ]
+plot(temp$logo_width, temp$logprice)
+fit = lm(logprice ~ logo_width, temp)
+abline(fit, col = "red")
+```
+
+It turns out there are 502 records in total has 0 logo_width. After removing them, the relationship between logo_width and log price become not that significant. considering the maximum logo_width is more than 5000 times of the minimum width, the data reliability becomes skeptical.
+
+We further checked the log_height.
+
+```{r}
+plot(data1$logo_height, data1$logprice)
+fit = lm(logprice ~ logo_height, data1)
+abline(fit, col = "red")
+```
+```{r}
+sum(data1$logo_height == 0)
+temp = data1[data1$logo_height > 0, ]
+plot(temp$logo_height, temp$logprice)
+fit = lm(logprice ~ logo_height, temp)
+abline(fit, col = "red")
+```
+
+It show the same pattern. Out of curiosity, we create a variable named, logo_ratio, which is the ration of logo height and width.
+
+```{r}
+mask = data1$logo_height > 0
+data1["logo_ratio"] = data1["logo_height"] / data1["logo_width"]
+plot(data1$logo_ratio[mask], data1$logprice[mask])
+fit = lm(logprice ~ logo_ratio, data1[mask,])
+abline(fit, col = "red")
+```
+
+But it turns out seems this variable does not help much. Considering the data sanity issue in those columns, we did not put them to our candidate predictor list.
+
+Then we checked the country_code, which is a categorical variable.
+
+```{r}
+summary(data1$country_code)
+plot(data1$country_code, data1$logprice)
+```
+
+The records concentrated in several major levels of country_code. To be more specific, most records is in USA. As for the boxplot between country_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable  and put them in our candidate predictor list.
+
+The same observation found in city.
+
+```{r}
+summary(data1$city)
+plot(data1$city, data1$logprice)
+```
+
+The records concentrated in several major levels of city. As for the boxplot between city_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable  and put them in our candidate predictor list.
+
+For investiment_rounds, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$investment_rounds, data1$logprice)
+```
+
+For investiment_companies, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$invested_companies, data1$logprice)
+```
+
+For milestones, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$milestones, data1$logprice)
+```
+
+For relationships, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$relationships, data1$logprice)
+fit = lm(logprice ~ relationships, data1)
+abline(fit, col = "red")
+```
+### Correlation Analysis
+Then we checked the correlation matrix of the numerical variables.
+```{r}
+data2 = data1[,c("name_length", "investment_rounds", "invested_companies", "milestones", "relationships")]
+cor(data2)
+```
+
+It turns out the `investment_rounds` and `invested_companies` shows strongly collinearity. We should only use one of them in the model to avoid the collinearity issue.
 
 ## Methods
 
@@ -112,10 +260,10 @@ Based on the single predictor analysis above, it is now possible to further simp
 
 Some data adjustments include:
 
-- Collapsing of the number of levels for factor variables a high number levels: `category_code`, `country_code`, `city`, `state_code`. This will ommit potential dummy variables when dealing with factor variables with levels that provide little significance. This also adds benefit of improving model simplicity by reducing number of levels.
-- Removal of columns that are necessary or useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`.
-- Division of the full data into 2 datasets, one for training (`startups_tr`), with  80% of the observations; the rest will be included in a test dataset (`startups_te`), useful for model cross-validation. The split is done randomly.
-- Removing outlier case of acquisition for 2.6T. For reference, Amazon's Market Cap is 1.6T. We believe this was an input error.
+- Collapsing of the number of levels for factor variables with a high number levels: `category_code`, `country_code`, `city`, `state_code`. This will ommit potential dummy variables when dealing with factor variables with levels that provide little significance. The fewer levels and variables also adds benefit of simplifying the model.
+- Removal of columns that are not useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`. These are pure descriptions of the startups, and while these could have been a source for additional continuous (e.g. word counts) or discreet variables (mention of certain trendy keywords), we decided to leave out for now to narrow down the analysis on the other variables.
+- Division of the full data into 2 datasets: one for training (`startups_tr`), with  80% of the observations, and the rest will be included in a test dataset (`startups_te`), useful for model cross-validation. The split is done randomly.
+- Removal of outlier case of acquisition for 2.6T. For reference, Amazon's Market Cap is 1.6T. We believe this was an input error.
 
 
 ```{r message=FALSE}
@@ -190,7 +338,7 @@ str(startups)
 ```
 
 
-### Diagnostics and Performance Function (Diego)
+### Diagnostics and Performance Function (Diego/Moha)
 
 In order to compare models, we use a single function that runs tests on both:
 
