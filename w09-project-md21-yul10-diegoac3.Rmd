@@ -391,7 +391,9 @@ The found model still violates normality and constant variance assumptions, as w
 anova(model_additive_selected_AIC, additive_full_updated)
 ```
 
-We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For that reason, we prefer the model found through the backwards BIC method, `model_additive_selected_AIC`. This model still violates normality and constant variance assumptions, and these will not likely be corrected or at least further improved until we look at more complex interaction models or we apply transformations to predictor or response variables (done below).
+We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For that reason, from the additive models, we prefer the model found through the backwards BIC method `model_additive_selected_AIC`. This model still violates normality and constant variance assumptions, and these will not likely be corrected or at least further improved until we look at more complex interaction models or we apply transformations to predictor or response variables (done below).
+
+All in all, we won't be focusing on this purely additive model `model_additive_selected_AIC` because of the very low r squared and potential low power to make predictions.
 
 
 - **Interaction Models**
@@ -635,7 +637,9 @@ Although this model shows improvements in AIC and BIC, other metrics do not look
 
 - **Summary**
 
-In summary, the three preferred models are: `model_additive_selected_AIC` (additive), `interaction_model` (interaction), `model_transformation_boxcox` (transformation).
+In summary, the two preferred models are: `interaction_model` (interaction), `model_transformation_boxcox` (transformation). We are omitting `model_additive_selected_AIC` (additive) because of its low r squared.
+
+Also, we tried to train a model involving polynomials, but there was no polynomial term that was significant enough when performing model building explorations.
 
 ### Moha
 
