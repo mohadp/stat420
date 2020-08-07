@@ -1,5 +1,5 @@
 ---
-title: "Data Analysis - Project Proposal"
+title: "Data Analysis Project"
 author: "Mohamed Diakite Pineda, Yu Liu, Diego Carreno, STAT 420, Summer 2020"
 date: "8/06/2020"
 output:
@@ -240,12 +240,6 @@ diagnostics_performance = function(model,
     #P-val from BP test to assess cosntant variance
     p_val_bp = unname(bptest(model)$p.value)
     
-    #RMSE
-    #RMSE = sqrt(mean(sum(predict_function(predict(model, newdata = startups_te)) - startups_te$aquisition_price_amount)^2))
-    
-    ##LOOCV
-    #RMSE_LOOCV = sqrt(mean((resid(model) / (1 - hatvalues(model))) ^ 2))
-    
     #R squqred
     r_squared = summary(model)$r.squared
     
@@ -413,7 +407,7 @@ We also tried to fit an overall 3-way model in a couple of ways. First, by consi
 interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^2 , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(interaction_model_simple)
+diagnostics_performance(interaction_model)
 
 #Number of predictors
 length(coef(interaction_model)) - 1
@@ -471,20 +465,9 @@ model_interaction_selected = step(
 #Diagnostics and performance of the model
 diagnostics_performance(model_interaction_selected)
 
-#Variance inflation factors
-faraway::vif(model_interaction_selected)[faraway::vif(model_interaction_selected)>5]
+#Number of predictors with large variance inflation factors
+num_large_variance_inf_factors_AIC = length(faraway::vif(model_interaction_selected)[faraway::vif(model_interaction_selected)>5])
 
-#Outliers
-c(
-  num_outliers = length(rstandard(model_interaction_selected)[abs(rstandard(model_interaction_selected)) > 2]),
-  pct_outliers = length(rstandard(model_interaction_selected)[abs(rstandard(model_interaction_selected)) > 2]) / length(rstandard(model_interaction_selected))
-)
-
-#Influential points
-c(
-  num_influential_points = sum(cooks.distance(model_interaction_selected) > 4 / length(cooks.distance(model_interaction_selected))),
-  pct_influential_points = sum(cooks.distance(model_interaction_selected) > 4 / length(cooks.distance(model_interaction_selected))) / length(cooks.distance(model_interaction_selected))
-)
 ```
 
 Although this model optimizes for AIC (it has a lower AIC than the first two-way interaction model), this model performs worse in other areas. In particular the both the R squared and adjusted R squared decreased (0.55 and 0.53 respectively). The normality and constant variance assumptions continue to be violated.
@@ -503,9 +486,10 @@ The anova test confirms that the initial model does include predictors that are 
 
 *Boxcox method*
 
-We explore performing a logarithmic transformation in the response. We start with using the same predictors used in the first 2-way interaction model.
+We explore performing a logarithmic transformation in the response. We start with using the same predictors used in the first 2-way interaction model. We use a $\lambda$ value of 0.12.
 
 ```{r}
+#Boxcox plot
 boxcox(interaction_model, plotit = TRUE, lambda = seq(0.1, 0.14, by = 0.01))
 
 #Training the model
@@ -516,6 +500,7 @@ diagnostics_performance(model_transformation_boxcox)
 
 ```
 
+Although in this model we are seeing lower r squared and adjusted r squared values than we obtained with the two-way interaction model, now the constant variance assumption has improved (we can see this both in the fitted vs residuals plot, and in the result of the bp test, which provides a p-value of 0.9998168). Normality is still suspect.
 
 ### Moha
 
