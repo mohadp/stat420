@@ -60,7 +60,7 @@ We consider the following 14 variables as the potential predictor:
 
 ### Background information of the data set
 
-The database comes from [a Kaggle public dataset about startup investments](https://www.kaggle.com/justinas/startup-investments?select=funding_rounds.csv%29) published by Justinas Cirtautas at the end of 2019. The dataset covers more 450 thousand company information from all over the world till 2013. Among those, about 10 thousand companies acomplished their acquisition successfully, while 80% of them got 0 dollars in their acquisition. 
+The database comes from [a Kaggle public dataset about startup investments](https://www.kaggle.com/justinas/startup-investments?select=funding_rounds.csv%29) published by Justinas Cirtautas at the end of 2019. The dataset covers more 450 thousand company information from all over the world till 2013. Among those, about 10 thousand companies acomplished their acquisition successfully, while 80% of them got 0 dollars in their acquisition.
 
 The entire dataset provides 11 cvs file with 154 columns, which covers six aspects of the startup ecosystem including organizations, individuals, company news, funding rounds, acquisitions, and IPOs. We populated all the 11 csv files. More detials can be found in the appendix at the end of this proposal. Considering the missing data rate, we determine to focus on only two files: acquisition.csv and objects.csv.
 
@@ -93,10 +93,158 @@ knitr::kable(head(sample_data[, c(
   "milestones",
   "relationships"
 )]))
-
-str(sample_data)
 ```
 
+## Explory Anlaysis
+
+### Univarite Analysis
+
+```{r}
+# read the dataset
+data0 = read.csv('startups1.csv', header = TRUE)
+```
+
+First, we checked the distribution of aquisition price.
+```{r}
+hist(data0$aquisition_price_amount, breaks = 100)
+```
+
+As we can see from the plot above, the distrbution is highly right skewed.
+Then we use the box plot to check if there is any outliers.
+```{r}
+boxplot(data0$aquisition_price_amount)
+```
+
+As we can see there is one record in the dataset with extremely high acquicition price. We checked the database further and found its acqusition price is 2600 billion, which equals the valuation of google and amazon. So we think this one should be an database error, we will exclude this database in our further analysis.
+```{r}
+data1 = data0[data0$aquisition_price_amount < 10^12,]
+```
+```{r}
+boxplot(data1$aquisition_price_amount)
+```
+
+After excluding the error in our database, the distribution of aquisition price is still highly right skewed. We will consider the log transformation on the aquisition price.
+
+```{r}
+data1["logprice"] = apply(data1["aquisition_price_amount"],2,log)
+hist(data1$logprice, breaks = 100)
+boxplot(data1$logprice)
+```
+
+The distributino of log aquisition price is relatively sysmetric. From the boxplot we can still find there are many records is outside of the 1.75 IQR. But we think we can start from here to build our model.
+
+Then we checked the precdictor in the database one by one. For category_code, this is a categorical varaible.
+```{r}
+summary(data1$category_code)
+plot(data1$category_code, data1$logprice)
+```
+
+The records concentrated in several major levels of category_code. As for the boxplot between category_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable and put them in our candidate predictor list.
+
+Then we turn to the name of the company. We extract the length of the company name as a feature.
+```{r}
+data1["name_length"] = apply(data1["normalized_name"],2,nchar)
+plot(data1$name_length, data1$logprice)
+```
+
+After check the relationship between length of the company name, we found if the company name has more than 30 characters, the acquisition price tend to decrease. so we plan to create a dummy variable, company name lenght > 30 or not, and add it to our candidate predictor list.
+
+Then we check the logo width.
+```{r}
+plot(data1$logo_width, data1$logprice)
+fit = lm(logprice ~ logo_width, data1)
+abline(fit, col = "red")
+```
+For the plot we found in fact, quite amount of the logo_width is 0. Then we guess, maybe in this column, 0 means missing value. so we decide to remove that part and replot the above figure.
+
+```{r}
+sum(data1$logo_width == 0)
+temp = data1[data1$logo_width > 0, ]
+plot(temp$logo_width, temp$logprice)
+fit = lm(logprice ~ logo_width, temp)
+abline(fit, col = "red")
+```
+
+It turns out there are 502 records in total has 0 logo_width. After removing them, the relationship between logo_width and log price become not that significant. considering the maximum logo_width is more than 5000 times of the minimum width, the data reliability becomes skeptical.
+
+We further checked the log_height.
+
+```{r}
+plot(data1$logo_height, data1$logprice)
+fit = lm(logprice ~ logo_height, data1)
+abline(fit, col = "red")
+```
+```{r}
+sum(data1$logo_height == 0)
+temp = data1[data1$logo_height > 0, ]
+plot(temp$logo_height, temp$logprice)
+fit = lm(logprice ~ logo_height, temp)
+abline(fit, col = "red")
+```
+
+It show the same pattern. Out of curiosity, we create a variable named, logo_ratio, which is the ration of logo height and width.
+
+```{r}
+mask = data1$logo_height > 0
+data1["logo_ratio"] = data1["logo_height"] / data1["logo_width"]
+plot(data1$logo_ratio[mask], data1$logprice[mask])
+fit = lm(logprice ~ logo_ratio, data1[mask,])
+abline(fit, col = "red")
+```
+
+But it turns out seems this variable does not help much. Considering the data sanity issue in those columns, we did not put them to our candidate predictor list.
+
+Then we checked the country_code, which is a categorical variable.
+
+```{r}
+summary(data1$country_code)
+plot(data1$country_code, data1$logprice)
+```
+
+The records concentrated in several major levels of country_code. To be more specific, most records is in USA. As for the boxplot between country_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable  and put them in our candidate predictor list.
+
+The same observation found in city.
+
+```{r}
+summary(data1$city)
+plot(data1$city, data1$logprice)
+```
+
+The records concentrated in several major levels of city. As for the boxplot between city_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable  and put them in our candidate predictor list.
+
+For investiment_rounds, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$investment_rounds, data1$logprice)
+```
+
+For investiment_companies, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$invested_companies, data1$logprice)
+```
+
+For milestones, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$milestones, data1$logprice)
+```
+
+For relationships, we found it showed a slightly positive correlation with log price. We added it to our candidate predictor list.
+
+```{r}
+plot(data1$relationships, data1$logprice)
+fit = lm(logprice ~ relationships, data1)
+abline(fit, col = "red")
+```
+### Correlation Analysis
+Then we checked the correlation matrix of the numerical variables.
+```{r}
+data2 = data1[,c("name_length", "investment_rounds", "invested_companies", "milestones", "relationships")]
+cor(data2)
+```
+
+It turns out the `investment_rounds` and `invested_companies` shows strongly collinearity. We should only use one of them in the model to avoid the collinearity issue.
 
 ## Methods
 
@@ -112,10 +260,10 @@ Based on the single predictor analysis above, it is now possible to further simp
 
 Some data adjustments include:
 
-- Collapsing of the number of levels for factor variables a high number levels: `category_code`, `country_code`, `city`, `state_code`. This will ommit potential dummy variables when dealing with factor variables with levels that provide little significance. This also adds benefit of improving model simplicity by reducing number of levels.
-- Removal of columns that are necessary or useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`.
-- Division of the full data into 2 datasets, one for training (`startups_tr`), with  80% of the observations; the rest will be included in a test dataset (`startups_te`), useful for model cross-validation. The split is done randomly.
-- Removing outlier case of acquisition for 2.6T. For reference, Amazon's Market Cap is 1.6T. We believe this was an input error.
+- Collapsing of the number of levels for factor variables with a high number levels: `category_code`, `country_code`, `city`, `state_code`. This will ommit potential dummy variables when dealing with factor variables with levels that provide little significance. The fewer levels and variables also adds benefit of simplifying the model.
+- Removal of columns that are not useful in the statitical analysis: `company_id`,`normalized_name`, `status`, `logo_width`, `logo_height`. These are pure descriptions of the startups, and while these could have been a source for additional continuous (e.g. word counts) or discreet variables (mention of certain trendy keywords), we decided to leave out for now to narrow down the analysis on the other variables.
+- Division of the full data into 2 datasets: one for training (`startups_tr`), with  80% of the observations, and the rest will be included in a test dataset (`startups_te`), useful for model cross-validation. The split is done randomly.
+- Removal of outlier case of acquisition for 2.6T. For reference, Amazon's Market Cap is 1.6T. We believe this was an input error.
 
 
 ```{r message=FALSE}
@@ -190,12 +338,14 @@ str(startups)
 ```
 
 
-### Diagnostics and Performance Function (Diego)
+### Diagnostics and Performance Function (Diego/Moha)
 
 In order to compare models, we use a single function that runs tests on both:
 
 - Model assumptions: Residual vs fitted and Q-Q plots, bptest and wilk-shapiro test.
 - Model performance: Adjusted r-squared, AIC, BIC, leave one out cross-validation, and regression p-value.
+
+These diagnostics functions are further used in another set of utility functions that provide a side-by-side view of the model performance across the model assumptions, performance,  model parameters and their caracteristics.
 
 ```{r message=FALSE}
 
@@ -203,73 +353,189 @@ library(lmtest)
 library(MASS)
 library(faraway)
 
-diagnostics_performance = function(model,
-                       predict_function = function (x) {x},
-                       pcol = "grey",
-                       lcol = "dodgerblue",
-                       plotit = TRUE,
-                       testit = TRUE) {
+get_outliers = function(model){
+  stdresid = rstandard(model)
+  outliers = abs(stdresid) > 2
+  stats = c(
+    num_outliers = sum(outliers),
+    pct_outliers = mean(outliers)
+  )
+  
+  list(stats = stats, outliers = outliers)
+}
+
+get_influentials = function(model){
+  cooks = cooks.distance(model)
+  influential = cooks > (4 / length(cooks))
+  
+  stats = c(
+    num_influentials = sum(influential),
+    pct_influentials = mean(influential)
+  )
+
+  list(stats = stats, influentials = influential)
+}
+
+get_rmse = function(model, predict_function = NULL, test_actuals = NULL){
+  predictions = 0
+  if(!is.null(predict_function))
+    predict_function(model)
+  rsme_val = 0
+    
+  if(!is.null(test_actuals)) 
+    rsme_val = sqrt(mean((test_actuals - predictions) ^ 2)) 
+  else
+    rsme_val = sqrt(mean(resid(model) ^ 2))
+      
+  rsme_val
+}
+
+#get_rmse(model_transformation_boxcox_selected, predict_function = boxcox_reverse_function, test_actuals = startups_te$aquisition_price_amount)
+
+
+# Diagnostic function that performs multiple hypothess tests for the model significance, whether the linear model assumptions are valid, and other model performance metrics 
+diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", plotit = TRUE,  testit = TRUE, response_transform = NULL, train_actuals = NULL, as_data_frame=TRUE) {
   #Plot functionality
   if (plotit) {
     par(mfrow = c(1, 2))
     
     #Fitted vs residuals plot
-    plot(
-      resid(model) ~ fitted(model),
-      col = pcol,
-      pch = 20,
-      main = "Fitted vs Residuals Plot",
-      xlab = "Fitted",
-      ylab = "Residuals"
-    )
+    plot(resid(model) ~ fitted(model), 
+         col = pcol, pch = 20, 
+         main = "Fitted vs Residuals Plot", xlab = "Fitted", ylab = "Residuals")
     abline(h = 0, col = lcol, lwd = 2)
     
     #Q-Q plot
     qqnorm(resid(model), col = pcol, main = "Normal Q-Q Plot")
-    qqline(resid(model),
-           lty = 2,
-           lwd = 2,
-           col = lcol)
+    qqline(resid(model),  lty = 2, lwd = 2, col = lcol)
   }
   
   #Test functionality
   if (testit) {
-    #P-val from Shapiro-Wilk test to assess normality
-    p_val_shapiro = shapiro.test(resid(model))$p.value
-    
-    #P-val from BP test to assess cosntant variance
-    p_val_bp = unname(bptest(model)$p.value)
-    
-    #R squqred
+    resids = resid(model)
+    if(!is.null(response_transform) && !is.null(train_actuals)){
+      fits = response_transform(fitted(model))
+      resids = train_actuals-fits
+    }
+    shapiro_test_pval = shapiro.test(resids)$p.value 
+    bp_test_pval = unname(bptest(model)$p.value)
+    rmse_loocv = sqrt(mean((resids / (1 - hatvalues(model))) ^ 2))
     r_squared = summary(model)$r.squared
-    
-    #Adjusted r squared
     adj_r_squared = summary(model)$adj.r.squared
+    aic = extractAIC(model)[2]
+    bic =  extractAIC(model, k = log(n))[2]
+    outliers = unname(get_outliers(model)$stats)
+    influentials = unname(get_influentials(model)$stats)
+    model_pval = unname(pf(summary(model)$fstatistic[1],summary(model)$fstatistic[2],summary(model)$fstatistic[3], lower.tail=FALSE))
+    rmse_train = sqrt(mean(resids ^ 2))
     
-    #AIC
-    AIC = extractAIC(model)[2]
-    
-    #BIC
-    BIC =  extractAIC(model, k = log(n))[2]
-    
-    #Regression p-value
-    reg_p_value = unname(pf(summary(model)$fstatistic[1],summary(model)$fstatistic[2],summary(model)$fstatistic[3], lower.tail=FALSE))
     
     #Output from test
-    list(p_val_shapiro = p_val_shapiro,
-         p_val_bp = p_val_bp,
-         #RMSE = RMSE,
-         #RMSE_LOOCV = RMSE_LOOCV,
-         r_squared = r_squared,
-         adj_r_squared = adj_r_squared,
-         reg_p_value = reg_p_value,
-         AIC = AIC,
-         BIC = BIC
-         )
+    res = list(
+      "coefficients" =  nrow(summary(model)$coefficients),
+      "model.pval" = model_pval,
+      "r2" =  r_squared,
+      "rmse.train" = rmse_train,
+      "rmse.test" = NA,
+      "bptest.pval" =  bp_test_pval,
+      "shapiro.pval" =  shapiro_test_pval,
+      "AIC" =  aic,
+      "BIC" =  bic,
+      "adjR2" =  adj_r_squared,
+      "rsme_looocv" =  rmse_loocv,
+      "outliers.num" = outliers[1],
+      "outliers.pct" = outliers[2],
+      "influential.num" = influentials[1],
+      "influential.pct" = influentials[2])
+    
+    if(as_data_frame)
+      res = data.frame(unlist(res))
+    colnames(res) = NULL
+    res
   }
 }
 
+
+#Shows the variable infation factors and their variables for the parameters with high variability due to colinearity.
+get_vifs = function(model){
+  vifs = faraway::vif(model)
+  vifs = data.frame(coeficient =names(vifs[vifs>5]), vif = unname(vifs[vifs>5]))
+  vifs = vifs[order(vifs$vif, decreasing=TRUE),]
+  vifs
+}
+
+#Compares  two or more models side-by-side in a single dataframe, all model assumptions and prformance.
+compare_model_performance = function(models, predict_transforms = NULL, test_data, test_actuals_col, train_actuals = NULL, as_data_frame = FALSE){
+  dummy = unlist(diagnostics_performance(models[[1]], plotit = FALSE, as_data_frame = FALSE))
+  model_comp = matrix(0, nrow = length(dummy), ncol = length(models))
+  #col_names = rep(0, length(models))
+  train_actuals = unlist(train_actuals)
+  
+  for(m in 1:length(models)){
+    model = models[[m]]
+    model_comp[,m] = unlist(diagnostics_performance(model, plotit = FALSE, response_transform = predict_transforms[[m]], train_actuals = train_actuals, as_data_frame = FALSE))
+
+    transform_func = function(x){x}
+    if(!is.null(predict_transforms))
+      transform_func = predict_transforms[[m]]
+    
+    predict_func = custom_predict(model, test_data = test_data, fitted_transform = transform_func)
+    actuals = unlist(test_data[,test_actuals_col])
+    
+    rmse_test = get_rmse(model, predict_function = predict_func, test_actuals = actuals)
+    model_comp[names(dummy) == "rmse.test", m] = rmse_test #
+  }
+  rownames(model_comp) = names(dummy)
+  model_comp
+}
+
+
+#Helper function to allow custom response transforamtions, relevant to compare models.
+custom_predict = function(model, test_data, fitted_transform = NULL){
+  fitted.transform = ifelse(is.null(fitted_transform), function(x){x}, fitted_transform)
+  function(model){
+    fitted_transform(predict(model, test_data))
+  }
+}
+
+#View model diagnostics with and without influential points.
+compare_without_influential = function(model, train_data, test_data, test_actuals_col, response_transform = NULL){
+  formula = as.character(model$call)[2]
+  influentials = get_influentials(model)$influentials
+  new_model = lm(as.formula(formula), data = train_data, subset = !influentials)
+  
+  compare_coef = compare_model_performance(list(model, new_model), predict_transforms = list(response_transform, response_transform), 
+                                           test_data = test_data, test_actuals_col = test_actuals_col,  train_actuals = train_data[,test_actuals_col])
+  
+  colnames(compare_coef) = c("W/ Influential", "W/o Influential")
+  compare_coef
+}
+
+
+#List all coefficients used by all models, along with a view of coefficient values
+compare_parameters = function(models,  variables, model_names = 0){
+  all_coefs = data.frame(coefficients = rownames(summary(models[[1]])$coefficients))
+  col_names = c("coefficients")
+  
+  for(m in 1:length(models)){
+    model = models[[m]]
+    model_name = ifelse(model_names == 0, m, model_names[m])
+    
+    new_items = data.frame(coefficients = rownames(summary(model)$coefficients))
+    for(v in 1:length(variables)){
+      new_items = cbind(new_items,
+                        variable = summary(model)$coefficients[,variables[v]])
+      
+      colnames(new_items)[v+1] =  paste(model_name,"_",v)
+    }
+    all_coefs = merge(all_coefs, new_items, by = "coefficients", all = TRUE)
+  }
+  all_coefs
+}
+
+
 ```
+
 
 
 ### Model building
@@ -285,22 +551,12 @@ The first step of the exploration is to look at a simple additive model that con
 additive_full = lm(aquisition_price_amount ~ . , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(additive_full)
+knitr::kable(diagnostics_performance(additive_full), digits = 2)
 
-#Variance inflation factors
-faraway::vif(additive_full)[faraway::vif(additive_full)>5]
 
-#Outliers
-c(
-  num_outliers = length(rstandard(additive_full)[abs(rstandard(additive_full)) > 2]),
-  pct_outliers = length(rstandard(additive_full)[abs(rstandard(additive_full)) > 2]) / length(rstandard(additive_full))
-)
+#Coefficients with high Variance inflation factors
+knitr::kable(get_vifs(additive_full), digits = 2)
 
-#Influential points
-c(
-  num_influential_points = sum(cooks.distance(additive_full) > 4 / length(cooks.distance(additive_full))),
-  pct_influential_points = sum(cooks.distance(additive_full) > 4 / length(cooks.distance(additive_full))) / length(cooks.distance(additive_full))
-)
 ```
 
 We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section. 1.97% and 2.73% of points are considered to be outliers and to have influence respectevely. Although we can aim to reduce these, in this first exploration of different additive models it does not seem likely this values will change much.
@@ -329,27 +585,10 @@ We remove the invested_companies and state_code from the predictors and train a 
 additive_full_updated = lm(aquisition_price_amount ~ .-investment_rounds -state_code , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(additive_full_updated)
+knitr::kable(diagnostics_performance(additive_full_updated), digits = 2)
 
-#Variance inflation factors
-faraway::vif(additive_full_updated)[faraway::vif(additive_full_updated)>5]
-
-#Outliers
-c(
-  num_outliers = length(rstandard(additive_full_updated)[abs(rstandard(additive_full_updated)) > 2]),
-  pct_outliers = length(rstandard(additive_full_updated)[abs(rstandard(additive_full_updated)) > 2]) / length(rstandard(additive_full_updated))
-)
-
-#Influential points
-c(
-  num_influential_points = sum(
-    cooks.distance(additive_full_updated) > 4 / length(cooks.distance(additive_full_updated))
-  ),
-  pct_influential_points = sum(
-    cooks.distance(additive_full_updated) > 4 / length(cooks.distance(additive_full_updated))
-  ) / length(cooks.distance(additive_full_updated))
-)
-
+#Coefficients with high Variance inflation factors
+knitr::kable(get_vifs(additive_full_updated), digits = 2)
 ```
 
 In the plots, we can see that normality and constant variance are still suspect. We also see confirm that normality suspect due to the low shapiro-wilk test p-value, and that the constant variance is suspect due to low bp test p-value. The R squared and adjusted R squared remain somewhat similar, as well as the RMSE leave one out cross validation. But we now have less variables with a potentially large collinearity. Outlier and influential points remain somewhat similar.
@@ -363,23 +602,11 @@ Now we will perform a backwards AIC search to optimize for AIC and further decre
 model_additive_selected_AIC = step(additive_full_updated, trace = 0)
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_additive_selected_AIC)
+knitr::kable(diagnostics_performance(model_additive_selected_AIC), digits = 2)
 
-#Variance inflation factors
-faraway::vif(model_additive_selected_AIC)[faraway::vif(model_additive_selected_AIC)>5]
 
-#Outliers
-c(
-  num_outliers = length(rstandard(model_additive_selected_AIC)[abs(rstandard(model_additive_selected_AIC)) > 2]),
-  pct_outliers = length(rstandard(model_additive_selected_AIC)[abs(rstandard(model_additive_selected_AIC)) > 2]) / length(rstandard(model_additive_selected_AIC))
-)
-
-#Influential points
-c(
-  num_influential_points = sum(cooks.distance(model_additive_selected_AIC) > 4 / length(cooks.distance(model_additive_selected_AIC))),
-  pct_influential_points = sum(cooks.distance(model_additive_selected_AIC) > 4 / length(cooks.distance(model_additive_selected_AIC))) / length(cooks.distance(model_additive_selected_AIC))
-)
-
+#Coefficients with high Variance inflation factors
+knitr::kable(get_vifs(model_additive_selected_AIC), digits = 2)
 
 ```
 
@@ -409,10 +636,8 @@ We also tried to fit an overall 3-way model in a couple of ways. First, by consi
 interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^2 , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(interaction_model)
+knitr::kable(na.omit(diagnostics_performance(interaction_model), digits = 2))
 
-#Number of predictors
-length(coef(interaction_model)) - 1
 ```
 
 Although this model mathematically has a good R squared and adjusted R squared, the normality and constant variance assumptions are still violated. Furthermore, because there are 906 predictors, this is not an easy to understand model. We will find a simplified model doing a backwards AIC search.
@@ -465,7 +690,7 @@ model_interaction_selected = step(
 )
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_interaction_selected)
+knitr::kable(na.omit(diagnostics_performance(model_interaction_selected), digits = 2))
 
 ```
 
@@ -495,10 +720,18 @@ model_transformation_boxcox_initial = lm(aquisition_price_amount ~ (. -investmen
 boxcox(model_transformation_boxcox_initial, plotit = TRUE, lambda = seq(0.1, 0.14, by = 0.01))
 
 #Training the model
-model_transformation_boxcox = lm(aquisition_price_amount^0.12 ~ (. -investment_rounds -state_code)^2 + log(funding_total_usd+1) +log(relationships+1) , data = startups_tr)
+model_transformation_boxcox = lm((((aquisition_price_amount ^ 0.12) - 1) / 0.12) ~ (. -investment_rounds -state_code)^2 + log(funding_total_usd+1) +log(relationships+1) , data = startups_tr)
+
+#Define the transformation functions to revert back to the units of aquisition_price
+boxcox_reverse_function = function(lambda = 0.12){
+  function(val){
+    (val*lambda + 1)^(1/lambda)
+  }
+}
+
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_transformation_boxcox)
+knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
 
 ```
 
@@ -510,11 +743,11 @@ We use the previously trained model as the full scope for a forward AIC search.
 
 ```{r warning=FALSE}
 #Finding the model
-model_transformation_boxcox_start = lm(aquisition_price_amount ^ 0.12 ~ 1, data = startups_tr)
+model_transformation_boxcox_start = lm(((aquisition_price_amount ^ 0.12 - 1)/ 0.12) ~ 1, data = startups_tr)
 model_transformation_boxcox_selected = step(
   model_transformation_boxcox_start,
   scope =
-    aquisition_price_amount ^ 0.12 ~ category_code * funding_rounds + category_code * milestones +
+    ((aquisition_price_amount ^ 0.12 - 1)/ 0.12) ~ category_code * funding_rounds + category_code * milestones +
     category_code * aquisition_price_amount + category_code * top50pct + category_code *
     istop26_50 + category_code * country_code + category_code * city + category_code *
     invested_companies + category_code * funding_total_usd + category_code *
@@ -554,10 +787,12 @@ model_transformation_boxcox_selected = step(
 )
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_transformation_boxcox_selected)
+knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox_selected, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
 
-#Number of predictors
-length(coef(model_transformation_boxcox_selected))
+
+
+## Evaluate whether removing influential observations helps on the model assumption and fit.
+knitr::kable(compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12)), digits = 2)
 
 ```
 
@@ -572,7 +807,8 @@ We also explore using a logarithmic transformation in the response variable, usi
 model_transformation_log = lm(log(aquisition_price_amount) ~ (. -investment_rounds -state_code)^2 + log(funding_total_usd+1) +log(relationships+1) , data = startups_tr)
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_transformation_log)
+knitr::kable(na.omit(diagnostics_performance(model_transformation_log, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
+
 ```
 
 In R squared and in predicted R squared this model performs marginally worse than the boxcox model, and the constant variance assumption doesn't seem suspect from the bp test (although we can see it's not fully met either from the fitted vs residuals plot). However, in AIC and in BIC, this model shows a more significant drop in performance (drop from 3274 to 3931 in AIC and from 7070 to 7727 in BIC). For that reason we prefer the boxcox model `model_transformation_boxcox` as a transformation-based model
@@ -627,10 +863,7 @@ model_transformation_log_selected = step(
 )
 
 #Diagnostics and performance of the model
-diagnostics_performance(model_transformation_log_selected)
-
-#Number of predictors
-length(coef(model_transformation_log_selected))
+knitr::kable(na.omit(diagnostics_performance(model_transformation_log_selected, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 ```
 
 Although this model shows improvements in AIC and BIC, other metrics do not look as good. And the constant variance assumption is more suspect now. For that reason the original logarithmic model `model_transformation_log` seems better, and overall, we still prefer the original boxcox model `model_transformation_boxcox` as a transformation-based model.
@@ -639,100 +872,24 @@ Although this model shows improvements in AIC and BIC, other metrics do not look
 
 In summary, the two preferred models are: `interaction_model` (interaction), `model_transformation_boxcox` (transformation). We are omitting `model_additive_selected_AIC` (additive) because of its low r squared.
 
-Also, we tried to train a model involving polynomials, but there was no polynomial term that was significant enough when performing model building explorations.
-
-### Moha
-
-```{r}
-str(startups_tr)
-library(lmtest)
-
-plot_fitted_resid = function(model, pointcol = "dodgerblue", linecol = "darkorange") {
-  plot(fitted(model), resid(model), 
-       col = pointcol, pch = 20, cex = 1.5,
-       xlab = "Fitted", ylab = "Residuals")
-  abline(h = 0, col = linecol, lwd = 2)
-}
-
-plot_qq = function(model, pointcol = "dodgerblue", linecol = "darkorange") {
-  qqnorm(resid(model), col = pointcol, pch = 20, cex = 1.5)
-  qqline(resid(model), col = linecol, lwd = 2)
-}
-
-diagnostics2 = function(model, pcol = "grey", lcol = "dodgerblue", alpha = 0.50, plotit = TRUE, testit = TRUE){
-  
-  if(plotit){
-    par(mfrow=c(1,2))
-    plot(fitted(model), resid(model), col =  pcol, pch = 20, xlab = "Fitted", ylab = "Residuals", main = paste("Data from", deparse(substitute(model))))
-    abline(h = 0, col = lcol, lwd = 2)
-    
-    qqnorm(resid(model), main = paste("Normal Q-Q Plot from",deparse(substitute(model))), col = pcol)
-    qqline(resid(model), col = lcol, lwd = 2)
-  }
-  
-  if(testit){
-    shatest = shapiro.test(resid(model))
-    bp = bptest(model)
-    p = length(coef(model))
-    n = length(resid(model))
-    rsme_looocv = sqrt(mean((resid(model) / (1 - hatvalues(model))) ^ 2))
-    
-    
-    
-    res = t(c(
-      "r2" =  summary(model)$r.squared,
-      "shapiro" =  shatest$p.value,
-      "bptest" =  bp$p.value,
-      "p" =  p,
-      "AIC" =  extractAIC(model)[2],
-      "BIC" =  extractAIC(model, k = log(n))[2],
-      "adjR2" =  summary(model)$adj.r.squared,
-      "rsme_looocv" =  rsme_looocv))
-    res
-  }
-}
-```
-
-```{r}
-#str(startups_tr)
-additive_all_model = lm(log(aquisition_price_amount) ~ . - invested_companies -top25pct -top50pct , data = startups_te)
-summary(additive_all_model)
-#diagnostics2(additive_all_model, alpha = .01)
-
-numeric_cols = which(sapply(startups_tr, typeof)  == "double")
-numeric_cols
-
-
-
-cor(startups_tr[,numeric_cols])
-
-
-```
-
-```{r}
-vifs = faraway::vif(additive_all_model)
-vifs[vifs > 5]
-```
-
-```{r}
-plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
-plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
-plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
-plot(x = log(startups_tr$name_length), y = startups_tr$aquisition_price_amount, col = startups_tr$istop25+1)
-```
-
-
-
-After the selection of columns described in the **Appendix 1**, we need to identify which of the predictors are relevant to a potential linear model that describes the aquisition value.
-
-```{r}
-#add_all_model = lm()
-```
-
-
-
 
 ## Results
+
+
+```{r}
+#for interaction_model and model_additive_selected_AIC,no response transformation
+simple_function = function(x){x}
+
+comp = compare_model_performance(
+  models = list(interaction_model, model_transformation_boxcox, model_additive_selected_AIC), 
+  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12), simple_function),
+  test_data = startups_te, test_actuals_col = "aquisition_price_amount", train_actuals = startups_tr$aquisition_price_amount)
+
+colnames(comp) = c("interaction_model", " model_transformation_boxcox", " model_additive_selected_AIC")
+knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
+
+```
+
 
 ### Diego
 
