@@ -1,5 +1,5 @@
 ---
-title: "Data Analysis Project"
+title: "Data Analysis Project: Start-up Acquisition Price"
 author: "Mohamed Diakite Pineda, Yu Liu, Diego Carreno, STAT 420, Summer 2020"
 date: "8/06/2020"
 output:
@@ -18,13 +18,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ***
-
-## Names
-
-- Mohamed Diakite Pineda, *md21@*
-- Yu Liu, *yul10@*
-- Diego Carreno, *diegoac3@*
-
 
 ## Introduction
 
@@ -554,7 +547,7 @@ knitr::kable(get_vifs(additive_full), digits = 2)
 ```
 
 
-We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section. 1.97% and 2.73% of points are considered to be outliers and to have influence respectevely. Although we can aim to reduce these, in this first exploration of different additive models it does not seem likely this values will change much.
+We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section. 1.97% and 2.73% of points are considered to be outliers and to have influence respectevely. Although we can aim to reduce these, in this first exploration of different additive models it does not seem likely these values will change much.
 
 ```{r}
 #Direct correlation between investment_rounds and invested_companies is close to one
@@ -597,7 +590,7 @@ Now we will perform a backwards AIC search to optimize for AIC and further decre
 model_additive_selected_AIC = step(additive_full_updated, trace = 0)
 
 #Diagnostics and performance of the model
-knitr::kable(diagnostics_performance(model_additive_selected_AIC), digits = 2, caption = "Performance & Assumptions")
+knitr::kable(diagnostics_performance(na.omit(model_additive_selected_AIC)), digits = 2, caption = "Performance & Assumptions")
 
 
 #Coefficients with high Variance inflation factors
@@ -633,7 +626,7 @@ We also tried to fit an overall 3-way model in a couple of ways. First, by consi
 interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^2 , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(interaction_model)), digits = 2, caption = "Performance & Assumptions")
+knitr::kable(na.omit(diagnostics_performance(interaction_model))[1:9,], digits = 2, caption = "Performance & Assumptions")
 
 ```
 
@@ -689,7 +682,7 @@ model_interaction_selected = step(
 )
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_interaction_selected), digits = 2), caption = "Performance & Assumptions")
+knitr::kable(na.omit(diagnostics_performance(model_interaction_selected)[1:9,], digits = 2), caption = "Performance & Assumptions")
 
 ```
 
@@ -985,7 +978,7 @@ What started with an idea to produce an easy to understand model to predict star
 
 Predictors we thought could offer a good explanation for the acquisition price of a startup did not seem to be significant in the end. And interesting predictors, such as the startup country of origin (in particular, France), resulted having an impact that seems to be significant in explaning the startup price. We also saw the importance of having a well-balanced and complete data set. Through training the models and evaluating their performance we noticed that it is hard to make predictions if the data is not good enough or if we are making predictions that are an extrapolation.
 
-Identify specific categorical variables instead of having all of the variables in the data. This could have further improved the models while simplifying them.
+As potential next steps, if this dataset was to be studied further, we propose to try to identify specific categorical variables that have the most impact. In our exploration, all categorical variables were considered, which made the resulting models quite complex. If there is a way to further reduce the number of categorial variables, perhaps the resulting models could be better for explanations and inferential analyses.
 
 ## Appendix: Data Pre-cleaning
 
