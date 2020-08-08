@@ -534,12 +534,13 @@ get_rmse = function(model, predict_function = NULL, test_actuals = NULL){
   rsme_val = 0
     
   if(!is.null(test_actuals)) 
-    rsme_val = sqrt(mean((test_actuals - predictions) ^ 2)) 
+    rsme_val = sqrt(mean(((test_actuals - predictions)^ 2), na.rm = TRUE)) 
   else
     rsme_val = sqrt(mean(resid(model) ^ 2))
-      
+     
   rsme_val
 }
+
 
 #get_rmse(model_transformation_boxcox_selected, predict_function = boxcox_reverse_function, test_actuals = startups_te$aquisition_price_amount)
 
@@ -570,7 +571,7 @@ diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", p
     }
     shapiro_test_pval = shapiro.test(resids)$p.value 
     bp_test_pval = unname(bptest(model)$p.value)
-    rmse_loocv = sqrt(mean((resids / (1 - hatvalues(model))) ^ 2))
+    rmse_loocv = sqrt(mean(((resids / (1 - hatvalues(model))) ^ 2),na.rm = TRUE))
     r_squared = summary(model)$r.squared
     adj_r_squared = summary(model)$adj.r.squared
     aic = extractAIC(model)[2]
@@ -630,8 +631,8 @@ compare_model_performance = function(models, predict_transforms = NULL, test_dat
     if(!is.null(predict_transforms))
       transform_func = predict_transforms[[m]]
     
-    predict_func = custom_predict(model, test_data = test_data, fitted_transform = transform_func)
-    actuals = unlist(test_data[,test_actuals_col])
+    predict_func = custom_predict(test_data = test_data, fitted_transform = transform_func)
+    actuals = as.numeric(unlist(test_data[,test_actuals_col]))
     
     rmse_test = get_rmse(model, predict_function = predict_func, test_actuals = actuals)
     model_comp[names(dummy) == "rmse.test", m] = rmse_test #
@@ -642,8 +643,10 @@ compare_model_performance = function(models, predict_transforms = NULL, test_dat
 
 
 #Helper function to allow custom response transforamtions, relevant to compare models.
-custom_predict = function(model, test_data, fitted_transform = NULL){
-  fitted.transform = ifelse(is.null(fitted_transform), function(x){x}, fitted_transform)
+custom_predict = function(test_data, fitted_transform = NULL){
+  if(is.null(fitted_transform))
+     fitted.transform = function(x){x}
+  
   function(model){
     fitted_transform(predict(model, test_data))
   }
@@ -1025,24 +1028,123 @@ In summary, the two preferred models are: `interaction_model` (interaction), `mo
 
 ## Results
 
-```{r}
+
+From the models evaluated we encountered two that provided the "less" complexity and relatively higher level of significance in predicting, and not so much explaining, the `aquisition_price_amount` of startups as a function of 16 distinct predictors:  `interaction_model` and a `model_transformation_boxcox`.
+
+```{r warning=FALSE}
 #for interaction_model and model_additive_selected_AIC,no response transformation
-simple_function = function(x) {
-  x
-}
+simple_function = function(x) { x }
 
 comp = compare_model_performance(
-  models = list(interaction_model, model_transformation_boxcox), 
-  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12)),
+  models = list(interaction_model, model_transformation_boxcox, model_additive_selected_AIC), 
+  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12), simple_function),
   test_data = startups_te, test_actuals_col = "aquisition_price_amount", train_actuals = startups_tr$aquisition_price_amount)
-
-colnames(comp) = c("interaction_model", " model_transformation_boxcox")
-comp = as.data.frame(t(as.matrix(comp)))
-colnames(comp)
-comp
-#knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
+colnames(comp) = c("interaction_model", " model_transformation_boxcox", "model_additive_selected_AIC")
 
 ```
+
+### Significance
+
+In summary, the prediction significance of the models is **very relatively** high, compared to at least, for example, an additive model `model_additive_selected_AIC`, which we include below only as reference point with relatively simpler model significance (but the chosen one by an AIC model search)
+
+```{r}
+significance = c("model.pval", "r2", "rmse.train", "rmse.test", "coefficients")
+knitr::kable(as.data.frame(comp[significance,]))
+```
+
+
+All three models are significant with any reasonable $\alpha$, with all being much smaller than, for example $\alpha=0.01$ against the 
+$$
+H_0: \beta_1 = \beta_2 = ... = \beta_\text{p-1}
+$$
+
+Though, `interaction_model`, `model_transformation_boxcox` were successful at explaining  $`r 100*comp["r2", "model_transformation_boxcox"]` < R^2 `r 100*comp["r2", "interaction_model"]`$% of the `aquisition_amount_price` variability.
+
+Of all, though, the `interaction_model` also faired better at predicting, with much lowr test RSME, with the exception of the non-significant, for which the variability is mostly not accounted for, and as such, can cause the test RSME to be constant.
+
+The disadvantage of the above models two significant models, though, is that the complexity for the high-est significant models did bring about extensive commplexit for interpretation. As above, we are including the aditive model `model_additive_selected_AIC` **only as a reference point** for the better models.
+
+
+### Complexity
+
+Because of the large numbers of categorical variables, even when trying to minimize the factor variables to the more relevant levels, we still ended up with relatively complex models.
+
+```{r}
+complexity = c("coefficients", "r2", "AIC", "BIC", "adjR2")
+knitr::kable(as.data.frame(comp[complexity,]))
+```
+
+One of the significant models, `interaction_model`, has a net of `r 100*comp["coefficients", "interaction_model"]` coefficients, which account for 14 predictors and all 2-way interactions. 6 predictors were categorical with multiple levels. Explaining the effects to the `aquisition_price_amount` reliably among the universe of predictors can be daunting. This paid a penaly for ther large scores on BIC and AIC; though, these multiple predictors allowed for higher accuracy at predicting judging by the adjusted $R^2$.
+
+```{r}
+as.character(interaction_model$call)[2]
+```
+
+The other significant model, `model_transformation_boxcox` had significantly better quality criteria with the AIC and BIC scores, even though it had overall higher residuals and and a similar number of predictors as the first one. Nonetheless, **the lower adjusted $R^2$  appears to better show this model's complexity and accuracy.** Same as the first one, the The multiple predictors make it  difficul to gauge specific effects of the predictors to the `aquisition_price_amount1` This model's 
+
+```{r}
+as.character(model_transformation_boxcox$call)[2]
+```
+
+The reference model did show equally bac BIC and AIC grades, but also the adjusted $R^2$ did a better job at depicting its insignificance while showing its complexity with `r 100*comp["coefficients", "model_additive_selected_AIC"]` coefficients, mostly caused by the multi-level categorical variables.
+```{r}
+as.character(model_additive_selected_AIC$call)[2]
+```
+
+
+### Model Assumptions
+
+A view at the two most significant models shows how some model assumptions were suspect.
+
+For `interaction_model`, there is strong suspicion that there is no constant variance, and the normality of the error distribution appears to not be existent. This model variance does not appear uniformly distributed following not a mean of zero, but one of a negative steep line. Also the highly frequent underfitting and overfitting  also is shown in the Normal Q-Q Plot.
+
+```{r}
+diagnostics_performance(interaction_model, plotit = TRUE, testit = FALSE)
+```
+
+The second model `model_transformation_boxcox` does a better job at coping with the variance of the response variable. This also helped a little bit in the normal distribution of the errors, but even these showed much greater departure from the expected normal parameters.)
+
+
+```{r}
+diagnostics_performance(model_transformation_boxcox, plotit = TRUE, testit = FALSE)
+```
+
+Using both Breusch-Pagan Test for $H_0: \text{Homoscetasicity}$ (constant varance) and the Shapiro-Wilk test for $H_0: \text{normal error distribution}$, we can validate the suspicions well illustrated in the graphs above. 
+
+
+```{r}
+assumptions = c("bptest.pval", "shapiro.pval")
+knitr::kable(as.data.frame(comp[assumptions,1:2]))
+
+```
+
+
+One one test fails to reject $H_0$ with flying colors, and it is the Breusch-Pagan Test for `model_transformation_boxcox`. Looking at the initial single-variable analyts, it was evident that the response variable spans a large sparce domain. Transforming the response variable using the Box-Cox method, we could attenuate the extreme variability in the `aquisition_price_model`
+
+
+
+### A Note about RSME Calculaton
+
+
+The default RMSE for box-cox transformation models by default returned `Nan` for some test observations; these values caused negative prediction values. Upon converting the box-cox value from `model_transformation_boxcox` into dollars (`aquisition_price_amount`), using the the box-cox inverted function, we end up doing a power to the 1/2n, as in the example below, resulting in `NaN`s; in this case this only affects 13 observations of all test data.
+
+
+```{r warning=FALSE}
+inv_box_cox = function(val, lambda){
+  (val*lambda + 1)^(1/lambda)
+}
+
+predictions = predict(model_transformation_boxcox, newdata = startups_te)
+predictions_adjusted = inv_box_cox(predictions, 0.12)
+length(predictions[is.na(predictions_adjusted)])
+sqrt(mean((startups_te$aquisition_price_amount - predictions_adjusted)^2))
+sqrt(mean((startups_te$aquisition_price_amount - predictions_adjusted), na.rm = TRUE)^2)
+```
+
+
+
+
+
 
 
 ### Diego
@@ -1213,7 +1315,7 @@ startups = startups[,-which(colnames(startups) %in% col_remove)]
 show_nas = function(somedf){
   cols_nas = data.frame(column = colnames(somedf), numNAs = rep(0, ncol(somedf)))
   for(i in 1:ncol(somedf)){
-    cols_nas[i, "numNAs"] = length(somedf[is.na(somedf[,i]),i])
+    cols_nas[i, "numNAs"] = sum(is.na(somedf[,i]))
   }
   cols_nas$pctNAs = round(100*cols_nas$numNAs / nrow(somedf), digits = 1)
   cols_nas
