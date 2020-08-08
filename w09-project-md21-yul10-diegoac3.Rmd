@@ -548,7 +548,7 @@ The first step of the exploration is to look at a simple additive model that con
 additive_full = lm(aquisition_price_amount ~ . , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(additive_full)), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(additive_full)), digits = 2, caption = "Performance & Assumptions")
 
 
 #Coefficients with high Variance inflation factors
@@ -582,7 +582,7 @@ We remove the invested_companies and state_code from the predictors and train a 
 additive_full_updated = lm(aquisition_price_amount ~ .-investment_rounds -state_code , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(additive_full_updated)), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(additive_full_updated)), digits = 2, caption = "Performance & Assumptions")
 
 #Coefficients with high Variance inflation factors
 knitr::kable(get_vifs(additive_full_updated), digits = 2)
@@ -599,7 +599,7 @@ Now we will perform a backwards AIC search to optimize for AIC and further decre
 model_additive_selected_AIC = step(additive_full_updated, trace = 0)
 
 #Diagnostics and performance of the model
-knitr::kable(diagnostics_performance(model_additive_selected_AIC), digits = 2)
+knitr::kable(diagnostics_performance(model_additive_selected_AIC), digits = 2, caption = "Performance & Assumptions")
 
 
 #Coefficients with high Variance inflation factors
@@ -633,7 +633,7 @@ We also tried to fit an overall 3-way model in a couple of ways. First, by consi
 interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^2 , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(interaction_model), digits = 2))
+knitr::kable(na.omit(diagnostics_performance(interaction_model)), digits = 2, caption = "Performance & Assumptions")
 
 ```
 
@@ -687,7 +687,7 @@ model_interaction_selected = step(
 )
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_interaction_selected), digits = 2))
+knitr::kable(na.omit(diagnostics_performance(model_interaction_selected), digits = 2), caption = "Performance & Assumptions")
 
 ```
 
@@ -728,7 +728,7 @@ boxcox_reverse_function = function(lambda = 0.12){
 
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 
 ```
 
@@ -784,16 +784,19 @@ model_transformation_boxcox_selected = step(
 )
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox_selected, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
-
-
-
-## Evaluate whether removing influential observations helps on the model assumption and fit.
-knitr::kable(compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12)), digits = 2)
-
+knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox_selected, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 ```
 
 The model shows a significant improvement in performance (adjusted r squared, AIC, BIC) but the constant variance assumption is violated again. For this reason, we still prefer the original boxcox model `model_transformation_boxcox`.
+
+We also try to remove influential points, just to compare what would happen with the model performance and assumptions.
+
+```{r}
+## Evaluate whether removing influential observations helps on the model assumption and fit.
+knitr::kable(compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12)), digits = 2)
+```
+
+We can see that there are not significant changes in r squared, adjusted r squared, and in model assumptions (bptest and wilk-shapiro test). Test RMSE is actually worse for a theoretical model without influential values. All in all, we still prefer the original boxcox model `model_transformation_boxcox`.
 
 - **Logarithmic transformation in response**
 
