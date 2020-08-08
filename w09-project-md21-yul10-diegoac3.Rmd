@@ -613,7 +613,7 @@ Now we will perform a backwards AIC search to optimize for AIC and further decre
 model_additive_selected_AIC = step(additive_full_updated, trace = 0)
 
 #Diagnostics and performance of the model
-knitr::kable(diagnostics_performance(na.omit(model_additive_selected_AIC)), digits = 2, caption = "Performance & Assumptions")
+knitr::kable(na.omit(diagnostics_performance(model_additive_selected_AIC)), digits = 2, caption = "Performance & Assumptions")
 
 
 #Coefficients with high Variance inflation factors
@@ -830,7 +830,7 @@ We also explore using a logarithmic transformation in the response variable, usi
 model_transformation_log = lm(log(aquisition_price_amount) ~ (. -investment_rounds -state_code)^2 + log(funding_total_usd+1) +log(relationships+1) , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_transformation_log, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
+knitr::kable(na.omit(diagnostics_performance(model_transformation_log, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount))[1:9,], digits = 2, caption = "Performance & Assumptions")
 
 ```
 
@@ -930,7 +930,7 @@ $$
 H_0: \beta_1 = \beta_2 = ... = \beta_\text{p-1}
 $$
 
-Though, `interaction_model`, `model_transformation_boxcox` were successful at explaining  $`r 100*comp["r2", "model_transformation_boxcox"]` < R^2 `r 100*comp["r2", "interaction_model"]`$% of the `aquisition_amount_price` variability.
+Though, `interaction_model`, `model_transformation_boxcox` were successful at explaining 62% to 69% of the `aquisition_amount_price` variability.
 
 Of all, though, the `interaction_model` also faired better at predicting, with much lowr test RSME, with the exception of the non-significant, for which the variability is mostly not accounted for, and as such, can cause the test RSME to be constant.
 
@@ -1015,7 +1015,7 @@ sqrt(mean((startups_te$aquisition_price_amount - predictions_adjusted), na.rm = 
 ```
 
 
-
+## Discussion
 
 Throughout this excercise we have seen that building a model is part art and part science. There are several aspects and trade-offs to be considered, including but not limited to: model assumptions, model prediction capabilities, how easy to understand the model is (inference), and actual computational power (some attempted routes were ultimately not successful due to computational limitations).
 
