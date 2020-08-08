@@ -38,7 +38,7 @@ We consider the following variable as the response variable:
 |:-:|:-:|:-:|:-:|:-:|:-:|
 | aquisition_price_amount | Amount paid for aquisition | acquisitions.csv | int | numerical | 0 |
 
-We consider the following 14 variables as the potential predictor:
+We consider the following 16 variables as the potential predictor:
 
 | variable name | description | data scoure | data type | variable type | # of missing records |
 |:-:|:-:|:-:|:-:|:-:|:-:|
@@ -55,7 +55,9 @@ We consider the following 14 variables as the potential predictor:
 | investment_companies | Number of companies invested in | objects.csv | int | numerical | 0 |
 | milestones | Number of milestones the entity has | objects.csv | int | numerical | 0 |
 | relationships | Number of relationships the entity has | objects.csv | int | numerical | 0 |
-| acquired_at | Date of deal | acquisition.csv | timestamp | numerical | 0 |
+| istop25 | Is the founder from top25 university | founders.csv | boolean | 0 |
+| istop26_50 | Is the founder from top26 - 50 university | founders.csv | boolean | 0 |
+
 
 
 ### Background information of the data set
@@ -66,56 +68,58 @@ The entire dataset provides 11 cvs file with 154 columns, which covers six aspec
 
 - acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.
 - objects.csv provides the basic company profiles, which can be used as the predictor of our study.
+- founders.csv provides the basic founders profiles, which can be used as the predictor of our study.
 
 
-### Purpose statement
+### Workflow of the Project
 Venture capital investments hits 9.5 billion U.S. dollars in the internet industry in the United States, as of first quarter 2020. Other leading VC sectors in terms of investment were healthcare, and software. Inspired by the florish startup world, we want to investigate what factors can impact the company price during acquisition.
 
-In this study, we select the price of the company for acquisition as our 'Y', the response variable. Our target is to find a set of predictors and use regression method to predict our Y. We checked all dataset and select 14 varaibles as our potential predictors. Later on we will do feature engineering to determine our X's in the regression.
+In this study, we select the price of the company for acquisition as our 'Y', the response variable. Our target is to find a set of predictors and use regression method to predict our Y. We checked all dataset and select 16 varaibles as our potential predictors. 
 
-Meanwhile, we also want to know some interesting questions, like, whether the company name and the logo size has any impact on the acquisition price, or how the acquisition distributed by geography.
+First, we did the data exploration on the raw data file. We checked the relationship between every single variable and the response and the correlation matrix. Details can be found in the section of Methods - Data exploration. To overcome the issue that the catogorical data has too many levels, we performed data wrangling to only keep the major levels in the category. Details can be found in the section of Methods - Data Adjustment.
 
-### Loading the data into `R`
-We merged two csv file to get our final database `startups.csv`. For the details in data cleaning, please refer to the Appendix at the end of the proposal.
+Second, we considering the three classes of model: additive model, interaction model, and interation model with boxcox transfermation. The model complexities are increasing among those three classes. Within each class, we use the backwards selection and forwards selection with AIC/BIC to do the model selection. Details can be found in section of Methods - Model building. To eccelrate the model comparison process, we defined several functions to make it possible to output multiple evaluation metrics by only one line of code. Details can be found in Methods - Diagnostics and Performance Function.
 
-Below is the snapshot to show we load our data into `R` successfully. We are including a subset of the columns for simplicity, because some columns have very long text entries.
-
-```{r}
-sample_data = read.csv("startups.csv")
+In the end, We end up with two final regression models. One is the best model we got when considering all the interation effect. The other one is the best model we got when considering the interaction plus the boxcox transfermation. Both models include more than 600 predictors (so we cannot print out our final model explicitly). Even though we start from only 16 variables, but because some of the categorical variable has more than 20 levels. After adding all the interactions, we have a huge amount of parameters in our final regression model. In this way, this model is more suitable for prediction rather than explanation. Both model achevie the R-square of more than 0.6. A comprehensive comparison on our two final models can be found in the section of Results and Discussion.
 
 
-knitr::kable(head(sample_data[, c(
-  "aquisition_price_amount",
-  "city",
-  "funding_total_usd",
-  "category_code",
-  "funding_rounds",
-  "milestones",
-  "relationships"
-)]))
-```
+### Takeaways from Modeling Procedure 
 
-## Explory Anlaysis
++ It is important to keep the number of levels in the categorical variables in a moderate amount. 
 
-### Univarite Analysis
++ For a model with more 600 coefficients, the effect which is significant in the univariate analysis can become unsignificant in the full regression, since it can be masked by the effect of other variables.
+
++ When we use the boxcox transfermation, there is a chance that the regression produce some negative outcomes and it cannot be transfered back. This can be deemed as a limitation of the boxcox plot.  
+
+
+## Methods
+
+### Data Exploration (Yu)
+In this section, we focus on the exploratin of all the predictor data. We first performed an univariate analysis and then followed by the correlation analysis.
+
+#### Univarite Analysis
 
 ```{r}
 # read the dataset
-data0 = read.csv('startups1.csv', header = TRUE)
+data0 = read.csv("./startups.csv", header = TRUE)
+#data0 = read.csv('startups1.csv', header = TRUE)
 ```
 
 First, we checked the distribution of aquisition price.
+
 ```{r}
 hist(data0$aquisition_price_amount, breaks = 100)
 ```
 
 As we can see from the plot above, the distrbution is highly right skewed.
 Then we use the box plot to check if there is any outliers.
+
 ```{r}
 boxplot(data0$aquisition_price_amount)
 ```
 
 As we can see there is one record in the dataset with extremely high acquicition price. We checked the database further and found its acqusition price is 2600 billion, which equals the valuation of google and amazon. So we think this one should be an database error, we will exclude this database in our further analysis.
+
 ```{r}
 data1 = data0[data0$aquisition_price_amount < 10^12,]
 ```
@@ -134,6 +138,7 @@ boxplot(data1$logprice)
 The distributino of log aquisition price is relatively sysmetric. From the boxplot we can still find there are many records is outside of the 1.75 IQR. But we think we can start from here to build our model.
 
 Then we checked the precdictor in the database one by one. For category_code, this is a categorical varaible.
+
 ```{r}
 summary(data1$category_code)
 plot(data1$category_code, data1$logprice)
@@ -142,6 +147,7 @@ plot(data1$category_code, data1$logprice)
 The records concentrated in several major levels of category_code. As for the boxplot between category_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable and put them in our candidate predictor list.
 
 Then we turn to the name of the company. We extract the length of the company name as a feature.
+
 ```{r}
 data1["name_length"] = apply(data1["normalized_name"],2,nchar)
 plot(data1$name_length, data1$logprice)
@@ -150,11 +156,13 @@ plot(data1$name_length, data1$logprice)
 After check the relationship between length of the company name, we found if the company name has more than 30 characters, the acquisition price tend to decrease. so we plan to create a dummy variable, company name lenght > 30 or not, and add it to our candidate predictor list.
 
 Then we check the logo width.
+
 ```{r}
 plot(data1$logo_width, data1$logprice)
 fit = lm(logprice ~ logo_width, data1)
 abline(fit, col = "red")
 ```
+
 For the plot we found in fact, quite amount of the logo_width is 0. Then we guess, maybe in this column, 0 means missing value. so we decide to remove that part and replot the above figure.
 
 ```{r}
@@ -237,22 +245,31 @@ plot(data1$relationships, data1$logprice)
 fit = lm(logprice ~ relationships, data1)
 abline(fit, col = "red")
 ```
-### Correlation Analysis
+
+For relationships, we found it showed a company whose founder has a degree of top25 university tend to have higher acquisition price. We added it to our candidate predictor list.
+
+```{r}
+boxplot(data1$istop25, data1$logprice)
+```
+
+For `top25`, we found it showed a company whose founder has a degree of top 25 university tend to have higher acquisition price. We added it to our candidate predictor list.
+
+```{r}
+boxplot(data1$istop26_50, data1$logprice)
+```
+
+For `top26_50`, we found it showed a company whose founder has a degree of top 26 to top 50 university tend to have higher acquisition price. We added it to our candidate predictor list.
+
+#### Correlation Analysis
+
 Then we checked the correlation matrix of the numerical variables.
+
 ```{r}
 data2 = data1[,c("name_length", "investment_rounds", "invested_companies", "milestones", "relationships")]
 cor(data2)
 ```
 
 It turns out the `investment_rounds` and `invested_companies` shows strongly collinearity. We should only use one of them in the model to avoid the collinearity issue.
-
-## Methods
-
-
-
-
-### Data Exploration (Yu)
-
 
 ### Data Adjustments (Moha)
 
@@ -313,6 +330,9 @@ startups$category_code = shorten_levels(startups$category_code, .90, "other")
 startups$country_code = shorten_levels(startups$country_code, 20, "other")
 startups$city = shorten_levels(clean_string(as.character(startups$city)),20, "other")
 startups$state_code = shorten_levels(as.character(startups$state_code),.90, "other")
+summary(startups$category_code)
+summary(startups$country_code)
+summary(startups$city)
 summary(startups$state_code)
 
 #Remove unnecessary columns (particularly the descriptions and single-level factors and variables that did not seem relevant for the aquisition response variable)
