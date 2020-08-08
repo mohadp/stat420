@@ -95,7 +95,7 @@ knitr::kable(head(sample_data[, c(
 )]))
 ```
 
-## Explory Anlaysis
+## Exploratory Anlaysis
 
 ### Univarite Analysis
 
@@ -252,7 +252,9 @@ It turns out the `investment_rounds` and `invested_companies` shows strongly col
 
 
 
-### Data Exploration (Yu)
+### Data Exploration
+
+
 #### Univarite Analysis
 
 ```{r}
@@ -404,7 +406,7 @@ It turns out the `investment_rounds` and `invested_companies` shows strongly col
 
 
 
-### Data Adjustments (Moha)
+### Data Adjustments
 
 Based on the single predictor analysis above, it is now possible to further simplify the dataset that will be used to determine whether the `aquisition_price` of startups can be correlated with startup characteristics and their performance. 
 
@@ -488,7 +490,7 @@ str(startups)
 ```
 
 
-### Diagnostics and Performance Function (Diego/Moha)
+### Diagnostics and Performance Function
 
 In order to compare models, we use a single function that runs tests on both:
 
@@ -1044,15 +1046,86 @@ comp
 
 ```
 
-
-### Diego
-
-
-### Below
-
-
 ## Discussion
 
+Throughout this excercise we have seen that building a model is part art and part science. There are several aspects and trade-offs to be considered, including but not limited to: model assumptions, model prediction capabilities, how easy to understand the model is (inference), and actual computational power (some attempted routes were ultimately not successful due to computational limitations).
+
+Due to the complex relationships between predictors and response in this dataset, settling on a simple additive model was not enough and we had to fit models with interaction terms and transformations that are not as intuitive to understand but that could improve the models prediction capabilities. Although both models have more than 650 predictors, we made an attempt at drawing inferential conclusions and validate if some of the variables one would intuitively associate with the acquisition price of a startup are actually significant.
+
+- Interaction model
+
+The top most significant predictors in the interaction model are not very easy to understand. We can still see that predictors that look intuitively useful like `invested_companies` (number of companies that invested in the start up before) and `istop25` (one of the founders came from a top 25 university) do appear in some of the top interaction terms.
+
+```{r}
+#Most statistically significant terms in the interaction model
+order_coeff_interaction = summary(interaction_model)$coefficients[order(summary(interaction_model)$coefficients[, 4]), ]
+top_coeff_interaction = cbind(b_estimate = order_coeff_interaction[1:5,1], p_value = order_coeff_interaction[1:5,4])
+row.names(top_coeff_interaction) = row.names(top_coeff_interaction[1:5,])
+top_coeff_interaction
+```
+
+However, if we check interesting terms that seem useful (`invested_companies`, `istop25`, and `funding_total_usd`) independently we can see that they do not appear significant. And although `funding_total_usd` has a positive estimate (ie. the higher the funding in dollars, the higher the acquisition price), both `invested_companies` and `istop25` have a negative estimate (the more companies invested on a startup the lesser the acquistion price, and having a founder from a top25 university also decreases acquisition price in this model).
+
+```{r}
+#Test for significant of interesting predictors
+#funding_total_usd
+funding_total_estimate_int = summary(interaction_model)$coefficients[rownames(summary(interaction_model)$coefficients)=="funding_total_usd",c(1,4)]
+
+#invested_companies
+invested_companies_estimate_int = summary(interaction_model)$coefficients[rownames(summary(interaction_model)$coefficients)=="invested_companies",c(1,4)]
+
+#istop25
+istop25_estimate_int = 
+summary(interaction_model)$coefficients[rownames(summary(interaction_model)$coefficients)=="istop25",c(1,4)]
+
+results_int = rbind(funding_total_estimate_int, invested_companies_estimate_int, istop25_estimate_int)
+
+#Results
+knitr::kable(results_int)
+```
+
+
+- Boxcox model
+
+Some of the most significant predictors in the boxcox model also consist of interactions that are not as easy to explain. However, we do see two predictors that are straightforward: log(relationships) and country_codeFRA, and they both have a positive estimate. This is roughly predicting that the more relationships the startup has built, and that if the startup is based in France, the higher the acquisition price.
+
+```{r}
+#Most statistically significant terms in the boxcox model
+order_coeff_boxcox = summary(model_transformation_boxcox)$coefficients[order(summary(model_transformation_boxcox)$coefficients[, 4]), ]
+top_coeff_boxcox = cbind(b_estimate = order_coeff_boxcox[1:5,1], p_value = order_coeff_boxcox[1:5,4])
+row.names(top_coeff_boxcox) = row.names(top_coeff_boxcox[1:5,])
+top_coeff_boxcox
+```
+
+On the flip side, interesting predictors (`invested_companies`, `istop25`, and `funding_total_usd`) continue to not offer a statistically significant explanation for startup acquisition price in this model. And both `invested_companies` and `istop25` continue to have a negative estimate.
+
+```{r}
+#Test for significant of interesting predictors
+#funding_total_usd
+funding_total_estimate_bc = summary(model_transformation_boxcox)$coefficients[rownames(summary(model_transformation_boxcox)$coefficients)=="funding_total_usd",c(1,4)]
+
+#invested_companies
+invested_companies_estimate_bc = summary(model_transformation_boxcox)$coefficients[rownames(summary(model_transformation_boxcox)$coefficients)=="invested_companies",c(1,4)]
+
+#istop25
+istop25_estimate_bc = 
+summary(model_transformation_boxcox)$coefficients[rownames(summary(model_transformation_boxcox)$coefficients)=="istop25",c(1,4)]
+
+results_bc = rbind(funding_total_estimate_bc, invested_companies_estimate_bc, istop25_estimate_bc)
+
+#Results
+knitr::kable(results_bc)
+```
+
+- **Summary**
+
+*"It’s Difficult to Make Predictions, Especially About the Future"*
+
+What started with an idea to produce an easy to understand model to predict startup acquisition price resulted in a complex excercise. This involved data wrangling, data engineering and spotting wrong data inputs, building models while considering tradeofffs, and understanding and evaluating the performance of different models.
+
+Predictors we thought could offer a good explanation for the acquisition price of a startup did not seem to be significant in the end. And interesting predictors, such as the startup country of origin (in particular, France), resulted having an impact that seems to be significant in explaning the startup price. We also saw the importance of having a well-balanced and complete data set. Through training the models and evaluating their performance we noticed that it is hard to make predictions if the data is not good enough or if we are making predictions that are an extrapolation.
+
+Identify specific categorical variables instead of having all of the variables in the data. This could have further improved the models while simplifying them.
 
 
 
