@@ -1,5 +1,5 @@
 ---
-title: "Data Analysis Project"
+title: "Data Analysis Project: Start-up Acquisition Price"
 author: "Mohamed Diakite Pineda, Yu Liu, Diego Carreno, STAT 420, Summer 2020"
 date: "8/06/2020"
 output:
@@ -19,13 +19,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-## Names
-
-- Mohamed Diakite Pineda, *md21@*
-- Yu Liu, *yul10@*
-- Diego Carreno, *diegoac3@*
-
-
 ## Introduction
 
 We intent to find out what makes a start-up attractive for acquisition, and what drives its acquisition price up or down.
@@ -38,7 +31,7 @@ We consider the following variable as the response variable:
 |:-:|:-:|:-:|:-:|:-:|:-:|
 | aquisition_price_amount | Amount paid for aquisition | acquisitions.csv | int | numerical | 0 |
 
-We consider the following 16 variables as the potential predictor:
+We consider the following 14 variables as the potential predictor:
 
 | variable name | description | data scoure | data type | variable type | # of missing records |
 |:-:|:-:|:-:|:-:|:-:|:-:|
@@ -55,9 +48,7 @@ We consider the following 16 variables as the potential predictor:
 | investment_companies | Number of companies invested in | objects.csv | int | numerical | 0 |
 | milestones | Number of milestones the entity has | objects.csv | int | numerical | 0 |
 | relationships | Number of relationships the entity has | objects.csv | int | numerical | 0 |
-| istop25 | Is the founder from top25 university | founders.csv | boolean | 0 |
-| istop26_50 | Is the founder from top26 - 50 university | founders.csv | boolean | 0 |
-
+| acquired_at | Date of deal | acquisition.csv | timestamp | numerical | 0 |
 
 
 ### Background information of the data set
@@ -68,58 +59,59 @@ The entire dataset provides 11 cvs file with 154 columns, which covers six aspec
 
 - acquisition.csv provides the acquisition details, including the acquisition amount, currency and the deal date.
 - objects.csv provides the basic company profiles, which can be used as the predictor of our study.
-- founders.csv provides the basic founders profiles, which can be used as the predictor of our study.
 
 
-### Workflow of the Project
+### Purpose statement
 Venture capital investments hits 9.5 billion U.S. dollars in the internet industry in the United States, as of first quarter 2020. Other leading VC sectors in terms of investment were healthcare, and software. Inspired by the florish startup world, we want to investigate what factors can impact the company price during acquisition.
 
-In this study, we select the price of the company for acquisition as our 'Y', the response variable. Our target is to find a set of predictors and use regression method to predict our Y. We checked all dataset and select 16 varaibles as our potential predictors. 
+In this study, we select the price of the company for acquisition as our 'Y', the response variable. Our target is to find a set of predictors and use regression method to predict our Y. We checked all dataset and select 14 varaibles as our potential predictors. Later on we will do feature engineering to determine our X's in the regression.
 
-First, we did the data exploration on the raw data file. We checked the relationship between every single variable and the response and the correlation matrix. Details can be found in the section of Methods - Data exploration. To overcome the issue that the catogorical data has too many levels, we performed data wrangling to only keep the major levels in the category. Details can be found in the section of Methods - Data Adjustment.
+Meanwhile, we also want to know some interesting questions, like, whether the company name and the logo size has any impact on the acquisition price, or how the acquisition distributed by geography.
 
-Second, we considering the three classes of model: additive model, interaction model, and interation model with boxcox transfermation. The model complexities are increasing among those three classes. Within each class, we use the backwards selection and forwards selection with AIC/BIC to do the model selection. Details can be found in section of Methods - Model building. To eccelrate the model comparison process, we defined several functions to make it possible to output multiple evaluation metrics by only one line of code. Details can be found in Methods - Diagnostics and Performance Function.
+### Loading the data into `R`
+We merged two csv file to get our final database `startups.csv`. For the details in data cleaning, please refer to the Appendix at the end of the proposal.
 
-In the end, We end up with two final regression models. One is the best model we got when considering all the interation effect. The other one is the best model we got when considering the interaction plus the boxcox transfermation. Both models include more than 600 predictors (so we cannot print out our final model explicitly). Even though we start from only 16 variables, but because some of the categorical variable has more than 20 levels. After adding all the interactions, we have a huge amount of parameters in our final regression model. In this way, this model is more suitable for prediction rather than explanation. Both model achevie the R-square of more than 0.6. A comprehensive comparison on our two final models can be found in the section of Results and Discussion.
+Below is the snapshot to show we load our data into `R` successfully. We are including a subset of the columns for simplicity, because some columns have very long text entries.
+
+```{r}
+sample_data = read.csv("startups.csv")
 
 
-### Takeaways from Modeling Procedure 
-
-+ It is important to keep the number of levels in the categorical variables in a moderate amount. 
-
-+ For a model with more 600 coefficients, the effect which is significant in the univariate analysis can become unsignificant in the full regression, since it can be masked by the effect of other variables.
-
-+ When we use the boxcox transfermation, there is a chance that the regression produce some negative outcomes and it cannot be transfered back. This can be deemed as a limitation of the boxcox plot.  
+knitr::kable(head(sample_data[, c(
+  "aquisition_price_amount",
+  "city",
+  "funding_total_usd",
+  "category_code",
+  "funding_rounds",
+  "milestones",
+  "relationships"
+)]))
+```
 
 
 ## Methods
 
-### Data Exploration (Yu)
-In this section, we focus on the exploratin of all the predictor data. We first performed an univariate analysis and then followed by the correlation analysis.
+### Data Exploration
 
 #### Univarite Analysis
 
 ```{r}
 # read the dataset
-data0 = read.csv("./startups.csv", header = TRUE)
-#data0 = read.csv('startups1.csv', header = TRUE)
+data0 = read.csv('startups1.csv', header = TRUE)
 ```
 
 First, we checked the distribution of aquisition price.
-
 ```{r}
 hist(data0$aquisition_price_amount, breaks = 100)
 ```
 
 As we can see from the plot above, the distrbution is highly right skewed.
 Then we use the box plot to check if there is any outliers.
-
 ```{r}
 boxplot(data0$aquisition_price_amount)
 ```
 
 As we can see there is one record in the dataset with extremely high acquicition price. We checked the database further and found its acqusition price is 2600 billion, which equals the valuation of google and amazon. So we think this one should be an database error, we will exclude this database in our further analysis.
-
 ```{r}
 data1 = data0[data0$aquisition_price_amount < 10^12,]
 ```
@@ -138,7 +130,6 @@ boxplot(data1$logprice)
 The distributino of log aquisition price is relatively sysmetric. From the boxplot we can still find there are many records is outside of the 1.75 IQR. But we think we can start from here to build our model.
 
 Then we checked the precdictor in the database one by one. For category_code, this is a categorical varaible.
-
 ```{r}
 summary(data1$category_code)
 plot(data1$category_code, data1$logprice)
@@ -147,7 +138,6 @@ plot(data1$category_code, data1$logprice)
 The records concentrated in several major levels of category_code. As for the boxplot between category_code and the response, we can find significant mean within group difference between some groups, which shows this variable has some prediction power. However, at the same time, the varaible within group is also large, which means only relying on this variable cannot lead to a accurate result. So we decided to create some dummy varaibles for the major levels of this variable and put them in our candidate predictor list.
 
 Then we turn to the name of the company. We extract the length of the company name as a feature.
-
 ```{r}
 data1["name_length"] = apply(data1["normalized_name"],2,nchar)
 plot(data1$name_length, data1$logprice)
@@ -156,13 +146,11 @@ plot(data1$name_length, data1$logprice)
 After check the relationship between length of the company name, we found if the company name has more than 30 characters, the acquisition price tend to decrease. so we plan to create a dummy variable, company name lenght > 30 or not, and add it to our candidate predictor list.
 
 Then we check the logo width.
-
 ```{r}
 plot(data1$logo_width, data1$logprice)
 fit = lm(logprice ~ logo_width, data1)
 abline(fit, col = "red")
 ```
-
 For the plot we found in fact, quite amount of the logo_width is 0. Then we guess, maybe in this column, 0 means missing value. so we decide to remove that part and replot the above figure.
 
 ```{r}
@@ -245,25 +233,8 @@ plot(data1$relationships, data1$logprice)
 fit = lm(logprice ~ relationships, data1)
 abline(fit, col = "red")
 ```
-
-For relationships, we found it showed a company whose founder has a degree of top25 university tend to have higher acquisition price. We added it to our candidate predictor list.
-
-```{r}
-boxplot(data1$istop25, data1$logprice)
-```
-
-For `top25`, we found it showed a company whose founder has a degree of top 25 university tend to have higher acquisition price. We added it to our candidate predictor list.
-
-```{r}
-boxplot(data1$istop26_50, data1$logprice)
-```
-
-For `top26_50`, we found it showed a company whose founder has a degree of top 26 to top 50 university tend to have higher acquisition price. We added it to our candidate predictor list.
-
-#### Correlation Analysis
-
+####  Correlation Analysis
 Then we checked the correlation matrix of the numerical variables.
-
 ```{r}
 data2 = data1[,c("name_length", "investment_rounds", "invested_companies", "milestones", "relationships")]
 cor(data2)
@@ -271,7 +242,9 @@ cor(data2)
 
 It turns out the `investment_rounds` and `invested_companies` shows strongly collinearity. We should only use one of them in the model to avoid the collinearity issue.
 
-### Data Adjustments (Moha)
+
+
+### Data Adjustments
 
 Based on the single predictor analysis above, it is now possible to further simplify the dataset that will be used to determine whether the `aquisition_price` of startups can be correlated with startup characteristics and their performance. 
 
@@ -330,9 +303,6 @@ startups$category_code = shorten_levels(startups$category_code, .90, "other")
 startups$country_code = shorten_levels(startups$country_code, 20, "other")
 startups$city = shorten_levels(clean_string(as.character(startups$city)),20, "other")
 startups$state_code = shorten_levels(as.character(startups$state_code),.90, "other")
-summary(startups$category_code)
-summary(startups$country_code)
-summary(startups$city)
 summary(startups$state_code)
 
 #Remove unnecessary columns (particularly the descriptions and single-level factors and variables that did not seem relevant for the aquisition response variable)
@@ -358,7 +328,7 @@ str(startups)
 ```
 
 
-### Diagnostics and Performance Function (Diego/Moha)
+### Diagnostics and Performance Function
 
 In order to compare models, we use a single function that runs tests on both:
 
@@ -399,7 +369,8 @@ get_influentials = function(model){
 get_rmse = function(model, predict_function = NULL, test_actuals = NULL){
   predictions = 0
   if(!is.null(predict_function))
-    predict_function(model)
+    predictions = predict_function(model)
+
   rsme_val = 0
     
   if(!is.null(test_actuals)) 
@@ -409,9 +380,6 @@ get_rmse = function(model, predict_function = NULL, test_actuals = NULL){
       
   rsme_val
 }
-
-#get_rmse(model_transformation_boxcox_selected, predict_function = boxcox_reverse_function, test_actuals = startups_te$aquisition_price_amount)
-
 
 # Diagnostic function that performs multiple hypothess tests for the model significance, whether the linear model assumptions are valid, and other model performance metrics 
 diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", plotit = TRUE,  testit = TRUE, response_transform = NULL, train_actuals = NULL, as_data_frame=TRUE) {
@@ -448,8 +416,8 @@ diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", p
     influentials = unname(get_influentials(model)$stats)
     model_pval = unname(pf(summary(model)$fstatistic[1],summary(model)$fstatistic[2],summary(model)$fstatistic[3], lower.tail=FALSE))
     rmse_train = sqrt(mean(resids ^ 2))
-    
-    
+
+  
     #Output from test
     res = list(
       "coefficients" =  nrow(summary(model)$coefficients),
@@ -462,7 +430,7 @@ diagnostics_performance = function(model, pcol = "grey",  lcol = "dodgerblue", p
       "AIC" =  aic,
       "BIC" =  bic,
       "adjR2" =  adj_r_squared,
-      "rsme_looocv" =  rmse_loocv,
+      "rsme_loocv" =  rmse_loocv,
       "outliers.num" = outliers[1],
       "outliers.pct" = outliers[2],
       "influential.num" = influentials[1],
@@ -553,16 +521,15 @@ compare_parameters = function(models,  variables, model_names = 0){
   all_coefs
 }
 
-
 ```
 
 
 
 ### Model building
 
-- **Additive Models**
+#### Additive Models
 
-*All variables*
+- **All variables**
 
 The first step of the exploration is to look at a simple additive model that contains all variables.
 
@@ -571,7 +538,7 @@ The first step of the exploration is to look at a simple additive model that con
 additive_full = lm(aquisition_price_amount ~ . , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(diagnostics_performance(additive_full), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(additive_full)), digits = 2, caption = "Performance & Assumptions")
 
 
 #Coefficients with high Variance inflation factors
@@ -579,7 +546,8 @@ knitr::kable(get_vifs(additive_full), digits = 2)
 
 ```
 
-We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section. 1.97% and 2.73% of points are considered to be outliers and to have influence respectevely. Although we can aim to reduce these, in this first exploration of different additive models it does not seem likely this values will change much.
+
+We can see that model assumptions are clearly violated. We also see that there are variables with a potentially large variance inflation factor. For example, it would make sense to only use investment_rounds or invested_companies, or country or state, because there can be collinearity as discussed in the data exploration section. 1.97% and 2.73% of points are considered to be outliers and to have influence respectevely. Although we can aim to reduce these, in this first exploration of different additive models it does not seem likely these values will change much.
 
 ```{r}
 #Direct correlation between investment_rounds and invested_companies is close to one
@@ -592,28 +560,28 @@ cor(startups_tr$investment_rounds,startups_tr$invested_companies)
 model_test_invested_companies_1 = lm(invested_companies ~ .-aquisition_price_amount , data = startups_tr)
 model_test_invested_companies_2 = lm(aquisition_price_amount ~ .-invested_companies , data = startups_tr)
 cor(resid(model_test_invested_companies_1), resid(model_test_invested_companies_2))
-
-
 ```
+
 
 We remove the invested_companies and state_code from the predictors and train a new model.
 
-*Improving collinearity*
+- **Improving collinearity**
 
 ```{r}
 #Training the model
 additive_full_updated = lm(aquisition_price_amount ~ .-investment_rounds -state_code , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(diagnostics_performance(additive_full_updated), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(additive_full_updated)), digits = 2, caption = "Performance & Assumptions")
 
 #Coefficients with high Variance inflation factors
 knitr::kable(get_vifs(additive_full_updated), digits = 2)
 ```
 
+
 In the plots, we can see that normality and constant variance are still suspect. We also see confirm that normality suspect due to the low shapiro-wilk test p-value, and that the constant variance is suspect due to low bp test p-value. The R squared and adjusted R squared remain somewhat similar, as well as the RMSE leave one out cross validation. But we now have less variables with a potentially large collinearity. Outlier and influential points remain somewhat similar.
 
-*Backwards AIC*
+- **Backwards AIC**
 
 Now we will perform a backwards AIC search to optimize for AIC and further decrease collinearity issues.
 
@@ -622,7 +590,7 @@ Now we will perform a backwards AIC search to optimize for AIC and further decre
 model_additive_selected_AIC = step(additive_full_updated, trace = 0)
 
 #Diagnostics and performance of the model
-knitr::kable(diagnostics_performance(model_additive_selected_AIC), digits = 2)
+knitr::kable(diagnostics_performance(na.omit(model_additive_selected_AIC)), digits = 2, caption = "Performance & Assumptions")
 
 
 #Coefficients with high Variance inflation factors
@@ -630,22 +598,24 @@ knitr::kable(get_vifs(model_additive_selected_AIC), digits = 2)
 
 ```
 
+
 The found model still violates normality and constant variance assumptions, as would normally be expected since this is derived from a model that also violated them. However, we are able to see less predictors with a variance inflation factor higher than 5. Outlier and influential points remain similar. Now we proceed to compare both models with an anova test and decide which is the best additive model.
 
-*Selecting the best additive model*
+- **Selecting the best additive model**
 
 ```{r}
 anova(model_additive_selected_AIC, additive_full_updated)
 ```
+
 
 We can see that the larger model doesn't offer a statistically significant difference in explaining the relationship of predictors and response. For that reason, from the additive models, we prefer the model found through the backwards BIC method `model_additive_selected_AIC`. This model still violates normality and constant variance assumptions, and these will not likely be corrected or at least further improved until we look at more complex interaction models or we apply transformations to predictor or response variables (done below).
 
 All in all, we won't be focusing on this purely additive model `model_additive_selected_AIC` because of the very low r squared and potential low power to make predictions.
 
 
-- **Interaction Models**
+#### Interaction Models
 
-*Two-way interactions*
+- **Two-way interactions**
 
 We started the exploration by training a 2-way interaction model, excluding investment_rounds and state_code from the variables, due to collinearity.
 
@@ -656,13 +626,15 @@ We also tried to fit an overall 3-way model in a couple of ways. First, by consi
 interaction_model = lm(aquisition_price_amount ~ (. -investment_rounds -state_code)^2 , data = startups_tr)
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(interaction_model), digits = 2))
+knitr::kable(na.omit(diagnostics_performance(interaction_model))[1:9,], digits = 2, caption = "Performance & Assumptions")
 
 ```
 
+
+
 Although this model mathematically has a good R squared and adjusted R squared, the normality and constant variance assumptions are still violated. Furthermore, because there are 906 predictors, this is not an easy to understand model. We will find a simplified model doing a backwards AIC search.
 
-*Forward AIC*
+- **Forward AIC**
 
 Because the previous model has 906 predictors, we use a forward search to optimize for computational resources. We tried to follow use a BIC approach so that we optimize for reducing the number of predictors, but the resulting R squared was quite low (0.10), so we decided to continue with the AIC method.
 
@@ -710,13 +682,14 @@ model_interaction_selected = step(
 )
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_interaction_selected), digits = 2))
+knitr::kable(na.omit(diagnostics_performance(model_interaction_selected)[1:9,], digits = 2), caption = "Performance & Assumptions")
 
 ```
 
+
 Although this model optimizes for AIC (it has a lower AIC than the first two-way interaction model), this model performs worse in other areas. In particular the both the R squared and adjusted R squared decreased (0.55 and 0.53 respectively). The normality and constant variance assumptions continue to be violated.
 
-*Selecting the best interaction model*
+- **Selecting the best interaction model**
 
 Although we prefer the first two-way interaction model due to its better performance, we run an anova test to check the significance of the additional parameters included on the first two-way model vs the model found via forward AIC.
 
@@ -724,11 +697,12 @@ Although we prefer the first two-way interaction model due to its better perform
 anova(model_interaction_selected, interaction_model)
 ```
 
+
 The anova test confirms that the initial model does include predictors that are significant. The preferred interaction model is `interaction_model`.
 
-- **Transformation Models**
+#### Transformation Models
 
-*Boxcox method*
+- **Boxcox method**
 
 We start with using the same predictors used in the first 2-way interaction model. We use a $\lambda$ value of 0.12. Also, we apply a logarithmic transformation in the predictors funding_total_usd and relationships (+1 is added to these predictors because there are records with the value 0 which would lead to issues when applying the log transformation), as this showed an improvement in decreasing adjusted r squared and AIC.
 
@@ -751,13 +725,14 @@ boxcox_reverse_function = function(lambda = 0.12){
 
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
+knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 
 ```
 
+
 Although in this model we are seeing lower r squared and adjusted r squared values than we obtained with the two-way interaction model, now the constant variance assumption has improved (we can see this both in the fitted vs residuals plot, and in the result of the bp test, which provides a p-value of 0.9997102). Normality is still suspect.
 
-*Forward AIC, using boxcox model as the scope*
+- **Forward AIC, using boxcox model as the scope**
 
 We use the previously trained model as the full scope for a forward AIC search.
 
@@ -807,18 +782,23 @@ model_transformation_boxcox_selected = step(
 )
 
 #Diagnostics and performance of the model
-knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox_selected, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2)
-
-
-
-## Evaluate whether removing influential observations helps on the model assumption and fit.
-knitr::kable(compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12)), digits = 2)
-
+knitr::kable(na.omit(diagnostics_performance(model_transformation_boxcox_selected, response_transform = boxcox_reverse_function(lambda = 0.12), train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 ```
+
 
 The model shows a significant improvement in performance (adjusted r squared, AIC, BIC) but the constant variance assumption is violated again. For this reason, we still prefer the original boxcox model `model_transformation_boxcox`.
 
-*Logarithmic transformation in response*
+We also try to remove influential points, just to compare what would happen with the model performance and assumptions.
+
+```{r}
+## Evaluate whether removing influential observations helps on the model assumption and fit.
+knitr::kable(compare_without_influential(model_transformation_boxcox_selected, train_data = startups_tr, test_data = startups_te, test_actuals_col = "aquisition_price_amount", response_transform = boxcox_reverse_function(lambda = 0.12)), digits = 2)
+```
+
+
+We can see that there are not significant changes in r squared, adjusted r squared, and in model assumptions (bptest and wilk-shapiro test). Test RMSE is actually worse for a theoretical model without influential values. All in all, we still prefer the original boxcox model `model_transformation_boxcox`.
+
+- **Logarithmic transformation in response**
 
 We also explore using a logarithmic transformation in the response variable, using the same predictors originally used for the first model fitted with the boxcox method above.
 
@@ -831,9 +811,10 @@ knitr::kable(na.omit(diagnostics_performance(model_transformation_log, response_
 
 ```
 
+
 In R squared and in predicted R squared this model performs marginally worse than the boxcox model, and the constant variance assumption doesn't seem suspect from the bp test (although we can see it's not fully met either from the fitted vs residuals plot). However, in AIC and in BIC, this model shows a more significant drop in performance (drop from 3274 to 3931 in AIC and from 7070 to 7727 in BIC). For that reason we prefer the boxcox model `model_transformation_boxcox` as a transformation-based model
 
-*Forward AIC, using lorarigthmic model as the scope*
+- **Forward AIC, using lorarigthmic model as the scope**
 
 We also use the previously trained log model as the full scope for a forward AIC search.
 
@@ -886,48 +867,120 @@ model_transformation_log_selected = step(
 knitr::kable(na.omit(diagnostics_performance(model_transformation_log_selected, response_transform = exp, train_actuals = startups_tr$aquisition_price_amount)), digits = 2, caption = "Performance & Assumptions")
 ```
 
+
 Although this model shows improvements in AIC and BIC, other metrics do not look as good. And the constant variance assumption is more suspect now. For that reason the original logarithmic model `model_transformation_log` seems better, and overall, we still prefer the original boxcox model `model_transformation_boxcox` as a transformation-based model.
 
-- **Summary**
+#### Summary
 
 In summary, the two preferred models are: `interaction_model` (interaction), `model_transformation_boxcox` (transformation). We are omitting `model_additive_selected_AIC` (additive) because of its low r squared.
 
 
 ## Results
 
-
 ```{r}
 #for interaction_model and model_additive_selected_AIC,no response transformation
-simple_function = function(x){x}
+simple_function = function(x) {
+  x
+}
 
 comp = compare_model_performance(
-  models = list(interaction_model, model_transformation_boxcox, model_additive_selected_AIC), 
-  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12), simple_function),
+  models = list(interaction_model, model_transformation_boxcox), 
+  predict_transforms = list(simple_function, boxcox_reverse_function(lambda = 0.12)),
   test_data = startups_te, test_actuals_col = "aquisition_price_amount", train_actuals = startups_tr$aquisition_price_amount)
 
-colnames(comp) = c("interaction_model", " model_transformation_boxcox", " model_additive_selected_AIC")
-knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
+colnames(comp) = c("interaction_model", " model_transformation_boxcox")
+comp = as.data.frame(t(as.matrix(comp)))
+colnames(comp)
+comp
+#knitr::kable(comp, digits = 2, caption = "Performance & Assumptions")
 
 ```
 
-
-### Diego
-
-
-### Below
-
-
 ## Discussion
 
+Throughout this excercise we have seen that building a model is part art and part science. There are several aspects and trade-offs to be considered, including but not limited to: model assumptions, model prediction capabilities, how easy to understand the model is (inference), and actual computational power (some attempted routes were ultimately not successful due to computational limitations).
+
+Due to the complex relationships between predictors and response in this dataset, settling on a simple additive model was not enough and we had to fit models with interaction terms and transformations that are not as intuitive to understand but that could improve the models prediction capabilities. Although both models have more than 650 predictors, we made an attempt at drawing inferential conclusions and validate if some of the variables one would intuitively associate with the acquisition price of a startup are actually significant.
+
+### Interaction model
+
+The top most significant predictors in the interaction model are not very easy to understand. We can still see that predictors that look intuitively useful like `invested_companies` (number of companies that invested in the start up before) and `istop25` (one of the founders came from a top 25 university) do appear in some of the top interaction terms.
+
+```{r}
+#Most statistically significant terms in the interaction model
+order_coeff_interaction = summary(interaction_model)$coefficients[order(summary(interaction_model)$coefficients[, 4]), ]
+top_coeff_interaction = cbind(b_estimate = order_coeff_interaction[1:5,1], p_value = order_coeff_interaction[1:5,4])
+row.names(top_coeff_interaction) = row.names(top_coeff_interaction[1:5,])
+top_coeff_interaction
+```
 
 
+However, if we check interesting terms that seem useful (`invested_companies`, `istop25`, and `funding_total_usd`) independently we can see that they do not appear significant. And although `funding_total_usd` has a positive estimate (ie. the higher the funding in dollars, the higher the acquisition price), both `invested_companies` and `istop25` have a negative estimate (the more companies invested on a startup the lesser the acquistion price, and having a founder from a top25 university also decreases acquisition price in this model).
+
+```{r}
+#Test for significant of interesting predictors
+#funding_total_usd
+funding_total_estimate_int = summary(interaction_model)$coefficients[rownames(summary(interaction_model)$coefficients)=="funding_total_usd",c(1,4)]
+
+#invested_companies
+invested_companies_estimate_int = summary(interaction_model)$coefficients[rownames(summary(interaction_model)$coefficients)=="invested_companies",c(1,4)]
+
+#istop25
+istop25_estimate_int = 
+summary(interaction_model)$coefficients[rownames(summary(interaction_model)$coefficients)=="istop25",c(1,4)]
+
+results_int = rbind(funding_total_estimate_int, invested_companies_estimate_int, istop25_estimate_int)
+
+#Results
+knitr::kable(results_int)
+```
 
 
+### Boxcox model
 
+Some of the most significant predictors in the boxcox model also consist of interactions that are not as easy to explain. However, we do see two predictors that are straightforward: log(relationships) and country_codeFRA, and they both have a positive estimate. This is roughly predicting that the more relationships the startup has built, and that if the startup is based in France, the higher the acquisition price.
+
+```{r}
+#Most statistically significant terms in the boxcox model
+order_coeff_boxcox = summary(model_transformation_boxcox)$coefficients[order(summary(model_transformation_boxcox)$coefficients[, 4]), ]
+top_coeff_boxcox = cbind(b_estimate = order_coeff_boxcox[1:5,1], p_value = order_coeff_boxcox[1:5,4])
+row.names(top_coeff_boxcox) = row.names(top_coeff_boxcox[1:5,])
+top_coeff_boxcox
+```
+
+
+On the flip side, interesting predictors (`invested_companies`, `istop25`, and `funding_total_usd`) continue to not offer a statistically significant explanation for startup acquisition price in this model. And both `invested_companies` and `istop25` continue to have a negative estimate.
+
+```{r}
+#Test for significant of interesting predictors
+#funding_total_usd
+funding_total_estimate_bc = summary(model_transformation_boxcox)$coefficients[rownames(summary(model_transformation_boxcox)$coefficients)=="funding_total_usd",c(1,4)]
+
+#invested_companies
+invested_companies_estimate_bc = summary(model_transformation_boxcox)$coefficients[rownames(summary(model_transformation_boxcox)$coefficients)=="invested_companies",c(1,4)]
+
+#istop25
+istop25_estimate_bc = 
+summary(model_transformation_boxcox)$coefficients[rownames(summary(model_transformation_boxcox)$coefficients)=="istop25",c(1,4)]
+
+results_bc = rbind(funding_total_estimate_bc, invested_companies_estimate_bc, istop25_estimate_bc)
+
+#Results
+knitr::kable(results_bc)
+```
+
+
+### Summary
+
+*"It’s Difficult to Make Predictions, Especially About the Future"*
+
+What started with an idea to produce an easy to understand model to predict startup acquisition price resulted in a complex excercise. This involved data wrangling, data engineering and spotting wrong data inputs, building models while considering tradeofffs, and understanding and evaluating the performance of different models.
+
+Predictors we thought could offer a good explanation for the acquisition price of a startup did not seem to be significant in the end. And interesting predictors, such as the startup country of origin (in particular, France), resulted having an impact that seems to be significant in explaning the startup price. We also saw the importance of having a well-balanced and complete data set. Through training the models and evaluating their performance we noticed that it is hard to make predictions if the data is not good enough or if we are making predictions that are an extrapolation.
+
+As potential next steps, if this dataset was to be studied further, we propose to try to identify specific categorical variables that have the most impact. In our exploration, all categorical variables were considered, which made the resulting models quite complex. If there is a way to further reduce the number of categorial variables, perhaps the resulting models could be better for explanations and inferential analyses.
 
 ## Appendix: Data Pre-cleaning
-
-
 
 ### Data load 
 
